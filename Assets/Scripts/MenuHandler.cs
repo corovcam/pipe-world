@@ -4,29 +4,98 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 
 public class MenuHandler : MonoBehaviour
 {
     private GameObject canvasGO;
+    private List<AudioSource> audioSources = new List<AudioSource>();
 
     void Start()
     {
-        // Generate Canvas
-        canvasGO = new GameObject();
-        canvasGO.name = "Canvas";
-        canvasGO.layer = 5;
+        audioSources.Add(GenerateAudioSource("Sounds/click1", "Audio Click Source"));
+        audioSources.Add(GenerateAudioSource("Sounds/rollover1", "Audio Enter Source"));
 
-        Canvas canvas = canvasGO.AddComponent<Canvas>();
-        canvas.renderMode = RenderMode.ScreenSpaceCamera;
-        canvas.worldCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        canvasGO.AddComponent<CanvasScaler>();
-        canvasGO.AddComponent<GraphicRaycaster>();
+        canvasGO = GenerateCanvasGO("Main Menu Canvas");
 
         GenerateBtn("Level Select", 0, 150, SceneHandler.LoadLevelSelectScene);
         GenerateBtn("Arcade", 0, -150, SceneHandler.LoadArcadeGameScene);
 
+        GenerateTitleText();
+    }
+
+    public static GameObject GenerateCanvasGO(string canvasName)
+    {
+        GameObject tempCanvasGO = new GameObject();
+        tempCanvasGO.name = canvasName;
+        tempCanvasGO.layer = 5;
+
+        // Rendering options
+        Canvas canvas = tempCanvasGO.AddComponent<Canvas>();
+        canvas.renderMode = RenderMode.ScreenSpaceCamera;
+        canvas.worldCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        tempCanvasGO.AddComponent<CanvasScaler>();
+        tempCanvasGO.AddComponent<GraphicRaycaster>();
+
+        return tempCanvasGO;
+    }
+
+    void GenerateBtn(string txt, int posX, int posY, UnityAction onClickFunc)
+    {
+        GameObject buttonGO = new GameObject();
+        buttonGO.transform.parent = canvasGO.transform;
+        buttonGO.layer = canvasGO.layer;
+        buttonGO.name = txt.Replace(" ", "");
+
+        // Image
+        Button buttonComp = buttonGO.AddComponent<Button>();
+        buttonGO.AddComponent<CanvasRenderer>();
+        Image buttonImg = buttonGO.AddComponent<Image>();
+        buttonImg.sprite = Resources.Load<Sprite>("UI/tileBlue_01");
+        buttonImg.color = new Color(100, 249, 255, 255);
+        buttonComp.targetGraphic = buttonImg;
+
+        // Button Component position
+        RectTransform transform = buttonComp.GetComponent<RectTransform>();
+        transform.localPosition = new Vector3(posX, posY, 0);
+        transform.sizeDelta = new Vector2(160, 30);
+        transform.localScale = new Vector3(4.5f, 4.5f, 0);
+
+        // Listeners
+        buttonComp.onClick.AddListener(onClickFunc);
+        buttonComp.onClick.AddListener(audioSources[0].Play);
+
+        // Event Trigger - Mouse enter
+        EventTrigger trigger = buttonGO.AddComponent<EventTrigger>();
+        EventTrigger.Entry triggerEntry = new EventTrigger.Entry();
+        triggerEntry.eventID = EventTriggerType.PointerEnter;
+        triggerEntry.callback.AddListener((data) => OnMouseEnterDelegate((PointerEventData)data));
+        trigger.triggers.Add(triggerEntry);
+
+        // Button Text
+        GameObject textGO = new GameObject();
+        textGO.transform.parent = buttonGO.transform;
+        textGO.layer = buttonGO.layer;
+        textGO.name = "Text";
+
+        TextMeshProUGUI textComp = textGO.AddComponent<TextMeshProUGUI>();
+        textComp.text = txt;
+        textComp.fontSize = 20;
+        textComp.alignment = TextAlignmentOptions.Center;
+        textComp.enableWordWrapping = false;
+        textComp.color = Color.black;
+
+        // Button Text Component relative position
+        transform = textComp.GetComponent<RectTransform>();
+        transform.localPosition = new Vector3(0, 0, 0);
+        transform.sizeDelta = new Vector2(0, 0);
+        transform.localScale = new Vector3(1, 1, 1);
+    }
+
+    void GenerateTitleText()
+    {
         // Title Text
         GameObject titleGO = new GameObject();
         titleGO.transform.parent = canvasGO.transform;
@@ -49,43 +118,19 @@ public class MenuHandler : MonoBehaviour
         transform.localScale = new Vector3(2.5f, 2.5f, 0);
     }
 
-    void GenerateBtn(string txt, int posX, int posY, UnityAction onClickFunc)
+    public void OnMouseEnterDelegate(PointerEventData data)
     {
-        GameObject buttonGO = new GameObject();
-        buttonGO.transform.parent = canvasGO.transform;
-        buttonGO.layer = canvasGO.layer;
-        buttonGO.name = txt.Replace(" ", "");
+        audioSources[1].Play();
+    }
 
-        Button buttonComp = buttonGO.AddComponent<Button>();
-        buttonGO.AddComponent<CanvasRenderer>();
-        Image buttonImg = buttonGO.AddComponent<Image>();
-        buttonImg.sprite = Resources.Load<Sprite>("UI/tileBlue_01");
-        buttonImg.color = new Color(100, 249, 255, 255);
-        buttonComp.targetGraphic = buttonImg;
+    public static AudioSource GenerateAudioSource(string audioPath, string GOName)
+    {
+        GameObject audioGO = new GameObject();
+        audioGO.name = GOName;
 
-        RectTransform transform = buttonComp.GetComponent<RectTransform>();
-        transform.localPosition = new Vector3(posX, posY, 0);
-        transform.sizeDelta = new Vector2(160, 30);
-        transform.localScale = new Vector3(4.5f, 4.5f, 0);
+        AudioSource audioSrc = audioGO.AddComponent<AudioSource>();
+        audioSrc.clip = (AudioClip)Resources.Load(audioPath);
 
-        buttonComp.onClick.AddListener(onClickFunc);
-
-        // Button Text
-        GameObject textGO = new GameObject();
-        textGO.transform.parent = buttonGO.transform;
-        textGO.layer = buttonGO.layer;
-        textGO.name = "Text";
-
-        TextMeshProUGUI textComp = textGO.AddComponent<TextMeshProUGUI>();
-        textComp.text = txt;
-        textComp.fontSize = 20;
-        textComp.alignment = TextAlignmentOptions.Center;
-        textComp.enableWordWrapping = false;
-        textComp.color = Color.black;
-
-        transform = textComp.GetComponent<RectTransform>();
-        transform.localPosition = new Vector3(0, 0, 0);
-        transform.sizeDelta = new Vector2(0, 0);
-        transform.localScale = new Vector3(1, 1, 1);
+        return audioSrc;
     }
 }
