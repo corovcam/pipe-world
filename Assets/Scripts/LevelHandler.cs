@@ -21,6 +21,9 @@ public class LevelHandler : MonoBehaviour
     public GameObject backTilePrefab;
     public List<Sprite> backTileSprites;
 
+    public AudioSource pipeRotationAudio;
+    public AudioSource winningAudio;
+
     [SerializeField]
     GameObject activePipe;
     [SerializeField]
@@ -210,5 +213,15 @@ public class LevelHandler : MonoBehaviour
         {
             SetActiveTile(LevelData.GamePieces[x, y].gameObject);
         }
+    }
+
+    public void PlayPipeRotationAudio()
+    {
+        pipeRotationAudio.Play();
+    }
+
+    public void PlayWinningAudio()
+    {
+        winningAudio.Play();
     }
 }

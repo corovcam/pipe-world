@@ -74,8 +74,9 @@ public class PipeHandler : MonoBehaviour
 
 	public void RotatePiece()
 	{
-		rotation += 90;
+        levelHandler.PlayPipeRotationAudio();
 
+		rotation += 90;
 		if (rotation == 360)
 			rotation = 0;
 

@@ -30,7 +30,7 @@ public class PauseControl : MonoBehaviour
         switchImage = toggleImgGO.GetComponent<Image>();
         toggle.onValueChanged.AddListener(OnSwitchToggle);
         if (toggle.isOn)
-            OnSwitchToggle(on: true);
+            OnSwitchToggle(isAudioOn: true);
 
         restartBtn.onClick.AddListener(RestartGame);
         quitBtn.onClick.AddListener(GetBackToMainMenu);
@@ -69,12 +69,18 @@ public class PauseControl : MonoBehaviour
         }
     }
 
-    void OnSwitchToggle(bool on)
+    void OnSwitchToggle(bool isAudioOn)
     {
-        if (on)
+        if (isAudioOn)
+        {
+            AudioListener.pause = !isAudioOn;
             switchImage.sprite = toggleImgOnSprite;
+        }
         else
+        {
+            AudioListener.pause = !isAudioOn;
             switchImage.sprite = toggleImgOffSprite;
+        }
     }
 
     void OnDestroy()

@@ -72,6 +72,7 @@ public class GUIHandler : MonoBehaviour
             endGameText.name = "You Won";
             endGameText.GetComponent<TMP_Text>().text = "YOU WON!";
             totalScore.text = CalculateTotalScore();
+            levelHandler.PlayWinningAudio();
         }
         else
         {
