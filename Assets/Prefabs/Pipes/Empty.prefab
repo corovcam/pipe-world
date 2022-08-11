@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7037123133480395767}
   m_Layer: 0
   m_Name: Empty
-  m_TagString: Untagged
+  m_TagString: Pipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -47,20 +47,11 @@ MonoBehaviour:
   IODirs: 00000000
   speed: 0.1
   rotation: 0
-  tileRotation: 0
   tileType: 4
-  in_Out1: 0000000001000000
-  in_Out2: 0200000003000000
-  locX: 0
-  locY: 0
-  upB: 0
-  rightB: 0
-  downB: 0
-  leftB: 0
-  isPump: 0
-  pumpOut: 2
-  pumpIns: 0
-  flowPrefab: {fileID: 0}
+  upFree: 0
+  downFree: 0
+  rightFree: 0
+  leftFree: 0
   up: {fileID: 0}
   right: {fileID: 0}
   down: {fileID: 0}
