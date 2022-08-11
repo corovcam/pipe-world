@@ -24,7 +24,6 @@ public class PipeHandler : MonoBehaviour
 
     LevelHandler levelHandler;
 
-	// Use this for initialization
 	void Start()
 	{
         levelHandler = GameObject.Find("Grid").GetComponent<LevelHandler>();
@@ -54,7 +53,6 @@ public class PipeHandler : MonoBehaviour
         }
     }
 
-	// Update is called once per frame
 	void Update()
 	{
 		if (transform.rotation.eulerAngles.z != rotation)

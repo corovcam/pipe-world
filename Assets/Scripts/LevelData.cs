@@ -43,19 +43,21 @@ public static class LevelData
 	public static Position EndPipe { get; set; }
     public static PipeHandler[,] GamePieces { get; set; }
 
+    public static string[] lvlData;
+
 	public static Pipe[,] GetRandomPuzzle(int width, int height)
     {
-        Dictionary<WallState, List<Pipe>> wallsToPipesMap 
-            = new Dictionary<WallState, List<Pipe>>();
+        Dictionary<CellWalls, List<Pipe>> wallsToPipesMap 
+            = new Dictionary<CellWalls, List<Pipe>>();
         FillWallsToPipesMap(ref wallsToPipesMap);
 
-        WallState[,] puzzleWalls = PuzzleGenerator.Generate(width, height);
+        CellWalls[,] puzzleWalls = PuzzleGenerator.GenerateMaze(width, height);
 		Pipe[,] pipes = new Pipe[width, height];
 		for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
             {
-				var wallStateWOVisited = puzzleWalls[i, j] & ~WallState.VISITED;
+				var wallStateWOVisited = puzzleWalls[i, j] & ~CellWalls.VISITED;
 				var possibleWalls = wallsToPipesMap[wallStateWOVisited];
 				Pipe chosenPipe = possibleWalls[Random.Range(0, possibleWalls.Count)];
 				pipes[i, j] = chosenPipe;
@@ -92,81 +94,81 @@ public static class LevelData
 
     public static Pipe[,] ReadInputLevelData()
     {
-        string levelData = Resources.Load<TextAsset>("Level" + LevelNumber.ToString()).text;
-        bool nextIsValue = false;
+        bool isValue = false;
         int xCoord = 0;
         int yCoord = 0;
         int value = 0;
         Pipe[,] pipes = new Pipe[BoardSize, BoardSize];
         int offset = BoardSize - 1;
-        foreach (char currentChar in levelData)
+        foreach (string line in lvlData[2..])
         {
-            if (currentChar == ',')
+            foreach (char current in line)
             {
-                if (value == 0)
-                    pipes[xCoord, yCoord] = Pipe.EMPTY;
-                else
-                    pipes[xCoord, yCoord] = (Pipe)(value - 1);
-                xCoord++;
-                nextIsValue = false;
+                if (current == ',')
+                {
+                    if (value == 0)
+                        pipes[xCoord, yCoord] = Pipe.EMPTY;
+                    else
+                        pipes[xCoord, yCoord] = (Pipe)(value - 1);
+                    xCoord++;
+                    isValue = false;
+                }
+                if (current == 'S')
+                {
+                    StartPipe = new Position { X = xCoord, Y = yCoord + offset };
+                }
+                if (current == 'E')
+                {
+                    EndPipe = new Position { X = xCoord, Y = yCoord + offset };
+                }
+                if (isValue == true)
+                {
+                    value = current - '0';
+                }
+                if (current == ':')
+                {
+                    isValue = true;
+                }
             }
-            if (currentChar == 'S')
-            {
-                StartPipe = new Position { X = xCoord, Y = yCoord + offset };
-            }
-            if (currentChar == 'E')
-            {
-                EndPipe = new Position { X = xCoord, Y = yCoord + offset };
-            }
-            if (nextIsValue == true)
-            {
-                value = currentChar - '0';
-            }
-            if (currentChar == ':')
-            {
-                nextIsValue = true;
-            }
-            if (currentChar == '\n')
-            {
-                yCoord++;
-                xCoord = 0;
-                offset -= 2;
-            }
+            yCoord++;
+            xCoord = 0;
+            offset -= 2;
         }
+        
         return pipes;
     }
 
-    private static void FillWallsToPipesMap(ref Dictionary<WallState, List<Pipe>> map)
+    private static void FillWallsToPipesMap(ref Dictionary<CellWalls, List<Pipe>> map)
     {
         // 1 Wall
-        map.Add(WallState.UP, new List<Pipe> { Pipe.ThreeWay, Pipe.Cross });
-        map.Add(WallState.DOWN, new List<Pipe> { Pipe.ThreeWay, Pipe.Cross });
-        map.Add(WallState.LEFT, new List<Pipe> { Pipe.ThreeWay, Pipe.Cross });
-        map.Add(WallState.RIGHT, new List<Pipe> { Pipe.ThreeWay, Pipe.Cross });
+        map.Add(CellWalls.UP, new List<Pipe> { Pipe.ThreeWay, Pipe.Cross });
+        map.Add(CellWalls.DOWN, new List<Pipe> { Pipe.ThreeWay, Pipe.Cross });
+        map.Add(CellWalls.LEFT, new List<Pipe> { Pipe.ThreeWay, Pipe.Cross });
+        map.Add(CellWalls.RIGHT, new List<Pipe> { Pipe.ThreeWay, Pipe.Cross });
 
         // 2 Walls
-        map.Add(WallState.UP | WallState.DOWN,
+        map.Add(CellWalls.UP | CellWalls.DOWN,
             new List<Pipe> { Pipe.Straight });
-        map.Add(WallState.RIGHT | WallState.LEFT,
+        map.Add(CellWalls.RIGHT | CellWalls.LEFT,
             new List<Pipe> { Pipe.Straight });
 
-        map.Add(WallState.UP | WallState.RIGHT,
+        map.Add(CellWalls.UP | CellWalls.RIGHT,
             new List<Pipe> { Pipe.Round });
-        map.Add(WallState.RIGHT | WallState.DOWN,
+        map.Add(CellWalls.RIGHT | CellWalls.DOWN,
             new List<Pipe> { Pipe.Round });
-        map.Add(WallState.DOWN | WallState.LEFT,
+        map.Add(CellWalls.DOWN | CellWalls.LEFT,
             new List<Pipe> { Pipe.Round });
-        map.Add(WallState.LEFT | WallState.UP,
+        map.Add(CellWalls.LEFT | CellWalls.UP,
             new List<Pipe> { Pipe.Round });
 
         // 3 Walls
-        map.Add(WallState.UP | WallState.RIGHT | WallState.DOWN,
+        map.Add(CellWalls.UP | CellWalls.RIGHT | CellWalls.DOWN,
             new List<Pipe> { Pipe.Straight, Pipe.Round });
-        map.Add(WallState.RIGHT | WallState.DOWN | WallState.LEFT,
+        map.Add(CellWalls.RIGHT | CellWalls.DOWN | CellWalls.LEFT,
             new List<Pipe> { Pipe.Straight, Pipe.Round });
-        map.Add(WallState.DOWN | WallState.LEFT | WallState.UP,
+        map.Add(CellWalls.DOWN | CellWalls.LEFT | CellWalls.UP,
             new List<Pipe> { Pipe.Straight, Pipe.Round });
-        map.Add(WallState.LEFT | WallState.UP | WallState.RIGHT,
+        map.Add(CellWalls.LEFT | CellWalls.UP | CellWalls.RIGHT,
             new List<Pipe> { Pipe.Straight, Pipe.Round });
     }
 }

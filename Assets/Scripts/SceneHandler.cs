@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -29,8 +30,10 @@ public static class SceneHandler
         PauseControl.GameIsPaused = false;
         LevelData.IsArcadeMode = false;
         LevelData.LevelNumber = levelNumber;
-        LevelData.BoardSize = 10;
-        LevelData.TimeLimit = 20;
+        
+        LevelData.lvlData = Resources.Load<TextAsset>("Level" + levelNumber.ToString()).text.Split(Environment.NewLine);
+        LevelData.BoardSize = int.Parse(LevelData.lvlData[0]);
+        LevelData.TimeLimit = int.Parse(LevelData.lvlData[1]);
         SceneManager.LoadScene("Game", LoadSceneMode.Single);
     }
 }
