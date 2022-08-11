@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 public struct Position
 {
@@ -39,6 +38,7 @@ public static class LevelData
     public static bool IsArcadeMode { get; set; } = false;
 	public static int LevelNumber { get; set; }
 	public static int BoardSize { get; set; }
+    public static int TimeLimit { get; set; }
 	public static Position StartPipe { get; set; }
 	public static Position EndPipe { get; set; }
     public static PipeHandler[,] GamePieces { get; set; }
@@ -61,10 +61,34 @@ public static class LevelData
 				pipes[i, j] = chosenPipe;
             }
         }
-		StartPipe = new Position { X = 0, Y = BoardSize - 1 };
-		EndPipe = new Position { X = BoardSize - 1, Y = 0 };
+		StartPipe = GetRandomStartPos();
+		EndPipe = GetRandomEndPos();
 		return pipes;
 	}
+
+    private static Position GetRandomStartPos()
+    {
+        int x = Random.Range(0, (int)(BoardSize / 2.0) + 1);
+        int y;
+        if (x != 0)
+            y = BoardSize - 1;
+        else
+            y = Random.Range((int)(BoardSize / 2.0), BoardSize - 1);
+        
+        return new Position { X = x, Y = y };
+    }
+
+    private static Position GetRandomEndPos()
+    {
+        int x = Random.Range((int)(BoardSize / 2.0), BoardSize);
+        int y;
+        if (x != BoardSize - 1)
+            y = 0;
+        else
+            y = Random.Range(0, (int)(BoardSize / 2.0) + 1);
+
+        return new Position { X = x, Y = y };
+    }
 
     public static Pipe[,] ReadInputLevelData()
     {
@@ -122,27 +146,27 @@ public static class LevelData
 
         // 2 Walls
         map.Add(WallState.UP | WallState.DOWN,
-            new List<Pipe> { Pipe.Straight, Pipe.ThreeWay, Pipe.Cross });
+            new List<Pipe> { Pipe.Straight });
         map.Add(WallState.RIGHT | WallState.LEFT,
-            new List<Pipe> { Pipe.Straight, Pipe.ThreeWay, Pipe.Cross });
+            new List<Pipe> { Pipe.Straight });
 
         map.Add(WallState.UP | WallState.RIGHT,
-            new List<Pipe> { Pipe.Round, Pipe.ThreeWay, Pipe.Cross });
+            new List<Pipe> { Pipe.Round });
         map.Add(WallState.RIGHT | WallState.DOWN,
-            new List<Pipe> { Pipe.Round, Pipe.ThreeWay, Pipe.Cross });
+            new List<Pipe> { Pipe.Round });
         map.Add(WallState.DOWN | WallState.LEFT,
-            new List<Pipe> { Pipe.Round, Pipe.ThreeWay, Pipe.Cross });
+            new List<Pipe> { Pipe.Round });
         map.Add(WallState.LEFT | WallState.UP,
-            new List<Pipe> { Pipe.Round, Pipe.ThreeWay, Pipe.Cross });
+            new List<Pipe> { Pipe.Round });
 
         // 3 Walls
         map.Add(WallState.UP | WallState.RIGHT | WallState.DOWN,
-            new List<Pipe> { Pipe.Straight, Pipe.Round, Pipe.ThreeWay, Pipe.Cross });
+            new List<Pipe> { Pipe.Straight, Pipe.Round });
         map.Add(WallState.RIGHT | WallState.DOWN | WallState.LEFT,
-            new List<Pipe> { Pipe.Straight, Pipe.Round, Pipe.ThreeWay, Pipe.Cross });
+            new List<Pipe> { Pipe.Straight, Pipe.Round });
         map.Add(WallState.DOWN | WallState.LEFT | WallState.UP,
-            new List<Pipe> { Pipe.Straight, Pipe.Round, Pipe.ThreeWay, Pipe.Cross });
+            new List<Pipe> { Pipe.Straight, Pipe.Round });
         map.Add(WallState.LEFT | WallState.UP | WallState.RIGHT,
-            new List<Pipe> { Pipe.Straight, Pipe.Round, Pipe.ThreeWay, Pipe.Cross });
+            new List<Pipe> { Pipe.Straight, Pipe.Round });
     }
 }

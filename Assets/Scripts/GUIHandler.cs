@@ -22,6 +22,7 @@ public class GUIHandler : MonoBehaviour
 
     public static bool IsEndGame { get; set; } = false;
 
+    public bool isDebug;
     [SerializeField]
     [Range(5, 30)]
     int defaultTimeLimit = 20;
@@ -36,13 +37,15 @@ public class GUIHandler : MonoBehaviour
 
     void Start()
     {
-        timerText.text = defaultTimeLimit.ToString();
+        if (isDebug)
+            LevelData.TimeLimit = defaultTimeLimit;
+        timerText.text = LevelData.TimeLimit.ToString();
         StartCoroutine("CountdownTimer");
     }
 
     IEnumerator CountdownTimer()
     {
-        currentTime = defaultTimeLimit;
+        currentTime = LevelData.TimeLimit;
         while (currentTime != 0)
         {
             yield return new WaitForSeconds(1);
@@ -96,7 +99,7 @@ public class GUIHandler : MonoBehaviour
         IsEndGame = false;
         pauseButton.enabled = true;
         levelHandler.ResetLevel();
-        timerText.text = defaultTimeLimit.ToString();
+        timerText.text = LevelData.TimeLimit.ToString();
         StartCoroutine("CountdownTimer");
     }
 

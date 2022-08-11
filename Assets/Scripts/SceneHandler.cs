@@ -19,6 +19,7 @@ public static class SceneHandler
         PauseControl.GameIsPaused = false;
         LevelData.IsArcadeMode = true;
         LevelData.BoardSize = 10;
+        LevelData.TimeLimit = 30;
         SceneManager.LoadScene("Game", LoadSceneMode.Single);
     }
 
@@ -29,6 +30,7 @@ public static class SceneHandler
         LevelData.IsArcadeMode = false;
         LevelData.LevelNumber = levelNumber;
         LevelData.BoardSize = 10;
+        LevelData.TimeLimit = 20;
         SceneManager.LoadScene("Game", LoadSceneMode.Single);
     }
 }
