@@ -17,29 +17,32 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+        if (!PauseControl.GameIsPaused && !GUIHandler.IsEndGame)
         {
-            levelHandler.MoveActiveTileUp();
-        }
-        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
-        {
-            levelHandler.MoveActiveTileDown();
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
-        {
-            levelHandler.MoveActiveTileRight();
-        }
-        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
-        {
-            levelHandler.MoveActiveTileLeft();
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            levelHandler.RotateActiveTile();
-        }
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            gm.StartFlow();
+            if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+            {
+                levelHandler.MoveActiveTileUp();
+            }
+            if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+            {
+                levelHandler.MoveActiveTileDown();
+            }
+            if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+            {
+                levelHandler.MoveActiveTileRight();
+            }
+            if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+            {
+                levelHandler.MoveActiveTileLeft();
+            }
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                levelHandler.RotateActiveTile();
+            }
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                gm.StartFlow();
+            }
         }
     }
 }

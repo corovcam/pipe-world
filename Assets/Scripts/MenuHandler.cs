@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using TMPro;
 
@@ -15,15 +17,15 @@ public class MenuHandler : MonoBehaviour
         canvasGO = new GameObject();
         canvasGO.name = "Canvas";
         canvasGO.layer = 5;
-        canvasGO.AddComponent<Canvas>();
 
-        Canvas canvas = canvasGO.GetComponent<Canvas>();
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        Canvas canvas = canvasGO.AddComponent<Canvas>();
+        canvas.renderMode = RenderMode.ScreenSpaceCamera;
+        canvas.worldCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         canvasGO.AddComponent<CanvasScaler>();
         canvasGO.AddComponent<GraphicRaycaster>();
 
-        GenerateBtn("Level Select", 0, 150);
-        GenerateBtn("Arcade", 0, -150);
+        GenerateBtn("Level Select", 0, 150, SceneHandler.LoadLevelSelectScene);
+        GenerateBtn("Arcade", 0, -150, SceneHandler.LoadArcadeGameScene);
 
         // Title Text
         GameObject titleGO = new GameObject();
@@ -40,8 +42,6 @@ public class MenuHandler : MonoBehaviour
         textComp.enableWordWrapping = false;
         textComp.color = Color.white;
 
-        titleGO.AddComponent<CanvasRenderer>();
-
         // Title text position
         RectTransform transform = textComp.GetComponent<RectTransform>();
         transform.localPosition = new Vector3(0, 400, 0);
@@ -49,7 +49,7 @@ public class MenuHandler : MonoBehaviour
         transform.localScale = new Vector3(2.5f, 2.5f, 0);
     }
 
-    void GenerateBtn(string txt, int posX, int posY)
+    void GenerateBtn(string txt, int posX, int posY, UnityAction onClickFunc)
     {
         GameObject buttonGO = new GameObject();
         buttonGO.transform.parent = canvasGO.transform;
@@ -68,6 +68,8 @@ public class MenuHandler : MonoBehaviour
         transform.sizeDelta = new Vector2(160, 30);
         transform.localScale = new Vector3(4.5f, 4.5f, 0);
 
+        buttonComp.onClick.AddListener(onClickFunc);
+
         // Button Text
         GameObject textGO = new GameObject();
         textGO.transform.parent = buttonGO.transform;
@@ -80,8 +82,6 @@ public class MenuHandler : MonoBehaviour
         textComp.alignment = TextAlignmentOptions.Center;
         textComp.enableWordWrapping = false;
         textComp.color = Color.black;
-
-        textGO.AddComponent<CanvasRenderer>();
 
         transform = textComp.GetComponent<RectTransform>();
         transform.localPosition = new Vector3(0, 0, 0);

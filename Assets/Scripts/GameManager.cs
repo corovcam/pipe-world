@@ -11,11 +11,13 @@ public class GameManager : MonoBehaviour
 
     PipeHandler startPipe;
     LevelHandler levelHandler;
+    GUIHandler GUIHandler;
 
     // Start is called before the first frame update
     void Start()
     {
         levelHandler = GameObject.FindObjectOfType<LevelHandler>();
+        GUIHandler = GetComponent<GUIHandler>();
         startPipe = LevelData.GamePieces[LevelData.StartPipe.X, LevelData.StartPipe.Y].GetComponent<PipeHandler>();
     }
 
@@ -31,6 +33,8 @@ public class GameManager : MonoBehaviour
 
     IEnumerator Flow()
     {
+        GUIHandler.SetEndGameScene();
+
         PipeHandler previousPipe = startPipe;
         distances[LevelData.StartPipe] = 0;
         visited.Add(startPipe);
@@ -97,7 +101,6 @@ public class GameManager : MonoBehaviour
         }
 
         Debug.Log(isWon);
-        if (!isWon)
-            levelHandler.ResetLevel();
+        GUIHandler.ShowEndGameMenu(isWon);
     }
 }

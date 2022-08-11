@@ -37,8 +37,8 @@ public struct Position
 public static class LevelData
 {
     public static bool IsArcadeMode { get; set; } = false;
-	public static int LevelNumber { get; set; } = 1;
-	public static int BoardSize { get; set; } = 10;
+	public static int LevelNumber { get; set; }
+	public static int BoardSize { get; set; }
 	public static Position StartPipe { get; set; }
 	public static Position EndPipe { get; set; }
     public static PipeHandler[,] GamePieces { get; set; }

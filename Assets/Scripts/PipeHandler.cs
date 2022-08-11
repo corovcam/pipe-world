@@ -65,8 +65,11 @@ public class PipeHandler : MonoBehaviour
 
 	void OnMouseDown()
 	{
-		RotatePiece();
-        levelHandler.SetActiveTile(gameObject);
+        if (!PauseControl.GameIsPaused && !GUIHandler.IsEndGame)
+        {
+            RotatePiece();
+            levelHandler.SetActiveTile(gameObject);
+        }
 	}
 
 	public void RotatePiece()

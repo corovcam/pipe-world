@@ -31,22 +31,28 @@ public class LevelHandler : MonoBehaviour
     [Range(1, 5)]
     int levelNum = 1;
 
-    public bool arcadeMode = false;
+    [SerializeField]
+    bool arcadeMode = false;
 
     //Quick and dirty solution. Will come back to
     public GameObject[,] gridObjects;
 
+    public PauseControl pauseControl;
+
     // Start is called before the first frame update
     void Start()
     {
-        LevelData.IsArcadeMode = arcadeMode;
-        LevelData.LevelNumber = levelNum;
-        LevelData.BoardSize = boardSize;
+        if (LevelData.LevelNumber == 0 && LevelData.BoardSize == 0)
+        {
+            LevelData.IsArcadeMode = arcadeMode;
+            LevelData.LevelNumber = levelNum;
+            LevelData.BoardSize = boardSize;
+        }
         gridObjects = new GameObject[boardSize, boardSize];
         // TODO: Scale the board: with bigger board, tiles get smaller to accomodate dimensions
         // Camera stays the same
         GenerateNewGrid();
-        GenerateLevel(isRandom: arcadeMode);
+        GenerateLevel(isRandom: LevelData.IsArcadeMode);
         SetActiveTile(gridObjects[LevelData.StartPipe.X, LevelData.StartPipe.Y]);
         StoreGamePieces();
         StartCoroutine(Shuffle());
@@ -63,7 +69,7 @@ public class LevelHandler : MonoBehaviour
                 temp.GetComponent<SpriteRenderer>().sprite = chosenBackTileSprite;
                 Vector2 tileTransform = new Vector2(x, y);
                 temp.transform.position = tileTransform;
-                temp.name = string.Format("x:{0} y:{1}", x, y);
+                temp.name = string.Format("({0}, {1})", x, y);
                 temp.transform.parent = gameObject.transform;
                 gridObjects[x, y] = temp;
             }
@@ -139,7 +145,7 @@ public class LevelHandler : MonoBehaviour
     {
         foreach (var pipe in LevelData.GamePieces)
         {
-            if (pipe != null)
+            if (pipe.tileType != (int)Pipe.EMPTY)
             {
                 pipe.GetComponent<SpriteRenderer>().sprite = pipeSprites[pipe.tileType];
             }
@@ -157,7 +163,7 @@ public class LevelHandler : MonoBehaviour
     {
         int x = activePipeHandler.location.X;
         int y = activePipeHandler.location.Y + 1;
-        if (x < LevelData.BoardSize && y < LevelData.BoardSize)
+        if (y >= 0 && y < LevelData.BoardSize)
         {
             SetActiveTile(LevelData.GamePieces[x, y].gameObject);
         }
@@ -167,7 +173,7 @@ public class LevelHandler : MonoBehaviour
     {
         int x = activePipeHandler.location.X;
         int y = activePipeHandler.location.Y - 1;
-        if (x < LevelData.BoardSize && y < LevelData.BoardSize)
+        if (y >= 0 && y < LevelData.BoardSize)
         { 
             SetActiveTile(LevelData.GamePieces[x, y].gameObject);
         }
@@ -177,7 +183,7 @@ public class LevelHandler : MonoBehaviour
     {
         int x = activePipeHandler.location.X + 1;
         int y = activePipeHandler.location.Y;
-        if (x < LevelData.BoardSize && y < LevelData.BoardSize)
+        if (x >= 0 && x < LevelData.BoardSize)
         {
             SetActiveTile(LevelData.GamePieces[x, y].gameObject);
         }
@@ -187,7 +193,7 @@ public class LevelHandler : MonoBehaviour
     {
         int x = activePipeHandler.location.X - 1;
         int y = activePipeHandler.location.Y;
-        if (x < LevelData.BoardSize && y < LevelData.BoardSize)
+        if (x >= 0 && x < LevelData.BoardSize)
         {
             SetActiveTile(LevelData.GamePieces[x, y].gameObject);
         }
