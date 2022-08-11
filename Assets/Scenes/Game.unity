@@ -289,6 +289,16 @@ MonoBehaviour:
   - {fileID: -617833221, guid: f355c186478800d4c9b8cd5f1d114125, type: 3}
   - {fileID: -128477020, guid: f355c186478800d4c9b8cd5f1d114125, type: 3}
   - {fileID: 759187857, guid: f355c186478800d4c9b8cd5f1d114125, type: 3}
+  redPipeSprites:
+  - {fileID: 1673422176, guid: 7c129d38383f07e428476f2249bcf2df, type: 3}
+  - {fileID: 2103303707, guid: 7c129d38383f07e428476f2249bcf2df, type: 3}
+  - {fileID: -1162367591, guid: 7c129d38383f07e428476f2249bcf2df, type: 3}
+  - {fileID: -1765118843, guid: 7c129d38383f07e428476f2249bcf2df, type: 3}
+  filledRedPipeSprites:
+  - {fileID: -2012051642, guid: 4eae385e44274ab428372ebd2ffdcd98, type: 3}
+  - {fileID: 1299908973, guid: 4eae385e44274ab428372ebd2ffdcd98, type: 3}
+  - {fileID: 1927862932, guid: 4eae385e44274ab428372ebd2ffdcd98, type: 3}
+  - {fileID: 1500371698, guid: 4eae385e44274ab428372ebd2ffdcd98, type: 3}
   tilePointer: {fileID: 1665883563}
   backTilePrefab: {fileID: 9150141298239140415, guid: faf81907c5c89c0489e45f6034852e40, type: 3}
   backTileSprites:

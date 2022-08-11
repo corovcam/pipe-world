@@ -13,6 +13,9 @@ public class LevelHandler : MonoBehaviour
     public List<Sprite> pipeSprites;
     public List<Sprite> filledPipeSprites;
 
+    public List<Sprite> redPipeSprites;
+    public List<Sprite> filledRedPipeSprites;
+
     public GameObject tilePointer;
 
     public GameObject backTilePrefab;
@@ -55,6 +58,7 @@ public class LevelHandler : MonoBehaviour
         GenerateLevel(isRandom: LevelData.IsArcadeMode);
         SetActiveTile(gridObjects[LevelData.StartPipe.X, LevelData.StartPipe.Y]);
         StoreGamePieces();
+        SetStartEndPipeSprites();
         StartCoroutine(Shuffle());
     }
 
@@ -140,6 +144,14 @@ public class LevelHandler : MonoBehaviour
         }
     }
 
+    void SetStartEndPipeSprites()
+    {
+        var startPipe = LevelData.GamePieces[LevelData.StartPipe.X, LevelData.StartPipe.Y];
+        startPipe.GetComponent<SpriteRenderer>().sprite = redPipeSprites[startPipe.tileType];
+        var endPipe = LevelData.GamePieces[LevelData.EndPipe.X, LevelData.EndPipe.Y];
+        endPipe.GetComponent<SpriteRenderer>().sprite = redPipeSprites[endPipe.tileType];
+    }
+
 
     public void ResetLevel()
     {
@@ -150,6 +162,7 @@ public class LevelHandler : MonoBehaviour
                 pipe.GetComponent<SpriteRenderer>().sprite = pipeSprites[pipe.tileType];
             }
         }
+        SetStartEndPipeSprites();
         SetActiveTile(LevelData.GamePieces[LevelData.StartPipe.X, LevelData.StartPipe.Y].gameObject);
         StartCoroutine(Shuffle());
     }

@@ -18,7 +18,8 @@ public class GameManager : MonoBehaviour
     {
         levelHandler = GameObject.FindObjectOfType<LevelHandler>();
         GUIHandler = GetComponent<GUIHandler>();
-        startPipe = LevelData.GamePieces[LevelData.StartPipe.X, LevelData.StartPipe.Y].GetComponent<PipeHandler>();
+        startPipe = LevelData.GamePieces[LevelData.StartPipe.X, LevelData.StartPipe.Y]
+            .GetComponent<PipeHandler>();
     }
 
     public void StartFlow()
@@ -46,7 +47,16 @@ public class GameManager : MonoBehaviour
             if (distances[previousPipe.location] < distances[current.location])
                 yield return new WaitForSeconds(0.5f);
 
-            current.GetComponent<SpriteRenderer>().sprite = levelHandler.filledPipeSprites[current.tileType];
+            if (current.location == LevelData.StartPipe || current.location == LevelData.EndPipe)
+            {
+                current.GetComponent<SpriteRenderer>().sprite 
+                    = levelHandler.filledRedPipeSprites[current.tileType];
+            }
+            else
+            {
+                current.GetComponent<SpriteRenderer>().sprite
+                    = levelHandler.filledPipeSprites[current.tileType];
+            }
 
             if (current.location == LevelData.EndPipe)
             {
