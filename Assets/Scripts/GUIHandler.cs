@@ -24,6 +24,7 @@ public class GUIHandler : MonoBehaviour
     public Button quitButton;
     public Button pauseButton;
     public Button skipButton;
+    public Button startFlowButton;
 
     public TMP_Text timerText;
 
@@ -36,11 +37,15 @@ public class GUIHandler : MonoBehaviour
     int defaultTimeLimit = 20; // To edit in Editor
     int currentTime;
 
+    GameManager gm;
+
     void Awake()
     {
+        gm = GetComponent<GameManager>();
         restartButton.onClick.AddListener(RestartGame);
         quitButton.onClick.AddListener(GetBackToMainMenu);
         skipButton.onClick.AddListener(AccelerateFlow);
+        startFlowButton.onClick.AddListener(gm.StartFlow);
     }
 
     void Start()
@@ -73,6 +78,7 @@ public class GUIHandler : MonoBehaviour
         restartButton.onClick.RemoveListener(RestartGame);
         quitButton.onClick.RemoveListener(GetBackToMainMenu);
         skipButton.onClick.RemoveListener(AccelerateFlow);
+        startFlowButton.onClick.RemoveListener(gm.StartFlow);
     }
 
     /// <summary>
@@ -119,6 +125,7 @@ public class GUIHandler : MonoBehaviour
 
         IsEndGame = false;
         pauseButton.enabled = true;
+        startFlowButton.enabled = true;
         levelHandler.ResetLevel();
         timerText.text = LevelData.TimeLimit.ToString();
         StartCoroutine("CountdownTimer");
@@ -147,6 +154,7 @@ public class GUIHandler : MonoBehaviour
         IsEndGame = true;
         StopCoroutine("CountdownTimer");
         skipButton.gameObject.SetActive(true);
+        startFlowButton.enabled = false;
     }
 
     string CalculateTotalScore()
