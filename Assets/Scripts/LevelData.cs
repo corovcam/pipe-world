@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Struct used to store X and Y coordinates of Pipes on the Board. 
+/// Overrides basic equality operators.
+/// </summary>
 public struct Position
 {
     public int X;
@@ -33,6 +37,9 @@ public struct Position
     }
 }
 
+/// <summary>
+/// Static class used to store all information about the current Game and Level
+/// </summary>
 public static class LevelData
 {
     public static bool IsArcadeMode { get; set; } = false;
@@ -43,10 +50,20 @@ public static class LevelData
 	public static Position EndPipe { get; set; }
     public static PipeHandler[,] GamePieces { get; set; }
 
+    // Temporary data structure for level loading
     public static string[] lvlData;
 
+    /// <summary>
+    /// Gets random puzzle using Random Maze generator and a map Dictionary to 
+    /// convert it to the a Pipes Puzzle
+    /// </summary>
+    /// <param name="width">Width of the Puzzle</param>
+    /// <param name="height">Height of the Puzzle</param>
+    /// <returns>2D Array of Pipes, the Pipe Puzzle</returns>
 	public static Pipe[,] GetRandomPuzzle(int width, int height)
     {
+        // Used to translate CellWalls in a maze to potential List of Pipes that can
+        // occupy the given cell
         Dictionary<CellWalls, List<Pipe>> wallsToPipesMap 
             = new Dictionary<CellWalls, List<Pipe>>();
         FillWallsToPipesMap(ref wallsToPipesMap);
@@ -57,8 +74,10 @@ public static class LevelData
         {
             for (int j = 0; j < height; j++)
             {
+                // Removes the VISITED Flag from the CellWall
 				var wallStateWOVisited = puzzleWalls[i, j] & ~CellWalls.VISITED;
 				var possibleWalls = wallsToPipesMap[wallStateWOVisited];
+                // Chooses a random Pipe from the Dictionary to generate random (but correct) Pipe Puzzle
 				Pipe chosenPipe = possibleWalls[Random.Range(0, possibleWalls.Count)];
 				pipes[i, j] = chosenPipe;
             }
@@ -68,6 +87,9 @@ public static class LevelData
 		return pipes;
 	}
 
+    /// <summary>
+    /// Chooses a random StartPipe Position in the upper-left half of the Board
+    /// </summary>
     private static Position GetRandomStartPos()
     {
         int x = Random.Range(0, (int)(BoardSize / 2.0) + 1);
@@ -80,6 +102,9 @@ public static class LevelData
         return new Position { X = x, Y = y };
     }
 
+    /// <summary>
+    /// Chooses a random EndPipe Position in the lower-right half of the Board
+    /// </summary>
     private static Position GetRandomEndPos()
     {
         int x = Random.Range((int)(BoardSize / 2.0), BoardSize);
@@ -92,6 +117,10 @@ public static class LevelData
         return new Position { X = x, Y = y };
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
     public static Pipe[,] ReadInputLevelData()
     {
         bool isValue = false;
@@ -134,7 +163,8 @@ public static class LevelData
             xCoord = 0;
             offset -= 2;
         }
-        
+
+        lvlData = null;
         return pipes;
     }
 

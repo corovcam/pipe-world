@@ -4,8 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+/// <summary>
+/// Handles Game scene GUI Components, End Game Menu, Total Score calculaction 
+/// and Timer and its mechanism
+/// </summary>
 public class GUIHandler : MonoBehaviour
 {
+    /// <summary>
+    /// Used for Total Score calculation
+    /// </summary>
     public const int MAXIMUM_SCORE = 10000;
 
     public GameObject endGameMenu;
@@ -20,12 +27,13 @@ public class GUIHandler : MonoBehaviour
 
     public TMP_Text timerText;
 
+    // After the Flow starts EndGame starts
     public static bool IsEndGame { get; set; } = false;
 
     public bool isDebug;
     [SerializeField]
     [Range(5, 30)]
-    int defaultTimeLimit = 20;
+    int defaultTimeLimit = 20; // To edit in Editor
     int currentTime;
 
     void Awake()
@@ -43,6 +51,10 @@ public class GUIHandler : MonoBehaviour
         StartCoroutine("CountdownTimer");
     }
 
+    /// <summary>
+    /// Coroutine that starts counting down the Timer every second until it reaches 0 
+    /// after which it's Game Over
+    /// </summary>
     IEnumerator CountdownTimer()
     {
         currentTime = LevelData.TimeLimit;
@@ -63,10 +75,16 @@ public class GUIHandler : MonoBehaviour
         skipButton.onClick.RemoveListener(AccelerateFlow);
     }
 
+    /// <summary>
+    /// A popup GUI that shows the End Game menu with the Total Score, Restart and Quit buttons
+    /// </summary>
+    /// <param name="isWon">Used to determine if the player won or lost the game. 
+    /// The End Game Menu changes accordingly.</param>
     public void ShowEndGameMenu(bool isWon)
     {
         pauseButton.enabled = false;
         skipButton.gameObject.SetActive(false);
+        // Pauses the game to prevent GUI interaction and player Input
         Time.timeScale = 0f;
         PauseControl.GameIsPaused = true;
 
@@ -81,15 +99,18 @@ public class GUIHandler : MonoBehaviour
         {
             endGameText.name = "You Lost";
             endGameText.GetComponent<TMP_Text>().text = "YOU LOST!";
-            totalScore.text = "0";
+            totalScore.text = "0"; // If the player looses the remaining Timer is unnecessary
         }
 
         endGameMenu.SetActive(true);
     }
 
+    /// <summary>
+    /// Resumes the Game, restores defaults, restarts and shuffles the current level 
+    /// </summary>
     void RestartGame()
     {
-        if (PauseControl.GameIsPaused)
+        if (PauseControl.GameIsPaused) // Resumes the game
         {
             PauseControl.GameIsPaused = false;
             Time.timeScale = 1;
@@ -103,6 +124,9 @@ public class GUIHandler : MonoBehaviour
         StartCoroutine("CountdownTimer");
     }
 
+    /// <summary>
+    /// Resumes the Game, restores defaults and changes scene to MainMenu
+    /// </summary>
     void GetBackToMainMenu()
     {
         if (PauseControl.GameIsPaused)
@@ -115,6 +139,9 @@ public class GUIHandler : MonoBehaviour
         SceneHandler.LoadMainMenuScene();
     }
 
+    /// <summary>
+    /// Setup the EndGame routine and sets IsEndGame
+    /// </summary>
     public void SetEndGameScene()
     {
         IsEndGame = true;

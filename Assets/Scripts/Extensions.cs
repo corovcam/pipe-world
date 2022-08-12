@@ -1,24 +1,28 @@
 using UnityEngine;
 
+/// <summary>
+/// Rect Transform Extensions for setting left/right/top/down positions offsets
+/// using relative position based on parent transform
+/// </summary>
 public static class RectTransformExtensions
 {
-    public static void SetLeft(this RectTransform rt, float left)
+    public static void SetLeft(this RectTransform rectTransform, float left)
     {
-        rt.offsetMin = new Vector2(left, rt.offsetMin.y);
+        rectTransform.offsetMin = new Vector2(left, rectTransform.offsetMin.y);
     }
 
-    public static void SetRight(this RectTransform rt, float right)
+    public static void SetRight(this RectTransform rectTransform, float right)
     {
-        rt.offsetMax = new Vector2(-right, rt.offsetMax.y);
+        rectTransform.offsetMax = new Vector2(-right, rectTransform.offsetMax.y);
     }
 
-    public static void SetTop(this RectTransform rt, float top)
+    public static void SetTop(this RectTransform rectTransform, float top)
     {
-        rt.offsetMax = new Vector2(rt.offsetMax.x, -top);
+        rectTransform.offsetMax = new Vector2(rectTransform.offsetMax.x, -top);
     }
 
-    public static void SetBottom(this RectTransform rt, float bottom)
+    public static void SetBottom(this RectTransform rectTransform, float bottom)
     {
-        rt.offsetMin = new Vector2(rt.offsetMin.x, bottom);
+        rectTransform.offsetMin = new Vector2(rectTransform.offsetMin.x, bottom);
     }
 }

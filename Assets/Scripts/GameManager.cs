@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Manages core water flowing mechanic after Flow start
+/// </summary>
 public class GameManager : MonoBehaviour
 {
     Queue<PipeHandler> queue;
@@ -13,7 +16,6 @@ public class GameManager : MonoBehaviour
     LevelHandler levelHandler;
     GUIHandler GUIHandler;
 
-    // Start is called before the first frame update
     void Start()
     {
         levelHandler = GameObject.FindObjectOfType<LevelHandler>();
@@ -22,6 +24,9 @@ public class GameManager : MonoBehaviour
             .GetComponent<PipeHandler>();
     }
 
+    /// <summary>
+    /// Starts the flow of water from the StartPipe location
+    /// </summary>
     public void StartFlow()
     {
         isWon = false;
@@ -32,6 +37,10 @@ public class GameManager : MonoBehaviour
         StartCoroutine(Flow());
     }
 
+    /// <summary>
+    /// Couroutine that uses BFS Traversal to fill all connected pipes from the StartPipe to
+    /// the EndPipe location and checks if there is such a path
+    /// </summary>
     IEnumerator Flow()
     {
         GUIHandler.SetEndGameScene();
@@ -40,34 +49,38 @@ public class GameManager : MonoBehaviour
         distances[LevelData.StartPipe] = 0;
         visited.Add(startPipe);
         queue.Enqueue(startPipe);
+
+        // Loops the queue until all connected pipes have been visited
         while (queue.Count != 0)
         {
             var current = queue.Dequeue();
 
+            // If the previous pipe is 1 level below current, then the whole level
+            // has been visited and wait for next wave (used for wave animation)
             if (distances[previousPipe.location] < distances[current.location])
                 yield return new WaitForSeconds(0.5f);
 
+            // Set red pipe sprites for start/end pipes
             if (current.location == LevelData.StartPipe || current.location == LevelData.EndPipe)
             {
                 current.GetComponent<SpriteRenderer>().sprite 
                     = levelHandler.filledRedPipeSprites[current.tileType];
             }
-            else
+            else // Otherwise set green sprites
             {
                 current.GetComponent<SpriteRenderer>().sprite
                     = levelHandler.filledPipeSprites[current.tileType];
             }
 
+            // If we filled/visited the EndPipe then mark it and continue filling
             if (current.location == LevelData.EndPipe)
-            {
                 isWon = true;
-            }
 
             for (int dir = 0; dir < current.IODirs.Length; dir++)
             {
-                if (current.IODirs[dir])
+                if (current.IODirs[dir]) // If the IO Port is available
                 {
-                    switch (dir)
+                    switch (dir) // Check the direction and continue there
                     {
                         case (int)Dir.UP:
                             if (current.upFree && !visited.Contains(current.up))

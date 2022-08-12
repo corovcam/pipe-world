@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 [Flags]
-public enum WallState
+public enum CellWalls
 {
     // 0000 -> NO WALLS
     // 1111 -> LEFT,RIGHT,UP,DOWN
@@ -16,39 +16,39 @@ public enum WallState
     VISITED = 128, // 1000 0000
 }
 
-public struct Neighbour
+public struct AdjacentCell
 {
-    public Position Position;
-    public WallState SharedWall;
+    public Position Location;
+    public CellWalls CommonWall;
 }
 
 public static class PuzzleGenerator
 {
-    private static WallState GetOppositeWall(WallState wall)
+    private static CellWalls GetOppositeWall(CellWalls wall)
     {
         switch (wall)
         {
-            case WallState.RIGHT: return WallState.LEFT;
-            case WallState.LEFT: return WallState.RIGHT;
-            case WallState.UP: return WallState.DOWN;
-            case WallState.DOWN: return WallState.UP;
-            default: return WallState.LEFT;
+            case CellWalls.RIGHT: return CellWalls.LEFT;
+            case CellWalls.LEFT: return CellWalls.RIGHT;
+            case CellWalls.UP: return CellWalls.DOWN;
+            case CellWalls.DOWN: return CellWalls.UP;
+            default: return CellWalls.LEFT;
         }
     }
 
-    private static WallState[,] ApplyRecursiveBacktracker(WallState[,] maze, int width, int height)
+    private static CellWalls[,] Backtrack(CellWalls[,] cells, int width, int height)
     {
-        var rng = new System.Random(/*seed*/);
+        var rng = new System.Random();
         var positionStack = new Stack<Position>();
         var position = new Position { X = 0, Y = 0 };
 
-        maze[position.X, position.Y] |= WallState.VISITED;
+        cells[position.X, position.Y] |= CellWalls.VISITED;
         positionStack.Push(position);
 
         while (positionStack.Count > 0)
         {
             var current = positionStack.Pop();
-            var neighbours = GetUnvisitedNeighbours(current, maze, width, height);
+            var neighbours = GetUnvisitedAdjacentCells(current, cells, width, height);
 
             if (neighbours.Count > 0)
             {
@@ -57,82 +57,83 @@ public static class PuzzleGenerator
                 var randIndex = rng.Next(0, neighbours.Count);
                 var randomNeighbour = neighbours[randIndex];
 
-                var nPosition = randomNeighbour.Position;
-                maze[current.X, current.Y] &= ~randomNeighbour.SharedWall;
-                maze[nPosition.X, nPosition.Y] &= ~GetOppositeWall(randomNeighbour.SharedWall);
-                maze[nPosition.X, nPosition.Y] |= WallState.VISITED;
+                var nPosition = randomNeighbour.Location;
+                cells[current.X, current.Y] &= ~randomNeighbour.CommonWall;
+                cells[nPosition.X, nPosition.Y] &= ~GetOppositeWall(randomNeighbour.CommonWall);
+                cells[nPosition.X, nPosition.Y] |= CellWalls.VISITED;
 
                 positionStack.Push(nPosition);
             }
         }
 
-        return maze;
+        return cells;
     }
 
-    private static List<Neighbour> GetUnvisitedNeighbours(Position p, WallState[,] maze, int width, int height)
+    private static List<AdjacentCell> GetUnvisitedAdjacentCells
+        (Position p, CellWalls[,] cells, int width, int height)
     {
-        var list = new List<Neighbour>();
+        var list = new List<AdjacentCell>();
 
         if (p.X > 0) // left
         {
-            if (!maze[p.X - 1, p.Y].HasFlag(WallState.VISITED))
+            if (!cells[p.X - 1, p.Y].HasFlag(CellWalls.VISITED))
             {
-                list.Add(new Neighbour
+                list.Add(new AdjacentCell
                 {
-                    Position = new Position
+                    Location = new Position
                     {
                         X = p.X - 1,
                         Y = p.Y
                     },
-                    SharedWall = WallState.LEFT
+                    CommonWall = CellWalls.LEFT
                 });
             }
         }
 
         if (p.Y > 0) // DOWN
         {
-            if (!maze[p.X, p.Y - 1].HasFlag(WallState.VISITED))
+            if (!cells[p.X, p.Y - 1].HasFlag(CellWalls.VISITED))
             {
-                list.Add(new Neighbour
+                list.Add(new AdjacentCell
                 {
-                    Position = new Position
+                    Location = new Position
                     {
                         X = p.X,
                         Y = p.Y - 1
                     },
-                    SharedWall = WallState.DOWN
+                    CommonWall = CellWalls.DOWN
                 });
             }
         }
 
         if (p.Y < height - 1) // UP
         {
-            if (!maze[p.X, p.Y + 1].HasFlag(WallState.VISITED))
+            if (!cells[p.X, p.Y + 1].HasFlag(CellWalls.VISITED))
             {
-                list.Add(new Neighbour
+                list.Add(new AdjacentCell
                 {
-                    Position = new Position
+                    Location = new Position
                     {
                         X = p.X,
                         Y = p.Y + 1
                     },
-                    SharedWall = WallState.UP
+                    CommonWall = CellWalls.UP
                 });
             }
         }
 
         if (p.X < width - 1) // RIGHT
         {
-            if (!maze[p.X + 1, p.Y].HasFlag(WallState.VISITED))
+            if (!cells[p.X + 1, p.Y].HasFlag(CellWalls.VISITED))
             {
-                list.Add(new Neighbour
+                list.Add(new AdjacentCell
                 {
-                    Position = new Position
+                    Location = new Position
                     {
                         X = p.X + 1,
                         Y = p.Y
                     },
-                    SharedWall = WallState.RIGHT
+                    CommonWall = CellWalls.RIGHT
                 });
             }
         }
@@ -140,10 +141,10 @@ public static class PuzzleGenerator
         return list;
     }
 
-    public static WallState[,] Generate(int width, int height)
+    public static CellWalls[,] GenerateMaze(int width, int height)
     {
-        WallState[,] maze = new WallState[width, height];
-        WallState initial = WallState.RIGHT | WallState.LEFT | WallState.UP | WallState.DOWN;
+        CellWalls[,] maze = new CellWalls[width, height];
+        CellWalls initial = CellWalls.RIGHT | CellWalls.LEFT | CellWalls.UP | CellWalls.DOWN;
         for (int i = 0; i < width; ++i)
         {
             for (int j = 0; j < height; ++j)
@@ -152,6 +153,6 @@ public static class PuzzleGenerator
             }
         }
 
-        return ApplyRecursiveBacktracker(maze, width, height);
+        return Backtrack(maze, width, height);
     }
 }
