@@ -36,7 +36,11 @@ public class MenuHandler : MonoBehaviour
         Canvas canvas = tempCanvasGO.AddComponent<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceCamera;
         canvas.worldCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        tempCanvasGO.AddComponent<CanvasScaler>();
+        CanvasScaler cs = tempCanvasGO.AddComponent<CanvasScaler>();
+        cs.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        cs.referenceResolution = new Vector2(1920, 1080);
+        cs.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
+        cs.matchWidthOrHeight = 0.5f;
         tempCanvasGO.AddComponent<GraphicRaycaster>();
 
         return tempCanvasGO;
