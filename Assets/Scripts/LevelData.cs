@@ -54,12 +54,12 @@ public static class LevelData
     public static string[] lvlData;
 
     /// <summary>
-    /// Gets random puzzle using Random Maze generator and a map Dictionary to 
-    /// convert it to the a Pipes Puzzle
+    /// Gets random puzzle using Random Maze generator and a Dictionary map to 
+    /// convert it to the Pipes Puzzle
     /// </summary>
     /// <param name="width">Width of the Puzzle</param>
     /// <param name="height">Height of the Puzzle</param>
-    /// <returns>2D Array of Pipes, the Pipe Puzzle</returns>
+    /// <returns>2D Array of Pipes = the Pipe Puzzle</returns>
 	public static Pipe[,] GetRandomPuzzle(int width, int height)
     {
         // Used to translate CellWalls in a maze to potential List of Pipes that can
@@ -118,9 +118,9 @@ public static class LevelData
     }
 
     /// <summary>
-    /// 
+    /// Read Input from a text file in a given format
     /// </summary>
-    /// <returns></returns>
+    /// <returns>2D list of Pipes for the puzzle</returns>
     public static Pipe[,] ReadInputLevelData()
     {
         bool isValue = false;
@@ -168,6 +168,9 @@ public static class LevelData
         return pipes;
     }
 
+    /// <summary>
+    /// Auxiliary function to fill a translation map between CellWalls enum to List of potential Pipes
+    /// </summary>
     private static void FillWallsToPipesMap(ref Dictionary<CellWalls, List<Pipe>> map)
     {
         // 1 Wall

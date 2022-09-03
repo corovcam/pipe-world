@@ -2,29 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Public enum of Pipe types (last is always EMPTY)
+/// </summary>
 public enum Pipe
 {
     Straight, Round, ThreeWay, Cross, EMPTY
 }
 
+/// <summary>
+/// Handles Level building, Tile/Pipe management, Restart, Tiles shuffle, rotation and audio
+/// </summary>
 public class LevelHandler : MonoBehaviour
 {
     public List<GameObject> pipePrefabs;
+
+    // basic green Pipe sprites
     public List<Sprite> pipeSprites;
     public List<Sprite> filledPipeSprites;
 
+    // Start/End red Pipe sprites
     public List<Sprite> redPipeSprites;
     public List<Sprite> filledRedPipeSprites;
 
+    // Hovers and flickers above a tile/pipe to mark the current active tile
     public GameObject tilePointer;
 
+    // Back tiles that create the grid
     public GameObject backTilePrefab;
     public List<Sprite> backTileSprites;
 
     public AudioSource pipeRotationAudio;
     public AudioSource winningAudio;
 
-    [SerializeField]
+    [SerializeField] // to be seen in the Inspector
     GameObject activePipe;
     [SerializeField]
     PipeHandler activePipeHandler;
@@ -40,34 +51,36 @@ public class LevelHandler : MonoBehaviour
     [SerializeField]
     bool arcadeMode = false;
 
-    //Quick and dirty solution. Will come back to
-    public GameObject[,] gridObjects;
+    // Initial storage of grid backTile 2D array
+    public GameObject[,] tileObjects;
 
     public PauseControl pauseControl;
 
-    // Start is called before the first frame update
     void Start()
     {
+        // Set default static values at the start of the game if they weren't set
+        // in Main Menu (for debugging purposes)
         if (LevelData.LevelNumber == 0 && LevelData.BoardSize == 0)
         {
             LevelData.IsArcadeMode = arcadeMode;
             LevelData.LevelNumber = levelNum;
             LevelData.BoardSize = boardSize;
         }
-        gridObjects = new GameObject[boardSize, boardSize];
-        // TODO: Scale the board: with bigger board, tiles get smaller to accomodate dimensions
-        // Camera stays the same
+        tileObjects = new GameObject[boardSize, boardSize]; // Initialize default square board
         GenerateNewGrid();
         GenerateLevel(isRandom: LevelData.IsArcadeMode);
-        SetActiveTile(gridObjects[LevelData.StartPipe.X, LevelData.StartPipe.Y]);
+        // The StartPipe is the first Active Tile
+        SetActiveTile(tileObjects[LevelData.StartPipe.X, LevelData.StartPipe.Y]);
         StoreGamePieces();
         SetStartEndPipeSprites();
-        StartCoroutine(Shuffle());
+        StartCoroutine(Shuffle()); // Shuffle the Pipes
     }
 
     void GenerateNewGrid()
     {
+        // Choose the BackTile Sprite at random
         Sprite chosenBackTileSprite = backTileSprites[Random.Range(0, backTileSprites.Count)];
+        // For every BackTile position create a new GO, configure it, set its Transform and store it in tileObjects
         for (int y = boardSize - 1; y >= 0; y--)
         {
             for (int x = 0; x < boardSize; x++)
@@ -78,12 +91,17 @@ public class LevelHandler : MonoBehaviour
                 temp.transform.position = tileTransform;
                 temp.name = string.Format("({0}, {1})", x, y);
                 temp.transform.parent = gameObject.transform;
-                gridObjects[x, y] = temp;
+                tileObjects[x, y] = temp;
             }
         }
+        // Position the entire grid in the middle of the Camera ViewPort
         gameObject.transform.position = new Vector2(-(float)(boardSize / 2.0 - 0.5), -(float)(boardSize / 2.0 - 0.5));
     }
 
+    /// <summary>
+    /// Generate Level based on random or input data provided
+    /// </summary>
+    /// <param name="isRandom">Set the random level generation</param>
     void GenerateLevel(bool isRandom)
     {
         Pipe[,] pipes;
@@ -91,18 +109,25 @@ public class LevelHandler : MonoBehaviour
             pipes = LevelData.GetRandomPuzzle(boardSize, boardSize);
         else
             pipes = LevelData.ReadInputLevelData();
+        // Offset is used to transform the Unity's default coord system from the lower-left corner
+        // to a more practical upper-left corner start position (0,0)
         int offset = boardSize - 1;
         for (int y = 0; y < boardSize; y++)
         {
             for (int x = 0; x < boardSize; x++)
             {
                 int pipeID = (int)pipes[x, y];
-                ConfigurePipePrefab(gridObjects[x, y + offset], pipeID);
+                ConfigurePipePrefab(tileObjects[x, y + offset], pipeID);
             }
             offset -= 2;
         }
     }
 
+    /// <summary>
+    /// Configure and place Pipe prefab on top of Tile GO
+    /// </summary>
+    /// <param name="tile">The Tile GO where the Pipe should be placed on</param>
+    /// <param name="pipeID">The corresponding Pipe enum index</param>
     private void ConfigurePipePrefab(GameObject tile, int pipeID)
     {
         GameObject pipe = Instantiate(pipePrefabs[pipeID]);
@@ -110,15 +135,24 @@ public class LevelHandler : MonoBehaviour
         pipe.transform.parent = tile.transform;
     }
 
+    /// <summary>
+    /// Configure current Active Tile to the <paramref name="tile"/>
+    /// </summary>
+    /// <param name="tile">Grid Tile GO to set as Active Tile</param>
     public void SetActiveTile(GameObject tile)
     {
         activePipe = tile;
         if (!tilePointer.activeSelf)
             tilePointer.SetActive(true);
         tilePointer.transform.position = activePipe.transform.position;
+        // Active PipeHandler script instance for Pipe manipulation
         activePipeHandler = activePipe.GetComponentInChildren<PipeHandler>();
     }
 
+    /// <summary>
+    /// Auxiliary function to store 2D array of PipeHandler script instances after 
+    /// the grid and pipes were generated
+    /// </summary>
     private void StoreGamePieces()
     {
         LevelData.GamePieces = new PipeHandler[boardSize, boardSize];
@@ -130,8 +164,13 @@ public class LevelHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// IEnumerator to be used in Shuffle Coroutine function. Only runs once.
+    /// </summary>
     IEnumerator Shuffle()
     {
+        // Wait one frame after the grid was generated and shuffle the game pieces afterwards
+        // to simulate rotating effect
         yield return new WaitForEndOfFrame();
         for (int x = 0; x < boardSize; x++)
         {
@@ -147,6 +186,9 @@ public class LevelHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Change StartPipe and EndPipe sprites to their corresponding red variants
+    /// </summary>
     void SetStartEndPipeSprites()
     {
         var startPipe = LevelData.GamePieces[LevelData.StartPipe.X, LevelData.StartPipe.Y];
@@ -155,7 +197,10 @@ public class LevelHandler : MonoBehaviour
         endPipe.GetComponent<SpriteRenderer>().sprite = redPipeSprites[endPipe.tileType];
     }
 
-
+    /// <summary>
+    /// Reset all pipe sprites to their default (without water) variants, Set Active Tile to the StartPipe
+    /// and Shuffle the GamePieces
+    /// </summary>
     public void ResetLevel()
     {
         foreach (var pipe in LevelData.GamePieces)
@@ -170,10 +215,15 @@ public class LevelHandler : MonoBehaviour
         StartCoroutine(Shuffle());
     }
 
+    /// <summary>
+    /// Rotate the current ActiveTile
+    /// </summary>
     public void RotateActiveTile()
     {
         activePipeHandler.RotatePiece();
     }
+
+    // Functions used to modify the Pointer and ActiveTile position
 
     public void MoveActiveTileUp()
     {

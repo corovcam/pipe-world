@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Handles Pause mechanic in the game as well as Pause menu and buttons
+/// </summary>
 public class PauseControl : MonoBehaviour
 {
     public GameObject pauseMenu;
@@ -25,6 +28,7 @@ public class PauseControl : MonoBehaviour
 
     public static bool GameIsPaused { get; set; }
 
+    // Fired at the very start of script loading
     void Awake()
     {
         switchImage = toggleImgGO.GetComponent<Image>();
@@ -41,6 +45,7 @@ public class PauseControl : MonoBehaviour
     void Update()
     {
         #pragma warning disable CS0618 // Type or member is obsolete
+        // Determine if the endGameMenu is visible, if not then the game can be paused
         if (!endGameMenu.active)
         {
             if (Input.GetKeyDown(KeyCode.Escape))
@@ -51,6 +56,10 @@ public class PauseControl : MonoBehaviour
         #pragma warning restore CS0618 // Type or member is obsolete
     }
 
+    /// <summary>
+    /// Default pausing function that freezes all interactions, sets/unsets GameIsPaused flag
+    /// and makes the PauseMenu visible
+    /// </summary>
     public void PauseGame()
     {
         GameIsPaused = !GameIsPaused;
@@ -69,6 +78,10 @@ public class PauseControl : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Delegate that is fired when the Pause Toggle in PauseMenu is clicked on
+    /// </summary>
+    /// <param name="isAudioOn">The toggle value</param>
     void OnSwitchToggle(bool isAudioOn)
     {
         if (isAudioOn)
@@ -92,12 +105,18 @@ public class PauseControl : MonoBehaviour
         pauseBtn.onClick.RemoveListener(PauseGame);
     }
 
+    /// <summary>
+    /// Get back to Main Menu from the Pause Menu screen
+    /// </summary>
     void GetBackToMainMenu()
     {
-        PauseGame();
+        PauseGame(); // The game is paused, so it needs to be resumed again
         SceneHandler.LoadMainMenuScene();
     }
 
+    /// <summary>
+    /// Restart game from the Pause Menu screen
+    /// </summary>
     void RestartGame()
     {
         PauseGame();

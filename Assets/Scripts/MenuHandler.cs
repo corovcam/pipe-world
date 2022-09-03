@@ -26,11 +26,14 @@ public class MenuHandler : MonoBehaviour
         GenerateTitleText();
     }
 
+    /// <summary>
+    /// Generate GUI Canvas where the Menu GUI components will be placed on
+    /// </summary>
     public static GameObject GenerateCanvasGO(string canvasName)
     {
         GameObject tempCanvasGO = new GameObject();
         tempCanvasGO.name = canvasName;
-        tempCanvasGO.layer = 5;
+        tempCanvasGO.layer = 5; // The layer is Unity's default GUI layer index = 5
 
         // Rendering options
         Canvas canvas = tempCanvasGO.AddComponent<Canvas>();
@@ -46,6 +49,9 @@ public class MenuHandler : MonoBehaviour
         return tempCanvasGO;
     }
 
+    /// <summary>
+    /// Generate MainMenu button with a delegate function
+    /// </summary>
     void GenerateBtn(string txt, int posX, int posY, UnityAction onClickFunc)
     {
         GameObject buttonGO = new GameObject();
@@ -127,6 +133,11 @@ public class MenuHandler : MonoBehaviour
         audioSources[1].Play();
     }
 
+    /// <summary>
+    /// Generate AudioSource GO using AudioClip loaded from Resources folder
+    /// </summary>
+    /// <param name="audioPath">Relative Resources path to the AudioClip</param>
+    /// <param name="GOName">Custom name of the AudioSource GO</param>
     public static AudioSource GenerateAudioSource(string audioPath, string GOName)
     {
         GameObject audioGO = new GameObject();

@@ -11,7 +11,7 @@ public class LevelSelectHandler : MonoBehaviour
     public Sprite[] numbers;
 
     [SerializeField]
-    private int levelsCount = 5;
+    private int levelsCount = 5; // There are currently 5 levels in Resources
     private GameObject canvasGO;
     private List<AudioSource> audioSources = new List<AudioSource>();
 
@@ -27,12 +27,16 @@ public class LevelSelectHandler : MonoBehaviour
         GenerateTitleText();
         GenerateLevelsGrid();
 
+        // Generate buttons equal to the number of levels in Resources
         for (int i = 1; i <= levelsCount; i++)
         {
             GenerateLevelButton(i);
         }
     }
 
+    /// <summary>
+    /// Used to generate and configure title in LevelSelect scene
+    /// </summary>
     void GenerateTitleText()
     {
         // Title Text
@@ -135,6 +139,10 @@ public class LevelSelectHandler : MonoBehaviour
         transform.localScale = new Vector3(1, 1, 1);
     }
 
+    /// <summary>
+    /// Delegate to be fired when the mouse enters the corresponding area. Plays a Click sound.
+    /// </summary>
+    /// <param name="data">Unused/Not required parameter</param>
     public void OnMouseEnterDelegate(PointerEventData data)
     {
         audioSources[1].Play();

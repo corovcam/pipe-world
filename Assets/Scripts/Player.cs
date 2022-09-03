@@ -2,19 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Player Input interaction with the game.
+/// Pointer movement: Arrows, WASD.
+/// Rotate Active Pipe: R.
+/// Start Flow: F.
+/// </summary>
 public class Player : MonoBehaviour
 {
     private GameManager gm;
     private LevelHandler levelHandler;
 
-    // Start is called before the first frame update
     void Start()
     {
         gm = gameObject.GetComponent<GameManager>();
         levelHandler = GameObject.FindObjectOfType<LevelHandler>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!PauseControl.GameIsPaused && !GUIHandler.IsEndGame)

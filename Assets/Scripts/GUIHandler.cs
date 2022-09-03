@@ -128,7 +128,7 @@ public class GUIHandler : MonoBehaviour
         startFlowButton.enabled = true;
         levelHandler.ResetLevel();
         timerText.text = LevelData.TimeLimit.ToString();
-        StartCoroutine("CountdownTimer");
+        StartCoroutine("CountdownTimer"); // Starts the CountdownTimer coroutine for the new game
     }
 
     /// <summary>
@@ -157,6 +157,10 @@ public class GUIHandler : MonoBehaviour
         startFlowButton.enabled = false;
     }
 
+    /// <summary>
+    /// Basic Total Score calculation using set maximum metric
+    /// </summary>
+    /// <returns>Total Score string</returns>
     string CalculateTotalScore()
     {
         // Minimum Score: 0
@@ -165,6 +169,9 @@ public class GUIHandler : MonoBehaviour
         return score.ToString();
     }
 
+    /// <summary>
+    /// Used for flow acceleration using the "Skip" button
+    /// </summary>
     void AccelerateFlow()
     {
         Time.timeScale = 4;

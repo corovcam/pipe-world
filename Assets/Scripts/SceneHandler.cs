@@ -2,6 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Used to handle the load of new Scenes in the game and to configure the static default values.
+/// </summary>
 public static class SceneHandler
 {
     public static void LoadMainMenuScene()

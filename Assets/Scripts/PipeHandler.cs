@@ -2,24 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Direction enum
+/// </summary>
 public enum Dir
 {
     UP, RIGHT, DOWN, LEFT
 }
 
+/// <summary>
+/// Handles individual information about a Pipe (location, rotatio) and its surrounding Pipes
+/// </summary>
 public class PipeHandler : MonoBehaviour
 {
-	public bool[] IODirs;
-	public float speed;
+    /// <summary>
+    /// 2D bool Array that is set in the Pipe Prefab. 1 means this Dir is available IO and 0 means its unavailable.
+    /// Indexes: 0 is up, 1 is right, 2 is down, 3 is left.
+    /// </summary>
+	public bool[] IODirs; 
+	public float speed; // Determines the speed at which the Rotate animation plays
     [SerializeField]
-	float rotation;
+	float rotation; // 0 is up, 90 is right, 180 is down, 270 is left
 
-	public int tileType;
+	public int tileType; // Determines the index in the Pipe enum
     public Position location;
+    // Determines if the corresponding neighbouring Tile is free for the flow to continue
 	public bool upFree = false;
     public bool downFree = false;
     public bool rightFree = false;
 	public bool leftFree = false;
+    // References to neighbouring PipeHandlers
     public PipeHandler up, right, down, left;
 
     LevelHandler levelHandler;
@@ -32,6 +44,7 @@ public class PipeHandler : MonoBehaviour
         location.X = (int)gameObject.transform.parent.localPosition.x;
         location.Y = (int)gameObject.transform.parent.localPosition.y;
 
+        // Initializes the neighbouring PipeHandlers at the start of the script instance
         if (location.Y + 1 < LevelData.BoardSize)
         {
 			up = LevelData.GamePieces[location.X, location.Y + 1];
@@ -55,12 +68,16 @@ public class PipeHandler : MonoBehaviour
 
 	void Update()
 	{
+        // Handles the rotation animation using the Main Loop
 		if (transform.rotation.eulerAngles.z != rotation)
 		{
 			transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, rotation), speed);
 		}
 	}
 
+    /// <summary>
+    /// Fires when this pipe was clicked on, rotates the pipe and sets new ActiveTile to this tile
+    /// </summary>
 	void OnMouseDown()
 	{
         if (!PauseControl.GameIsPaused && !GUIHandler.IsEndGame)
@@ -70,10 +87,14 @@ public class PipeHandler : MonoBehaviour
         }
 	}
 
+    /// <summary>
+    /// Rotates the pipe and sets new IOs, available neighbouring pipes, and updates the neighbouring pipes as well
+    /// </summary>
 	public void RotatePiece()
 	{
         levelHandler.PlayPipeRotationAudio();
 
+        // Rotation is updated clockwise in a circular manner
 		rotation += 90;
 		if (rotation == 360)
 			rotation = 0;
@@ -92,6 +113,9 @@ public class PipeHandler : MonoBehaviour
             right.UpdateAvailableSides();
     }
 
+    /// <summary>
+    /// Rotates the IO Dir flags in a clockwise manner.
+    /// </summary>
 	public void RotateIODirections()
 	{
 		bool storedUp = IODirs[0];
@@ -103,7 +127,9 @@ public class PipeHandler : MonoBehaviour
 		IODirs[3] = storedUp;
 	}
 
-    // Updates bools to check if water can be pumped
+    /// <summary>
+    /// Used to determine if the water can flow to the corresponding Dirs and updates the Free flags
+    /// </summary>
     public void UpdateAvailableSides()
     {
         upFree = false;
