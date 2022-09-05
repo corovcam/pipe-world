@@ -16,6 +16,10 @@ public enum CellWalls
     VISITED = 128, // 1000 0000
 }
 
+/// <summary>
+/// A struct used to identify a Adjacent/Neighbouring Cell that shares a CommonWall with
+/// a given Cell
+/// </summary>
 public struct AdjacentCell
 {
     public Position Location;
@@ -41,29 +45,42 @@ public static class PuzzleGenerator
         }
     }
 
+    /// <summary>
+    /// A backtracking algorithm to visit all cells in a graph using DFS
+    /// </summary>
+    /// <param name="cells">2D List of Cells in a grid maze</param>
+    /// <param name="width">Width of the maze</param>
+    /// <param name="height">Height of the maze</param>
     private static CellWalls[,] Backtrack(CellWalls[,] cells, int width, int height)
     {
         var posStack = new Stack<Position>();
         var position = new Position { X = 0, Y = 0 };
 
+        // Mark first position as visited
         cells[position.X, position.Y] |= CellWalls.VISITED;
         posStack.Push(position);
 
+        // When there are unvisited Cells, continue
         while (posStack.Count > 0)
         {
             Position current = posStack.Pop();
+            // Look for nearby unvisited Cells to continue
             var adjacents = GetUnvisitedAdjacentCells(current, cells, width, height);
 
             if (adjacents.Count > 0)
             {
                 posStack.Push(current);
 
+                // Choose a random adjacent Cell to continue (to simulate randomicity of a maze)
                 int randIndex = UnityEngine.Random.Range(0, adjacents.Count);
                 AdjacentCell randomAdjacent = adjacents[randIndex];
 
                 Position randAdjPos = randomAdjacent.Location;
+                // Remove the CommonWall (of the chosen random Adjacent) from the current cell
                 cells[current.X, current.Y] &= ~randomAdjacent.CommonWall;
+                // Remove the opposite wall from the random chosen = the wall removed from the current cell
                 cells[randAdjPos.X, randAdjPos.Y] &= ~GetOppositeWall(randomAdjacent.CommonWall);
+                // Mark the new cell as visited
                 cells[randAdjPos.X, randAdjPos.Y] |= CellWalls.VISITED;
 
                 posStack.Push(randAdjPos);
@@ -73,16 +90,20 @@ public static class PuzzleGenerator
         return cells;
     }
 
+    /// <summary>
+    /// Get a list of Adjacent cells from the current position <paramref name="p"/>
+    /// </summary>
+    /// <returns>A list of AdjacentCell structs</returns>
     private static List<AdjacentCell> GetUnvisitedAdjacentCells
         (Position p, CellWalls[,] cells, int width, int height)
     {
-        var list = new List<AdjacentCell>();
+        var adjacents = new List<AdjacentCell>();
 
-        if (p.X > 0) // left
+        if (p.X > 0) // Look for Left adjacent
         {
-            if (!cells[p.X - 1, p.Y].HasFlag(CellWalls.VISITED))
+            if (!cells[p.X - 1, p.Y].HasFlag(CellWalls.VISITED)) // If not visited
             {
-                list.Add(new AdjacentCell
+                adjacents.Add(new AdjacentCell // Add to the list of Adjacents
                 {
                     Location = new Position
                     {
@@ -94,11 +115,11 @@ public static class PuzzleGenerator
             }
         }
 
-        if (p.Y > 0) // DOWN
+        if (p.Y > 0) // Look for Lower adjacent
         {
             if (!cells[p.X, p.Y - 1].HasFlag(CellWalls.VISITED))
             {
-                list.Add(new AdjacentCell
+                adjacents.Add(new AdjacentCell
                 {
                     Location = new Position
                     {
@@ -110,11 +131,11 @@ public static class PuzzleGenerator
             }
         }
 
-        if (p.Y < height - 1) // UP
+        if (p.Y < height - 1) // Look for Upper adjacent
         {
             if (!cells[p.X, p.Y + 1].HasFlag(CellWalls.VISITED))
             {
-                list.Add(new AdjacentCell
+                adjacents.Add(new AdjacentCell
                 {
                     Location = new Position
                     {
@@ -126,11 +147,11 @@ public static class PuzzleGenerator
             }
         }
 
-        if (p.X < width - 1) // RIGHT
+        if (p.X < width - 1) // Look for Right adjacent
         {
             if (!cells[p.X + 1, p.Y].HasFlag(CellWalls.VISITED))
             {
-                list.Add(new AdjacentCell
+                adjacents.Add(new AdjacentCell
                 {
                     Location = new Position
                     {
@@ -142,21 +163,28 @@ public static class PuzzleGenerator
             }
         }
 
-        return list;
+        return adjacents;
     }
 
+    /// <summary>
+    /// Public method used for Maze generation using <paramref name="width"/> and <paramref name="height"/>
+    /// of the requested maze as input parameters
+    /// </summary>
     public static CellWalls[,] GenerateMaze(int width, int height)
     {
         CellWalls[,] maze = new CellWalls[width, height];
-        CellWalls initial = CellWalls.RIGHT | CellWalls.LEFT | CellWalls.UP | CellWalls.DOWN;
+
+        // All cells in the maze are initialized with all walls present
+        CellWalls initialCell = CellWalls.RIGHT | CellWalls.LEFT | CellWalls.UP | CellWalls.DOWN;
         for (int i = 0; i < width; ++i)
         {
             for (int j = 0; j < height; ++j)
             {
-                maze[i, j] = initial;  // 1111
+                maze[i, j] = initialCell;  // 1111
             }
         }
 
+        // The algorithm will remove some walls to create a maze
         return Backtrack(maze, width, height);
     }
 }

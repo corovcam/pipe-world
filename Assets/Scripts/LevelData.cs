@@ -133,7 +133,7 @@ public static class LevelData
         {
             foreach (char current in line)
             {
-                if (current == ',')
+                if (current == ';')
                 {
                     if (value == 0)
                         pipes[xCoord, yCoord] = Pipe.EMPTY;

@@ -45,7 +45,7 @@ public class LevelHandler : MonoBehaviour
     int boardSize = 10;
 
     [SerializeField]
-    [Range(1, 5)]
+    [Range(1, 15)]
     int levelNum = 1;
 
     [SerializeField]
@@ -66,6 +66,7 @@ public class LevelHandler : MonoBehaviour
             LevelData.LevelNumber = levelNum;
             LevelData.BoardSize = boardSize;
         }
+        boardSize = LevelData.BoardSize;
         tileObjects = new GameObject[boardSize, boardSize]; // Initialize default square board
         GenerateNewGrid();
         GenerateLevel(isRandom: LevelData.IsArcadeMode);

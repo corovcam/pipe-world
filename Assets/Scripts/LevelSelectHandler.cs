@@ -13,7 +13,7 @@ public class LevelSelectHandler : MonoBehaviour
     public Sprite[] numbers;
 
     [SerializeField]
-    private int levelsCount = 5; // There are currently 5 levels in Resources
+    private int levelsCount = 14; // There are currently 14 levels in Resources
     private GameObject canvasGO;
     private List<AudioSource> audioSources = new List<AudioSource>();
 
