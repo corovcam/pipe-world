@@ -321,6 +321,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 297398c464239364fb35682c46ee6658, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previousPageBtn: {fileID: 2119686867068614871, guid: 7ce33b4feeb8c134289919604ca2c577, type: 3}
+  nextPageBtn: {fileID: 2182331232340365148, guid: d500bac98846747438bdfa032e035ccf, type: 3}
   levelBtnBackground: {fileID: 21300000, guid: 389f7ee28bb8fd64b856a0812f5dd053, type: 3}
   numbers:
   - {fileID: 21300000, guid: f86448eb3b6b7984fbc581cac2d03d6f, type: 3}
@@ -334,3 +336,5 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 6eff7a2803fff2e4b815b19c57b754d5, type: 3}
   - {fileID: 21300000, guid: 0744cd0684b9ebf4198b23e8c555df43, type: 3}
   levelsCount: 5
+  levelPagesGO: []
+  currentPage: 0

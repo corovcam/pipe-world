@@ -11,7 +11,7 @@ using TMPro;
 public class GUIHandler : MonoBehaviour
 {
     /// <summary>
-    /// Used for Total Score calculation
+    /// Used for Total Score calculation, can be changed for custom calculations
     /// </summary>
     public const int MAXIMUM_SCORE = 10000;
 
@@ -34,7 +34,7 @@ public class GUIHandler : MonoBehaviour
     public bool isDebug;
     [SerializeField]
     [Range(5, 30)]
-    int defaultTimeLimit = 20; // To edit in Editor
+    int defaultTimeLimit = 20; // To be edited in Editor
     int currentTime;
 
     GameManager gm;

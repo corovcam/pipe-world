@@ -7,6 +7,8 @@ using TMPro;
 
 public class LevelSelectHandler : MonoBehaviour
 {
+    public Button previousPageBtn;
+    public Button nextPageBtn;
     public Sprite levelBtnBackground;
     public Sprite[] numbers;
 
@@ -15,7 +17,13 @@ public class LevelSelectHandler : MonoBehaviour
     private GameObject canvasGO;
     private List<AudioSource> audioSources = new List<AudioSource>();
 
-    private GameObject levelsGridGO;
+    [SerializeField]
+    private List<GameObject> levelPagesGO = new List<GameObject>();
+
+    [SerializeField]
+    private int currentPage;
+    private Button previousBtn;
+    private Button nextBtn;
 
     void Start()
     {
@@ -25,13 +33,31 @@ public class LevelSelectHandler : MonoBehaviour
         canvasGO = MenuHandler.GenerateCanvasGO("Level Select Canvas");
 
         GenerateTitleText();
-        GenerateLevelsGrid();
 
         // Generate buttons equal to the number of levels in Resources
-        for (int i = 1; i <= levelsCount; i++)
+        // Levels are organized in Pages containing 8 Levels at maximum
+        int pageID = 0;
+        GenerateLevelsPage(pageID);
+        for (int levelID = 1; levelID <= levelsCount; levelID++)
         {
-            GenerateLevelButton(i);
+            GenerateLevelButton(levelID, pageID);
+            if (levelID != levelsCount && levelID % 8 == 0)
+            {
+                pageID++;
+                GenerateLevelsPage(pageID);
+            }
         }
+
+        ConfigurePrevNextButtons();
+
+        levelPagesGO[0].SetActive(true);
+        currentPage = 0;
+    }
+
+    void OnDestroy()
+    {
+        previousBtn.onClick.RemoveAllListeners();
+        nextBtn.onClick.RemoveAllListeners();
     }
 
     /// <summary>
@@ -65,14 +91,13 @@ public class LevelSelectHandler : MonoBehaviour
         transform.localScale = new Vector3(1, 1, 1);
     }
 
-    void GenerateLevelsGrid()
+    void GenerateLevelsPage(int pageID)
     {
         // Grid GO
         GameObject gridGO = new GameObject();
         gridGO.transform.parent = canvasGO.transform;
         gridGO.layer = canvasGO.layer;
-        gridGO.name = "Levels Grid";
-        levelsGridGO = gridGO;
+        gridGO.name = "Page " + pageID;
 
         var grid = gridGO.AddComponent<GridLayoutGroup>();
         grid.cellSize = new Vector2(200, 200);
@@ -88,13 +113,16 @@ public class LevelSelectHandler : MonoBehaviour
         transform.SetBottom(59);
         transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, 0);
         transform.localScale = new Vector3(1, 1, 1);
+
+        gridGO.SetActive(false);
+        levelPagesGO.Add(gridGO);
     }
 
-    void GenerateLevelButton(int levelNumber)
+    void GenerateLevelButton(int levelNumber, int pageID)
     {
         GameObject buttonGO = new GameObject();
-        buttonGO.transform.parent = levelsGridGO.transform;
-        buttonGO.layer = levelsGridGO.layer;
+        buttonGO.transform.parent = levelPagesGO[pageID].transform;
+        buttonGO.layer = levelPagesGO[pageID].layer;
         buttonGO.name = levelNumber.ToString();
 
         // Image
@@ -122,21 +150,109 @@ public class LevelSelectHandler : MonoBehaviour
         trigger.triggers.Add(triggerEntry);
 
 
-        // Button Image Number
-        GameObject imageNumberGO = new GameObject();
-        imageNumberGO.transform.parent = buttonGO.transform;
-        imageNumberGO.layer = buttonGO.layer;
-        imageNumberGO.name = "Number" + levelNumber;
+        // Horizontal Layout Group (for multiple number sprites)
+        GameObject horizontalGO = new GameObject();
+        horizontalGO.transform.parent = buttonGO.transform;
+        horizontalGO.layer = buttonGO.layer;
+        horizontalGO.name = "Number" + levelNumber;
 
-        Image numberImg = imageNumberGO.AddComponent<Image>();
-        numberImg.sprite = numbers[levelNumber];
-        numberImg.color = Color.white;
+        HorizontalLayoutGroup horizontalComp = horizontalGO.AddComponent<HorizontalLayoutGroup>();
+        horizontalComp.childAlignment = TextAnchor.MiddleCenter;
+        horizontalComp.childControlHeight = true;
+        horizontalComp.childControlWidth = true;
+        horizontalComp.childForceExpandHeight = true;
+        horizontalComp.childForceExpandHeight = true;
 
-        // Button Text Component relative position
-        transform = numberImg.GetComponent<RectTransform>();
+        // Horizontal Component relative position
+        transform = horizontalComp.GetComponent<RectTransform>();
         transform.localPosition = new Vector3(0, 0, 0);
-        transform.sizeDelta = new Vector2(129, 159);
+        transform.sizeDelta = new Vector2(159, 159);
         transform.localScale = new Vector3(1, 1, 1);
+
+        // Iterate through number literals to generate individual Number sprites
+        // Numbers are organized in Horizontal manner to simulate multi-digits
+        foreach (char literal in levelNumber.ToString())
+        {
+            // Button Image Number
+            GameObject imageNumberGO = new GameObject();
+            imageNumberGO.transform.parent = horizontalComp.transform;
+            imageNumberGO.layer = horizontalGO.layer;
+            imageNumberGO.name = literal.ToString();
+
+            Image numberImg = imageNumberGO.AddComponent<Image>();
+            numberImg.sprite = numbers[literal - '0'];
+            numberImg.color = Color.white;
+
+            // Button Text Component relative position
+            transform = numberImg.GetComponent<RectTransform>();
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+    }
+
+    /// <summary>
+    /// Generate Previous and Next buttons to be used in Pagination
+    /// </summary>
+    void ConfigurePrevNextButtons()
+    {
+        previousBtn = Instantiate(previousPageBtn, canvasGO.transform);
+        nextBtn = Instantiate(nextPageBtn, canvasGO.transform);
+
+        SetButtonTransform(previousBtn, 115, 65);
+        SetButtonTransform(nextBtn, -115, 65);
+
+        // If there's only 1 Page, no button should be interactable
+        if (levelPagesGO.Count != 1)
+            nextBtn.interactable = true;
+
+        previousBtn.onClick.AddListener(() => { 
+            PreviousPage();
+            HandleFirstLastPage();
+        });
+        nextBtn.onClick.AddListener(() => { 
+            NextPage();
+            HandleFirstLastPage();
+        });
+    }
+
+    void SetButtonTransform(Button btn, int posX, int posY)
+    {
+        RectTransform transform = btn.GetComponent<RectTransform>();
+        transform.anchoredPosition = new Vector3(posX, posY, 0);
+        transform.localScale = new Vector3(1, 1, 1);
+    }
+
+    /// <summary>
+    /// Previous Page button method used in delegate for pagination
+    /// </summary>
+    void PreviousPage()
+    {
+        levelPagesGO[currentPage].SetActive(false);
+        currentPage--;
+        levelPagesGO[currentPage].SetActive(true);
+    }
+
+    /// <summary>
+    /// Next Page button method used in delegate for pagination
+    /// </summary>
+    void NextPage()
+    {
+        levelPagesGO[currentPage].SetActive(false);
+        currentPage++;
+        levelPagesGO[currentPage].SetActive(true);
+    }
+
+    void HandleFirstLastPage()
+    {
+        previousBtn.interactable = true;
+        nextBtn.interactable = true;
+        if (currentPage == 0)
+        {
+            previousBtn.interactable = false;
+        }
+        if (currentPage == levelPagesGO.Count - 1)
+        {
+            nextBtn.interactable = false;
+        }
     }
 
     /// <summary>

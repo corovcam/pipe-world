@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Manages core water flowing mechanic after Flow start
+/// Manages core water flowing mechanic after Flow start is triggered
 /// </summary>
 public class GameManager : MonoBehaviour
 {
     Queue<PipeHandler> queue;
-    HashSet<PipeHandler> visited;
-    Dictionary<Position, int> distances;
+    HashSet<PipeHandler> visited; // Used to determine if the given Pipe has been visited yet or not
+    Dictionary<Position, int> distances; // Used to distinguish different waves for animation
     bool isWon = false;
 
     PipeHandler startPipe;
@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Couroutine that uses BFS Traversal to fill all connected pipes from the StartPipe to
+    /// Used in Couroutine that uses BFS Traversal to fill all connected pipes from the StartPipe to
     /// the EndPipe location and checks if there is such a path
     /// </summary>
     IEnumerator Flow()
@@ -76,6 +76,7 @@ public class GameManager : MonoBehaviour
             if (current.location == LevelData.EndPipe)
                 isWon = true;
 
+            // Loop through each IO Dir of the Pipe
             for (int dir = 0; dir < current.IODirs.Length; dir++)
             {
                 if (current.IODirs[dir]) // If the IO Port is available
@@ -83,9 +84,11 @@ public class GameManager : MonoBehaviour
                     switch (dir) // Check the direction and continue there
                     {
                         case (int)Dir.UP:
+                            // Check if we can move the water to the UP Pipe and check if it hasn't
+                            // been already visited
                             if (current.upFree && !visited.Contains(current.up))
                             {
-                                previousPipe = current;
+                                previousPipe = current; // Remember the previous Pipe for wave animation
                                 distances[current.up.location] = distances[current.location] + 1;
                                 visited.Add(current.up);
                                 queue.Enqueue(current.up);
@@ -124,6 +127,6 @@ public class GameManager : MonoBehaviour
         }
 
         Debug.Log(isWon);
-        GUIHandler.ShowEndGameMenu(isWon);
+        GUIHandler.ShowEndGameMenu(isWon); // The Flow is terminated
     }
 }

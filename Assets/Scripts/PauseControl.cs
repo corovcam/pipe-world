@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class PauseControl : MonoBehaviour
 {
     public GameObject pauseMenu;
+    public GameObject helpDialog;
     public LevelHandler levelHandler;
 
     public Toggle toggle;
@@ -17,6 +18,7 @@ public class PauseControl : MonoBehaviour
     public Sprite toggleImgOnSprite;
     public Sprite toggleImgOffSprite;
 
+    public Button helpButton;
     public Button restartBtn;
     public Button quitBtn;
     public Button resumeBtn;
@@ -36,6 +38,7 @@ public class PauseControl : MonoBehaviour
         if (toggle.isOn)
             OnSwitchToggle(isAudioOn: true);
 
+        helpButton.onClick.AddListener(ShowHelpDialog);
         restartBtn.onClick.AddListener(RestartGame);
         quitBtn.onClick.AddListener(GetBackToMainMenu);
         resumeBtn.onClick.AddListener(PauseGame);
@@ -99,10 +102,16 @@ public class PauseControl : MonoBehaviour
     void OnDestroy()
     {
         toggle.onValueChanged.RemoveListener(OnSwitchToggle);
+        helpButton.onClick.RemoveListener(ShowHelpDialog);
         restartBtn.onClick.RemoveListener(RestartGame);
         quitBtn.onClick.RemoveListener(GetBackToMainMenu);
         resumeBtn.onClick.RemoveListener(PauseGame);
         pauseBtn.onClick.RemoveListener(PauseGame);
+    }
+
+    void ShowHelpDialog()
+    {
+        helpDialog.SetActive(true);
     }
 
     /// <summary>

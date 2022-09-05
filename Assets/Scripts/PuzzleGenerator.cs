@@ -28,41 +28,45 @@ public static class PuzzleGenerator
     {
         switch (wall)
         {
-            case CellWalls.RIGHT: return CellWalls.LEFT;
-            case CellWalls.LEFT: return CellWalls.RIGHT;
-            case CellWalls.UP: return CellWalls.DOWN;
-            case CellWalls.DOWN: return CellWalls.UP;
-            default: return CellWalls.LEFT;
+            case CellWalls.RIGHT: 
+                return CellWalls.LEFT;
+            case CellWalls.LEFT: 
+                return CellWalls.RIGHT;
+            case CellWalls.UP: 
+                return CellWalls.DOWN;
+            case CellWalls.DOWN: 
+                return CellWalls.UP;
+            default: 
+                return CellWalls.LEFT;
         }
     }
 
     private static CellWalls[,] Backtrack(CellWalls[,] cells, int width, int height)
     {
-        var rng = new System.Random();
-        var positionStack = new Stack<Position>();
+        var posStack = new Stack<Position>();
         var position = new Position { X = 0, Y = 0 };
 
         cells[position.X, position.Y] |= CellWalls.VISITED;
-        positionStack.Push(position);
+        posStack.Push(position);
 
-        while (positionStack.Count > 0)
+        while (posStack.Count > 0)
         {
-            var current = positionStack.Pop();
-            var neighbours = GetUnvisitedAdjacentCells(current, cells, width, height);
+            Position current = posStack.Pop();
+            var adjacents = GetUnvisitedAdjacentCells(current, cells, width, height);
 
-            if (neighbours.Count > 0)
+            if (adjacents.Count > 0)
             {
-                positionStack.Push(current);
+                posStack.Push(current);
 
-                var randIndex = rng.Next(0, neighbours.Count);
-                var randomNeighbour = neighbours[randIndex];
+                int randIndex = UnityEngine.Random.Range(0, adjacents.Count);
+                AdjacentCell randomAdjacent = adjacents[randIndex];
 
-                var nPosition = randomNeighbour.Location;
-                cells[current.X, current.Y] &= ~randomNeighbour.CommonWall;
-                cells[nPosition.X, nPosition.Y] &= ~GetOppositeWall(randomNeighbour.CommonWall);
-                cells[nPosition.X, nPosition.Y] |= CellWalls.VISITED;
+                Position randAdjPos = randomAdjacent.Location;
+                cells[current.X, current.Y] &= ~randomAdjacent.CommonWall;
+                cells[randAdjPos.X, randAdjPos.Y] &= ~GetOppositeWall(randomAdjacent.CommonWall);
+                cells[randAdjPos.X, randAdjPos.Y] |= CellWalls.VISITED;
 
-                positionStack.Push(nPosition);
+                posStack.Push(randAdjPos);
             }
         }
 
