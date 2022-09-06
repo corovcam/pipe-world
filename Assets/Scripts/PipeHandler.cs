@@ -11,7 +11,7 @@ public enum Dir
 }
 
 /// <summary>
-/// Handles individual information about a Pipe (location, rotatio) and its surrounding Pipes
+/// Handles individual information about a Pipe (location, rotation) and its surrounding Pipes
 /// </summary>
 public class PipeHandler : MonoBehaviour
 {

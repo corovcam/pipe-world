@@ -8,6 +8,9 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 
+/// <summary>
+/// Handles Main Menu GUI components construction and management
+/// </summary>
 public class MenuHandler : MonoBehaviour
 {
     private GameObject canvasGO;

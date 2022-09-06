@@ -5,6 +5,10 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
+/// <summary>
+/// Handles Level Select menu GUI components, their construction and management including pagination buttons
+/// and page counting
+/// </summary>
 public class LevelSelectHandler : MonoBehaviour
 {
     public Button previousPageBtn;
@@ -12,8 +16,11 @@ public class LevelSelectHandler : MonoBehaviour
     public Sprite levelBtnBackground;
     public Sprite[] numbers;
 
-    [SerializeField]
-    private int levelsCount = 14; // There are currently 14 levels in Resources
+    /// <summary>
+    /// Need to be changed in Inspector when new Levels are addded or removed from the Resources folder
+    /// </summary>
+    public int levelsCount = 14;
+
     private GameObject canvasGO;
     private List<AudioSource> audioSources = new List<AudioSource>();
 
