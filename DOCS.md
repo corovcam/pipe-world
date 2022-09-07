@@ -121,8 +121,8 @@ When cloned, start the Editor using the Unity Hub (or manually) and wait till th
 
 The game is mainly configured for the desktop Windows and WebGl platforms. The intended resolution aspect ratio is 16:9 (developed using the 1920x1080 resolution as a reference endpoint) and played in the landscape mode. Though the game can be run on mobile device browsers, the settings need to be configured properly for the game to run smoothly.
 
-The WebGl build can be found here: <https://play.unity.com/mg/other/plumber-g>  
-Or using: <https://developer.cloud.unity3d.com/share/share.html?shareId=W1QI8TELK_>
+The WebGl build can be found here: <https://play.unity.com/mg/other/plumber-7>  
+Or using: <https://developer.cloud.unity3d.com/share/share.html?shareId=-JHuPBavt_>
 
 ***
 
