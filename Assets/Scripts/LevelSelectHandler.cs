@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using TMPro;
 
 /// <summary>
@@ -11,6 +10,7 @@ using TMPro;
 /// </summary>
 public class LevelSelectHandler : MonoBehaviour
 {
+    public Button mainMenuBtnPrefab;
     public Button previousPageBtn;
     public Button nextPageBtn;
     public Sprite levelBtnBackground;
@@ -55,16 +55,11 @@ public class LevelSelectHandler : MonoBehaviour
             }
         }
 
+        ConfigureMainMenuButton();
         ConfigurePrevNextButtons();
 
         levelPagesGO[0].SetActive(true);
         currentPage = 0;
-    }
-
-    void OnDestroy()
-    {
-        previousBtn.onClick.RemoveAllListeners();
-        nextBtn.onClick.RemoveAllListeners();
     }
 
     /// <summary>
@@ -145,17 +140,11 @@ public class LevelSelectHandler : MonoBehaviour
         RectTransform transform = buttonComp.GetComponent<RectTransform>();
         transform.localScale = new Vector3(1, 1, 1);
 
-        // Listeners
-        buttonComp.onClick.AddListener(() => SelectLevelWithNumber(levelNumber));
-        buttonComp.onClick.AddListener(audioSources[0].Play);
-
-        // Event Trigger - Mouse enter
-        EventTrigger trigger = buttonGO.AddComponent<EventTrigger>();
-        EventTrigger.Entry triggerEntry = new EventTrigger.Entry();
-        triggerEntry.eventID = EventTriggerType.PointerEnter;
-        triggerEntry.callback.AddListener((data) => OnMouseEnterDelegate((PointerEventData)data));
-        trigger.triggers.Add(triggerEntry);
-
+        MenuHandler.ConfigureButtonSounds(ref buttonComp, () =>
+        {
+            audioSources[0].Play();
+            SceneHandler.LoadLevel(levelNumber);
+        }, audioSources[1].Play);
 
         // Horizontal Layout Group (for multiple number sprites)
         GameObject horizontalGO = new GameObject();
@@ -211,6 +200,11 @@ public class LevelSelectHandler : MonoBehaviour
         if (levelPagesGO.Count != 1)
             nextBtn.interactable = true;
 
+        // Add Button sounds
+        MenuHandler.ConfigureButtonSounds(ref previousBtn, audioSources[0].Play, audioSources[1].Play);
+        MenuHandler.ConfigureButtonSounds(ref nextBtn, audioSources[0].Play, audioSources[1].Play);
+
+        // Add Page handling delegates
         previousBtn.onClick.AddListener(() => { 
             PreviousPage();
             HandleFirstLastPage();
@@ -221,7 +215,7 @@ public class LevelSelectHandler : MonoBehaviour
         });
     }
 
-    void SetButtonTransform(Button btn, int posX, int posY)
+    void SetButtonTransform(Button btn, float posX, float posY)
     {
         RectTransform transform = btn.GetComponent<RectTransform>();
         transform.anchoredPosition = new Vector3(posX, posY, 0);
@@ -248,6 +242,9 @@ public class LevelSelectHandler : MonoBehaviour
         levelPagesGO[currentPage].SetActive(true);
     }
 
+    /// <summary>
+    /// If the currentPage is First Page or Last Page, make the respective buttons interactable/not-interactable
+    /// </summary>
     void HandleFirstLastPage()
     {
         previousBtn.interactable = true;
@@ -262,17 +259,11 @@ public class LevelSelectHandler : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Delegate to be fired when the mouse enters the corresponding area. Plays a Click sound.
-    /// </summary>
-    /// <param name="data">Unused/Not required parameter</param>
-    public void OnMouseEnterDelegate(PointerEventData data)
+    void ConfigureMainMenuButton()
     {
-        audioSources[1].Play();
-    }
-
-    public void SelectLevelWithNumber(int number)
-    {
-        SceneHandler.LoadLevel(number);
+        Button mainMenuBtn = Instantiate(mainMenuBtnPrefab, canvasGO.transform);
+        SetButtonTransform(mainMenuBtn, 137.3f, -65);
+        MenuHandler.ConfigureButtonSounds(ref mainMenuBtn, audioSources[0].Play, audioSources[1].Play);
+        mainMenuBtn.onClick.AddListener(SceneHandler.LoadMainMenuScene);
     }
 }

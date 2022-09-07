@@ -23,8 +23,8 @@ public class MenuHandler : MonoBehaviour
 
         canvasGO = GenerateCanvasGO("Main Menu Canvas");
 
-        GenerateBtn("Level Select", 0, 150, SceneHandler.LoadLevelSelectScene);
-        GenerateBtn("Arcade", 0, -150, SceneHandler.LoadArcadeGameScene);
+        GenerateMenuBtn("Level Select", 0, 150, SceneHandler.LoadLevelSelectScene);
+        GenerateMenuBtn("Arcade", 0, -150, SceneHandler.LoadArcadeGameScene);
 
         GenerateTitleText();
     }
@@ -55,7 +55,7 @@ public class MenuHandler : MonoBehaviour
     /// <summary>
     /// Generate MainMenu button with a delegate function
     /// </summary>
-    void GenerateBtn(string txt, int posX, int posY, UnityAction onClickFunc)
+    void GenerateMenuBtn(string txt, int posX, int posY, UnityAction onClickFunc)
     {
         GameObject buttonGO = new GameObject();
         buttonGO.transform.parent = canvasGO.transform;
@@ -76,16 +76,11 @@ public class MenuHandler : MonoBehaviour
         transform.sizeDelta = new Vector2(160, 30);
         transform.localScale = new Vector3(4.5f, 4.5f, 0);
 
-        // Listeners
-        buttonComp.onClick.AddListener(onClickFunc);
-        buttonComp.onClick.AddListener(audioSources[0].Play);
-
-        // Event Trigger - Mouse enter
-        EventTrigger trigger = buttonGO.AddComponent<EventTrigger>();
-        EventTrigger.Entry triggerEntry = new EventTrigger.Entry();
-        triggerEntry.eventID = EventTriggerType.PointerEnter;
-        triggerEntry.callback.AddListener((data) => OnMouseEnterDelegate((PointerEventData)data));
-        trigger.triggers.Add(triggerEntry);
+        ConfigureButtonSounds(ref buttonComp, () =>
+        {
+            audioSources[0].Play();
+            onClickFunc();
+        }, audioSources[1].Play);
 
         // Button Text
         GameObject textGO = new GameObject();
@@ -131,9 +126,23 @@ public class MenuHandler : MonoBehaviour
         transform.localScale = new Vector3(2.5f, 2.5f, 0);
     }
 
-    public void OnMouseEnterDelegate(PointerEventData data)
+    /// <summary>
+    /// Configure button sounds. All buttons share the same onClick and onMouseEnter sounds in all Scenes.
+    /// </summary>
+    /// <param name="btn">Button component reference</param>
+    /// <param name="onClickFunc">onClick (mouse left-click) delegate</param>
+    /// <param name="onMouseEnterFunc">onMouseEnter (mouse enters the corresponding button area) delegate</param>
+    public static void ConfigureButtonSounds(ref Button btn, UnityAction onClickFunc, UnityAction onMouseEnterFunc)
     {
-        audioSources[1].Play();
+        // Listener
+        btn.onClick.AddListener(onClickFunc);
+
+        // Event Trigger - Mouse enter
+        EventTrigger trigger = btn.gameObject.AddComponent<EventTrigger>();
+        EventTrigger.Entry triggerEntry = new EventTrigger.Entry();
+        triggerEntry.eventID = EventTriggerType.PointerEnter;
+        triggerEntry.callback.AddListener((_) => onMouseEnterFunc());
+        trigger.triggers.Add(triggerEntry);
     }
 
     /// <summary>
