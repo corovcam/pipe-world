@@ -114,7 +114,7 @@ public class GUIHandler : MonoBehaviour
     /// <summary>
     /// Resumes the Game, restores defaults, restarts and shuffles the current level 
     /// </summary>
-    void RestartGame()
+    public void RestartGame()
     {
         if (PauseControl.GameIsPaused) // Resumes the game
         {

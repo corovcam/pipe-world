@@ -26,6 +26,7 @@ public class PauseControl : MonoBehaviour
 
     public GameObject endGameMenu;
 
+    GUIHandler guiHandler;
     Image switchImage;
 
     public static bool GameIsPaused { get; set; }
@@ -43,6 +44,11 @@ public class PauseControl : MonoBehaviour
         quitBtn.onClick.AddListener(GetBackToMainMenu);
         resumeBtn.onClick.AddListener(PauseGame);
         pauseBtn.onClick.AddListener(PauseGame);
+    }
+
+    void Start()
+    {
+        guiHandler = GetComponent<GUIHandler>();
     }
 
     void Update()
@@ -128,7 +134,8 @@ public class PauseControl : MonoBehaviour
     /// </summary>
     void RestartGame()
     {
-        PauseGame();
-        levelHandler.ResetLevel();
+        pauseMenu.SetActive(false);
+        guiHandler.StopCoroutine("CountdownTimer");
+        guiHandler.RestartGame();
     }
 }

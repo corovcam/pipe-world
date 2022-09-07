@@ -126,7 +126,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        Debug.Log(isWon);
+        //Debug.Log(isWon);
         GUIHandler.ShowEndGameMenu(isWon); // The Flow is terminated
     }
 }
