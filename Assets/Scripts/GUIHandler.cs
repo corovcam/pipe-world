@@ -124,6 +124,7 @@ public class GUIHandler : MonoBehaviour
         endGameMenu.SetActive(false);
 
         IsEndGame = false;
+        skipButton.gameObject.SetActive(false);
         pauseButton.enabled = true;
         startFlowButton.enabled = true;
         levelHandler.ResetLevel();
@@ -165,7 +166,9 @@ public class GUIHandler : MonoBehaviour
     {
         // Minimum Score: 0
         // Maximum Score: 10000
-        int score = Mathf.RoundToInt(currentTime / (float)defaultTimeLimit * MAXIMUM_SCORE);
+        double weight = LevelData.IsArcadeMode ? 1.0 : LevelSelectHandler.MaxTimeLimit / (double)LevelData.TimeLimit;
+        double notNormalizedScore = currentTime / (double)LevelData.TimeLimit / weight;
+        int score = Mathf.RoundToInt((float)(notNormalizedScore * MAXIMUM_SCORE));
         return score.ToString();
     }
 

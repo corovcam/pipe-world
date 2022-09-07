@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
         queue = new Queue<PipeHandler>();
         visited = new HashSet<PipeHandler>();
 
-        StartCoroutine(Flow());
+        StartCoroutine("Flow");
     }
 
     /// <summary>

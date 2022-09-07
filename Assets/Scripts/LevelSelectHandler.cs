@@ -10,16 +10,17 @@ using TMPro;
 /// </summary>
 public class LevelSelectHandler : MonoBehaviour
 {
+    /// <summary>
+    /// Need to be changed in Inspector when new Levels are addded or removed from the Resources folder
+    /// </summary>
+    public int levelsCount = 14;
+    public static int MaxTimeLimit { get; } = 20;
+
     public Button mainMenuBtnPrefab;
     public Button previousPageBtn;
     public Button nextPageBtn;
     public Sprite levelBtnBackground;
     public Sprite[] numbers;
-
-    /// <summary>
-    /// Need to be changed in Inspector when new Levels are addded or removed from the Resources folder
-    /// </summary>
-    public int levelsCount = 14;
 
     private GameObject canvasGO;
     private List<AudioSource> audioSources = new List<AudioSource>();
