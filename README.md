@@ -1,11 +1,11 @@
-# Plumber
-- Game name: Plumber
+# Pipe World
+- Game name: Pipe World
 - Scripting language: C# 
 - Game Engine: Unity 2021.3.5f1
-- Platforms: Windows, WebGl
+- Platforms: WebGl
 
 ## Specification
-Game **Plumber** is a variant of the popular type of puzzle games similar to [Pipe Mania](https://en.wikipedia.org/wiki/Pipe_Mania) or [Water Pipes](https://play.google.com/store/apps/details?id=com.mobiloids.waterpipespuzzle), where the common goal is to transport liquid from one end to the other using a system of interconnected Pipes.
+Game **Pipe World** is a variant of the popular type of puzzle games similar to [Pipe Mania](https://en.wikipedia.org/wiki/Pipe_Mania) or [Water Pipes](https://play.google.com/store/apps/details?id=com.mobiloids.waterpipespuzzle), where the common goal is to transport liquid from one end to the other using a system of interconnected Pipes.
 
 ### Game mechanics
 A player has access to a static matrix-like game board that contains randomly rotated pipes of different types (straight, right-bent/left-bent, three-way and cross). After clicking on a Pipe, the Pipe rotates clockwise. The Player is required to create a connection with nearby Pipes so the liquid/water could get from one edge pipe (typically in the upper-left corner of game board) to the other end (typically lower-right corner). The Player has a set Time Limit, during which he is able to rotate Pipes. The earlier he finishes, the more Total Score he gets. Typically, after each second level the game board gets bigger or the Time Limit is changed to reflect increasing difficulty of the level.
@@ -15,7 +15,7 @@ A player has access to a static matrix-like game board that contains randomly ro
 ## User Manual  
 
 ### Main Menu
-![Main Menu](https://i.imgur.com/CM7NPTG.png "Main Menu")
+![Main Menu](https://i.imgur.com/H06huTa.png "Main Menu")
 Choose between **"Level" mode** or **"Arcade" mode**.
 
 ### Level Select Menu

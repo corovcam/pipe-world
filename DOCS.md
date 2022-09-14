@@ -3,7 +3,7 @@
 ## Unity Project Description
 ### Folders:
 - **Assets** - scripts, pictures, sprites, audio, animations and user-made files
-- **Packages** - ontains information about required packages to install and build the Unity project
+- **Packages** - contains information about required packages to install and build the Unity project
 - **ProjectSettings, UserSettings** - contains Project settings and custom Unity Editor preferences
 
 ### **Assets**
@@ -19,15 +19,23 @@
     - **Pipes** - Default Pipe Prefabs with default green sprites with pre-set *tileType* and *IODirs* for respective Pipe types (except for EMPTY Pipe)
 - **Puzzle stage & settings GUI Pack**[^1] - A Unity Asset Store GUI Pack used for labels, buttons, Pause and End Game menus
 - **Resources** (Uses custom Unity API for access)
-    - LevelX - Custom level data accessible from Level Select menu, can easily be added new level
+    - LevelX - Custom level data accessible from Level Select menu, new level can be added easily following this pattern:
+        - First row: Grid row/column length
+        - Second row: Default *TimeLimit*
+        - GameBoard:
+            - Each cell in the matrix is divided by semicolon ';'
+            - The first symbol can be either: S = StartPipe, E = EndPipe, 0 = Any other Pipe
+            - Symbols are separated by ':'
+            - The second symbol/number can be either: 0 = No pipe, 1 = Straight pipe, 2 = Round, 3 = ThreeWay, 4 = Cross
+            - Each row has to be finished with another semicolon ';'
     - **Sounds** - Audio Clips[^4] used in *AudioSources* Prefabs
     - **UI** - Additional Sprite and Font data used in-game
 - **Scenes**
     - *Game* - Main Game scene where all the mechanics and physics occur, either chosen *LevelX* from Level Select menu or Arcade mode
     - *LevelSelect* - All levels included in Resources are automatically added to the Level Select menu in a paginated view
     - *MainMenu* - First scene in Build with 2 buttons
-- **Scripts** (Only MonoBehaviour scripts attached to GameObjects)
-    - *Extensions.cs* - Used only to extend RectTransform methods by adding a amount of screen units to left/right/top/bottom offset
+- **Scripts** (Only MonoBehaviour scripts attached to GameObjects) - more documentation can be found in the code *comments*
+    - *Extensions.cs* - Used only to extend RectTransform methods by adding an amount of screen units to left/right/top/bottom offset
     - *GameManager.cs* - Manages core water flowing mechanic after Flow start is triggered
     - *GUIHandler.cs* - Handles *Game* scene GUI Components, End Game Menu, Total Score calculaction and Timer and its mechanism
     - *LevelData.cs* - Static class used to store all information about the current Game and Level
@@ -115,14 +123,14 @@ Game scene is the main scene in the build.
 ***
 
 ## Build, install and run
-Game is built using the Unity Ediotr, version 2021.3.5f1, so the assemblies and scripts are mostly compatible with the 2021.3 major versions. If run built using a version lower than this one, compatibility issues may arise considering that the game uses newer Universal Render Pipeline, Input system and Coroutines.  
+Game is built using the Unity Editor, version 2021.3.5f1, so the assemblies and scripts are mostly compatible with the 2021.3 major versions. If run built using a version lower than this one, compatibility issues may arise considering that the game uses newer Universal Render Pipeline, Input system and Coroutines.  
 
 When cloned, start the Editor using the Unity Hub (or manually) and wait till the Editor finishes downloading and importing packages.
 
-The game is mainly configured for the desktop Windows and WebGl platforms. The intended resolution aspect ratio is 16:9 (developed using the 1920x1080 resolution as a reference endpoint) and played in the landscape mode. Though the game can be run on mobile device browsers, the settings need to be configured properly for the game to run smoothly.
+The game is mainly configured for the desktop Windows and WebGl platforms (though it also works on Android). The intended resolution aspect ratio is 16:9 (developed using the 1920x1080 resolution as a reference endpoint) and played in the landscape mode. Though the game can be run on mobile device browsers, the settings need to be configured properly for the game to run smoothly.
 
-The WebGl build can be found here: <https://play.unity.com/mg/other/plumber-7>  
-Or using: <https://developer.cloud.unity3d.com/share/share.html?shareId=-JHuPBavt_>
+The WebGl build can be found here: <https://play.unity.com/mg/other/pipe-world> 
+Or using: <https://developer.cloud.unity3d.com/share/share.html?shareId=ZyLqMsO6KO> 
 
 ***
 

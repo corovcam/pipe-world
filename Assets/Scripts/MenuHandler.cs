@@ -108,10 +108,10 @@ public class MenuHandler : MonoBehaviour
         GameObject titleGO = new GameObject();
         titleGO.transform.parent = canvasGO.transform;
         titleGO.layer = canvasGO.layer;
-        titleGO.name = "Plumber";
+        titleGO.name = "Pipe World";
 
         TextMeshProUGUI textComp = titleGO.AddComponent<TextMeshProUGUI>();
-        textComp.text = "Plumber";
+        textComp.text = "Pipe World";
         textComp.font = (TMP_FontAsset)Resources.Load("UI/Electronic Highway Sign SDF");
         textComp.fontSize = 40;
         textComp.fontStyle = FontStyles.Bold;
