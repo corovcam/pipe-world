@@ -43,6 +43,7 @@ public struct Position
 public static class LevelData
 {
     public static bool IsArcadeMode { get; set; } = false;
+    public static bool IsFreeWorldMode { get; set; } = false;
 	public static int LevelNumber { get; set; }
 	public static int BoardSize { get; set; }
     public static int TimeLimit { get; set; }

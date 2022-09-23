@@ -12,8 +12,9 @@ public static class SceneHandler
         SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
 
-    public static void LoadLevelSelectScene()
+    public static void LoadLevelSelectScene(bool isFreeWorldMode)
     {
+        LevelData.IsFreeWorldMode = isFreeWorldMode;
         SceneManager.LoadScene("LevelSelect", LoadSceneMode.Single);
     }
 
@@ -33,8 +34,14 @@ public static class SceneHandler
         PauseControl.GameIsPaused = false;
         LevelData.IsArcadeMode = false;
         LevelData.LevelNumber = levelNumber;
-        
-        LevelData.lvlData = Resources.Load<TextAsset>("Level" + levelNumber.ToString()).text.Split(Environment.NewLine);
+
+        if (LevelData.IsFreeWorldMode)
+            LevelData.lvlData = Resources.Load<TextAsset>("FreeWorldLevels/Level" + levelNumber.ToString())
+                .text.Split(Environment.NewLine);
+        else
+            LevelData.lvlData = Resources.Load<TextAsset>("LevelSelectLevels/Level" + levelNumber.ToString())
+                .text.Split(Environment.NewLine);
+
         LevelData.BoardSize = int.Parse(LevelData.lvlData[0]);
         LevelData.TimeLimit = int.Parse(LevelData.lvlData[1]);
         SceneManager.LoadScene("Game", LoadSceneMode.Single);

@@ -23,8 +23,9 @@ public class MenuHandler : MonoBehaviour
 
         canvasGO = GenerateCanvasGO("Main Menu Canvas");
 
-        GenerateMenuBtn("Level Select", 0, 150, SceneHandler.LoadLevelSelectScene);
-        GenerateMenuBtn("Arcade", 0, -150, SceneHandler.LoadArcadeGameScene);
+        GenerateMenuBtn("Level Select", 0, 158, () => SceneHandler.LoadLevelSelectScene(isFreeWorldMode: false));
+        GenerateMenuBtn("Arcade", 0, -92, SceneHandler.LoadArcadeGameScene);
+        GenerateMenuBtn("Free World", 0, -342, () => SceneHandler.LoadLevelSelectScene(isFreeWorldMode: true));
 
         GenerateTitleText();
     }
