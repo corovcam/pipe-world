@@ -450,22 +450,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4529b0a037ed6384e83b93a10e14e20a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pipePrefabs:
+  waterPipePrefabs:
   - {fileID: 8273980298970431562, guid: 98e2f0a2e4e493f4db971223ada8b38d, type: 3}
   - {fileID: 467773755271249758, guid: 911fc08ade1463946b2008479c542965, type: 3}
   - {fileID: 795334099913777103, guid: b1ed7943f3fc58c49bfc9c4180905f2a, type: 3}
   - {fileID: 8636734621881648576, guid: 6d12d70bf6d296b40890594361e99b18, type: 3}
   - {fileID: 9216724844050086081, guid: d72806b732afcec45b0c8e4e97ba7f74, type: 3}
-  pipeSprites:
+  lavaPipePrefabs:
+  - {fileID: 8273980298970431562, guid: 8bb2643f1159b804aa0500d1cff23219, type: 3}
+  - {fileID: 467773755271249758, guid: 3919820d6a6a85741aa9f37d4fb458ec, type: 3}
+  - {fileID: 795334099913777103, guid: 22b09a170982ff84fba64d25a0648bf9, type: 3}
+  - {fileID: 8636734621881648576, guid: 75782a52504dfd647af053a44dc23f47, type: 3}
+  - {fileID: 9216724844050086081, guid: d72806b732afcec45b0c8e4e97ba7f74, type: 3}
+  greenPipeSprites:
   - {fileID: 683086612, guid: 039be6804f2e4d94dbba860660b1193c, type: 3}
   - {fileID: -1640885848, guid: 039be6804f2e4d94dbba860660b1193c, type: 3}
   - {fileID: -1808879329, guid: 039be6804f2e4d94dbba860660b1193c, type: 3}
   - {fileID: -2115031586, guid: 039be6804f2e4d94dbba860660b1193c, type: 3}
-  filledPipeSprites:
+  filledGreenPipeSprites:
   - {fileID: -356548603, guid: f355c186478800d4c9b8cd5f1d114125, type: 3}
   - {fileID: -617833221, guid: f355c186478800d4c9b8cd5f1d114125, type: 3}
   - {fileID: -128477020, guid: f355c186478800d4c9b8cd5f1d114125, type: 3}
   - {fileID: 759187857, guid: f355c186478800d4c9b8cd5f1d114125, type: 3}
+  greyPipeSprites:
+  - {fileID: -1844520315, guid: d153997870c667147b3cf20fd1990d32, type: 3}
+  - {fileID: 19438309, guid: d153997870c667147b3cf20fd1990d32, type: 3}
+  - {fileID: 199354842, guid: d153997870c667147b3cf20fd1990d32, type: 3}
+  - {fileID: 212829203, guid: d153997870c667147b3cf20fd1990d32, type: 3}
+  filledGreyPipeSprites:
+  - {fileID: 124226567, guid: abd03e9d6c3c08f4ab6da0b9088c923a, type: 3}
+  - {fileID: -1738687197, guid: abd03e9d6c3c08f4ab6da0b9088c923a, type: 3}
+  - {fileID: -980376636, guid: abd03e9d6c3c08f4ab6da0b9088c923a, type: 3}
+  - {fileID: -967172131, guid: abd03e9d6c3c08f4ab6da0b9088c923a, type: 3}
   redPipeSprites:
   - {fileID: 1673422176, guid: 7c129d38383f07e428476f2249bcf2df, type: 3}
   - {fileID: 2103303707, guid: 7c129d38383f07e428476f2249bcf2df, type: 3}

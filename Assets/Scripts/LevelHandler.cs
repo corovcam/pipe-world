@@ -3,25 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Public enum of Pipe types (last is always EMPTY)
-/// </summary>
-public enum Pipe
-{
-    Straight, Round, ThreeWay, Cross, EMPTY
-}
-
-/// <summary>
 /// Handles Level building, Tile/Pipe management, Restart, Tiles shuffle, rotation and audio
 /// </summary>
 public class LevelHandler : MonoBehaviour
 {
-    public List<GameObject> pipePrefabs;
+    public List<GameObject> waterPipePrefabs;
+    public List<GameObject> lavaPipePrefabs;
 
-    // basic green Pipe sprites
-    public List<Sprite> pipeSprites;
-    public List<Sprite> filledPipeSprites;
+    // basic water green Pipe sprites
+    public List<Sprite> greenPipeSprites;
+    public List<Sprite> filledGreenPipeSprites;
 
-    // Start/End red Pipe sprites
+    // lava grey Pipe sprites
+    public List<Sprite> greyPipeSprites;
+    public List<Sprite> filledGreyPipeSprites;
+
+    // Start/End water red Pipe sprites
     public List<Sprite> redPipeSprites;
     public List<Sprite> filledRedPipeSprites;
 
@@ -69,7 +66,7 @@ public class LevelHandler : MonoBehaviour
         boardSize = LevelData.BoardSize;
         tileObjects = new GameObject[boardSize, boardSize]; // Initialize default square board
         GenerateNewGrid();
-        GenerateLevel(isRandom: LevelData.IsArcadeMode);
+        GenerateLevel();
         // The StartPipe is the first Active Tile
         SetActiveTile(tileObjects[LevelData.StartPipe.X, LevelData.StartPipe.Y]);
         StoreGamePieces();
@@ -102,11 +99,10 @@ public class LevelHandler : MonoBehaviour
     /// <summary>
     /// Generate Level based on random or input data provided
     /// </summary>
-    /// <param name="isRandom">Set the random level generation</param>
-    void GenerateLevel(bool isRandom)
+    void GenerateLevel()
     {
         Pipe[,] pipes;
-        if (isRandom)
+        if (LevelData.IsArcadeMode)
             pipes = LevelData.GetRandomPuzzle(boardSize, boardSize);
         else
             pipes = LevelData.ReadInputLevelData();
@@ -117,8 +113,7 @@ public class LevelHandler : MonoBehaviour
         {
             for (int x = 0; x < boardSize; x++)
             {
-                int pipeID = (int)pipes[x, y];
-                ConfigurePipePrefab(tileObjects[x, y + offset], pipeID);
+                ConfigurePipePrefab(tileObjects[x, y + offset], pipes[x, y]);
             }
             offset -= 2;
         }
@@ -129,11 +124,14 @@ public class LevelHandler : MonoBehaviour
     /// </summary>
     /// <param name="tile">The Tile GO where the Pipe should be placed on</param>
     /// <param name="pipeID">The corresponding Pipe enum index</param>
-    private void ConfigurePipePrefab(GameObject tile, int pipeID)
+    private void ConfigurePipePrefab(GameObject tile, Pipe pipe)
     {
-        GameObject pipe = Instantiate(pipePrefabs[pipeID]);
-        pipe.transform.position = new Vector2(tile.transform.position.x, tile.transform.position.y);
-        pipe.transform.parent = tile.transform;
+        GameObject pipePrefab = pipe.Liquid == Liquid.Water ? waterPipePrefabs[(int)pipe.Type] : lavaPipePrefabs[(int)pipe.Type];
+        pipePrefab.GetComponent<PipeHandler>().pipeType = pipe;
+
+        GameObject pipeGO = Instantiate(pipePrefab);
+        pipeGO.transform.position = new Vector2(tile.transform.position.x, tile.transform.position.y);
+        pipeGO.transform.parent = tile.transform;
     }
 
     /// <summary>
@@ -199,16 +197,19 @@ public class LevelHandler : MonoBehaviour
     }
 
     /// <summary>
-    /// Reset all pipe sprites to their default (without water) variants, Set Active Tile to the StartPipe
+    /// Reset all pipe sprites to their default (without liquid) variants, Set Active Tile to the StartPipe
     /// and Shuffle the GamePieces
     /// </summary>
     public void ResetLevel()
     {
         foreach (var pipe in LevelData.GamePieces)
         {
-            if (pipe.tileType != (int)Pipe.EMPTY)
+            Pipe pipeType = pipe.pipeType;
+            if (pipeType.Type != PipeType.EMPTY)
             {
-                pipe.GetComponent<SpriteRenderer>().sprite = pipeSprites[pipe.tileType];
+                var chosenSprite = pipe.pipeType.Liquid == Liquid.Water ? 
+                    greenPipeSprites[(int)pipeType.Type] : greyPipeSprites[(int)pipeType.Type];
+                pipe.GetComponent<SpriteRenderer>().sprite = chosenSprite;
             }
         }
         SetStartEndPipeSprites();

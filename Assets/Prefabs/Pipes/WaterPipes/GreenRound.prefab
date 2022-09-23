@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1128559248897558799}
   - component: {fileID: 1746655163539940456}
   m_Layer: 0
-  m_Name: Round
+  m_Name: GreenRound
   m_TagString: Pipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

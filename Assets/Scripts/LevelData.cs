@@ -2,6 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Liquid
+{
+    Water, Lava
+}
+
+/// <summary>
+/// Public enum of Pipe types (last is always EMPTY)
+/// </summary>
+public enum PipeType
+{
+    Straight, Round, ThreeWay, Cross, EMPTY
+}
+
+public struct Pipe
+{
+    static Pipe() => new Pipe(Liquid.Water, PipeType.EMPTY);
+
+    public Pipe(Liquid liquid, PipeType type)
+    {
+        Liquid = liquid;
+        Type = type;
+    }
+
+    public Liquid Liquid { get; }
+    public PipeType Type { get; }
+}
+
 /// <summary>
 /// Struct used to store X and Y coordinates of Pipes on the Board. 
 /// Overrides basic equality operators.
@@ -65,8 +92,8 @@ public static class LevelData
     {
         // Used to translate CellWalls in a maze to potential List of Pipes that can
         // occupy the given cell
-        Dictionary<CellWalls, List<Pipe>> wallsToPipesMap 
-            = new Dictionary<CellWalls, List<Pipe>>();
+        Dictionary<CellWalls, List<PipeType>> wallsToPipesMap 
+            = new Dictionary<CellWalls, List<PipeType>>();
         FillWallsToPipesMap(ref wallsToPipesMap);
 
         CellWalls[,] puzzleWalls = PuzzleGenerator.GenerateMaze(width, height);
@@ -79,8 +106,8 @@ public static class LevelData
 				var wallStateWOVisited = puzzleWalls[i, j] & ~CellWalls.VISITED;
 				var possibleWalls = wallsToPipesMap[wallStateWOVisited];
                 // Chooses a random Pipe from the Dictionary to generate random (but correct) Pipe Puzzle
-				Pipe chosenPipe = possibleWalls[Random.Range(0, possibleWalls.Count)];
-				pipes[i, j] = chosenPipe;
+				PipeType chosenPipeType = possibleWalls[Random.Range(0, possibleWalls.Count)];
+				pipes[i, j] = new Pipe(Liquid.Water, chosenPipeType);
             }
         }
 		StartPipe = GetRandomStartPos();
@@ -124,10 +151,11 @@ public static class LevelData
     /// <returns>2D list of Pipes for the puzzle</returns>
     public static Pipe[,] ReadInputLevelData()
     {
-        bool isValue = false;
+        bool isPipeInfo = false;
         int xCoord = 0;
         int yCoord = 0;
         int value = 0;
+        Liquid pipeLiquid = Liquid.Water;
         Pipe[,] pipes = new Pipe[BoardSize, BoardSize];
         int offset = BoardSize - 1;
         foreach (string line in lvlData[2..])
@@ -137,11 +165,11 @@ public static class LevelData
                 if (current == ';')
                 {
                     if (value == 0)
-                        pipes[xCoord, yCoord] = Pipe.EMPTY;
+                        pipes[xCoord, yCoord] = new Pipe(pipeLiquid, PipeType.EMPTY);
                     else
-                        pipes[xCoord, yCoord] = (Pipe)(value - 1);
+                        pipes[xCoord, yCoord] = new Pipe(pipeLiquid, (PipeType)(value - 1));
                     xCoord++;
-                    isValue = false;
+                    isPipeInfo = false;
                 }
                 if (current == 'S')
                 {
@@ -151,13 +179,16 @@ public static class LevelData
                 {
                     EndPipe = new Position { X = xCoord, Y = yCoord + offset };
                 }
-                if (isValue == true)
+                if (isPipeInfo == true)
                 {
-                    value = current - '0';
+                    int testValue = current - '0';
+                    if (testValue < 0 || 9 < testValue)
+                        pipeLiquid = current == 'W' ? Liquid.Water : Liquid.Lava;
+                    value = testValue;
                 }
                 if (current == ':')
                 {
-                    isValue = true;
+                    isPipeInfo = true;
                 }
             }
             yCoord++;
@@ -172,37 +203,37 @@ public static class LevelData
     /// <summary>
     /// Auxiliary function to fill a translation map between CellWalls enum to List of potential Pipes
     /// </summary>
-    private static void FillWallsToPipesMap(ref Dictionary<CellWalls, List<Pipe>> map)
+    private static void FillWallsToPipesMap(ref Dictionary<CellWalls, List<PipeType>> map)
     {
         // 1 Wall
-        map.Add(CellWalls.UP, new List<Pipe> { Pipe.ThreeWay, Pipe.Cross });
-        map.Add(CellWalls.DOWN, new List<Pipe> { Pipe.ThreeWay, Pipe.Cross });
-        map.Add(CellWalls.LEFT, new List<Pipe> { Pipe.ThreeWay, Pipe.Cross });
-        map.Add(CellWalls.RIGHT, new List<Pipe> { Pipe.ThreeWay, Pipe.Cross });
+        map.Add(CellWalls.UP, new List<PipeType> { PipeType.ThreeWay, PipeType.Cross });
+        map.Add(CellWalls.DOWN, new List<PipeType> { PipeType.ThreeWay, PipeType.Cross });
+        map.Add(CellWalls.LEFT, new List<PipeType> { PipeType.ThreeWay, PipeType.Cross });
+        map.Add(CellWalls.RIGHT, new List<PipeType> { PipeType.ThreeWay, PipeType.Cross });
 
         // 2 Walls
         map.Add(CellWalls.UP | CellWalls.DOWN,
-            new List<Pipe> { Pipe.Straight });
+            new List<PipeType> { PipeType.Straight });
         map.Add(CellWalls.RIGHT | CellWalls.LEFT,
-            new List<Pipe> { Pipe.Straight });
+            new List<PipeType> { PipeType.Straight });
 
         map.Add(CellWalls.UP | CellWalls.RIGHT,
-            new List<Pipe> { Pipe.Round });
+            new List<PipeType> { PipeType.Round });
         map.Add(CellWalls.RIGHT | CellWalls.DOWN,
-            new List<Pipe> { Pipe.Round });
+            new List<PipeType> { PipeType.Round });
         map.Add(CellWalls.DOWN | CellWalls.LEFT,
-            new List<Pipe> { Pipe.Round });
+            new List<PipeType> { PipeType.Round });
         map.Add(CellWalls.LEFT | CellWalls.UP,
-            new List<Pipe> { Pipe.Round });
+            new List<PipeType> { PipeType.Round });
 
         // 3 Walls
         map.Add(CellWalls.UP | CellWalls.RIGHT | CellWalls.DOWN,
-            new List<Pipe> { Pipe.Straight, Pipe.Round });
+            new List<PipeType> { PipeType.Straight, PipeType.Round });
         map.Add(CellWalls.RIGHT | CellWalls.DOWN | CellWalls.LEFT,
-            new List<Pipe> { Pipe.Straight, Pipe.Round });
+            new List<PipeType> { PipeType.Straight, PipeType.Round });
         map.Add(CellWalls.DOWN | CellWalls.LEFT | CellWalls.UP,
-            new List<Pipe> { Pipe.Straight, Pipe.Round });
+            new List<PipeType> { PipeType.Straight, PipeType.Round });
         map.Add(CellWalls.LEFT | CellWalls.UP | CellWalls.RIGHT,
-            new List<Pipe> { Pipe.Straight, Pipe.Round });
+            new List<PipeType> { PipeType.Straight, PipeType.Round });
     }
 }

@@ -24,6 +24,7 @@ public class PipeHandler : MonoBehaviour
     [SerializeField]
 	float rotation; // 0 is up, 90 is right, 180 is down, 270 is left
 
+    public Pipe pipeType;
 	public int tileType; // Determines the index in the Pipe enum
     public Position location;
     // Determines if the corresponding neighbouring Tile is free for the flow to continue

@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
             else // Otherwise set green sprites
             {
                 current.GetComponent<SpriteRenderer>().sprite
-                    = levelHandler.filledPipeSprites[current.tileType];
+                    = levelHandler.filledGreenPipeSprites[current.tileType];
             }
 
             // If we filled/visited the EndPipe then mark it and continue filling
