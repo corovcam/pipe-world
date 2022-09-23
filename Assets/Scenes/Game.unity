@@ -482,16 +482,26 @@ MonoBehaviour:
   - {fileID: -1738687197, guid: abd03e9d6c3c08f4ab6da0b9088c923a, type: 3}
   - {fileID: -980376636, guid: abd03e9d6c3c08f4ab6da0b9088c923a, type: 3}
   - {fileID: -967172131, guid: abd03e9d6c3c08f4ab6da0b9088c923a, type: 3}
-  redPipeSprites:
-  - {fileID: 1673422176, guid: 7c129d38383f07e428476f2249bcf2df, type: 3}
-  - {fileID: 2103303707, guid: 7c129d38383f07e428476f2249bcf2df, type: 3}
-  - {fileID: -1162367591, guid: 7c129d38383f07e428476f2249bcf2df, type: 3}
-  - {fileID: -1765118843, guid: 7c129d38383f07e428476f2249bcf2df, type: 3}
-  filledRedPipeSprites:
-  - {fileID: -2012051642, guid: 4eae385e44274ab428372ebd2ffdcd98, type: 3}
-  - {fileID: 1299908973, guid: 4eae385e44274ab428372ebd2ffdcd98, type: 3}
-  - {fileID: 1927862932, guid: 4eae385e44274ab428372ebd2ffdcd98, type: 3}
-  - {fileID: 1500371698, guid: 4eae385e44274ab428372ebd2ffdcd98, type: 3}
+  blueGreenPipeSprites:
+  - {fileID: -547950941, guid: bb727e33301e72441968a9fff3cef36f, type: 3}
+  - {fileID: 684964106, guid: bb727e33301e72441968a9fff3cef36f, type: 3}
+  - {fileID: -831937517, guid: bb727e33301e72441968a9fff3cef36f, type: 3}
+  - {fileID: -435061761, guid: bb727e33301e72441968a9fff3cef36f, type: 3}
+  filledBlueGreenPipeSprites:
+  - {fileID: -2067324420, guid: 63cbb85b0096c734f978217857a0b639, type: 3}
+  - {fileID: -1635659239, guid: 63cbb85b0096c734f978217857a0b639, type: 3}
+  - {fileID: 1053425909, guid: 63cbb85b0096c734f978217857a0b639, type: 3}
+  - {fileID: 1081205182, guid: 63cbb85b0096c734f978217857a0b639, type: 3}
+  redGreyPipeSprites:
+  - {fileID: -1306173660, guid: cbc2dea5de92ea040ae12dbf45daf3fb, type: 3}
+  - {fileID: 884045774, guid: cbc2dea5de92ea040ae12dbf45daf3fb, type: 3}
+  - {fileID: 1470766716, guid: cbc2dea5de92ea040ae12dbf45daf3fb, type: 3}
+  - {fileID: -1250947451, guid: cbc2dea5de92ea040ae12dbf45daf3fb, type: 3}
+  filledRedGreyPipeSprites:
+  - {fileID: 1344289796, guid: 736e166585b5ef64c924e8a8591cdb2c, type: 3}
+  - {fileID: -1486614904, guid: 736e166585b5ef64c924e8a8591cdb2c, type: 3}
+  - {fileID: -157859696, guid: 736e166585b5ef64c924e8a8591cdb2c, type: 3}
+  - {fileID: -35373405, guid: 736e166585b5ef64c924e8a8591cdb2c, type: 3}
   tilePointer: {fileID: 1665883563}
   backTilePrefab: {fileID: 9150141298239140415, guid: faf81907c5c89c0489e45f6034852e40, type: 3}
   backTileSprites:

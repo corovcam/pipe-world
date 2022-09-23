@@ -185,6 +185,7 @@ public static class LevelData
                     if (testValue < 0 || 9 < testValue)
                         pipeLiquid = current == 'W' ? Liquid.Water : Liquid.Lava;
                     value = testValue;
+                    isPipeInfo = false;
                 }
                 if (current == ':')
                 {

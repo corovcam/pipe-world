@@ -13,12 +13,12 @@ public class GameManager : MonoBehaviour
     bool isWon = false;
 
     PipeHandler startPipe;
-    LevelHandler levelHandler;
+    LevelHandler lh;
     GUIHandler GUIHandler;
 
     void Start()
     {
-        levelHandler = GameObject.FindObjectOfType<LevelHandler>();
+        lh = GameObject.FindObjectOfType<LevelHandler>();
         GUIHandler = GetComponent<GUIHandler>();
         startPipe = LevelData.GamePieces[LevelData.StartPipe.X, LevelData.StartPipe.Y]
             .GetComponent<PipeHandler>();
@@ -60,17 +60,21 @@ public class GameManager : MonoBehaviour
             if (distances[previousPipe.location] < distances[current.location])
                 yield return new WaitForSeconds(0.5f);
 
-            // Set red pipe sprites for start/end pipes
+            Pipe currentType = current.pipeType;
+            // Set filled Blue-Green/Red-Grey sprites for Start/End sprites
             if (current.location == LevelData.StartPipe || current.location == LevelData.EndPipe)
             {
-                current.GetComponent<SpriteRenderer>().sprite 
-                    = levelHandler.filledRedPipeSprites[current.tileType];
+                var chosenStartEndSprite = currentType.Liquid == Liquid.Water ?
+                    lh.filledBlueGreenPipeSprites[(int)currentType.Type] : lh.filledRedGreyPipeSprites[(int)currentType.Type];
+                current.GetComponent<SpriteRenderer>().sprite = chosenStartEndSprite;
             }
-            else // Otherwise set green sprites
+            else // Otherwise set filled green/grey sprites
             {
-                current.GetComponent<SpriteRenderer>().sprite
-                    = levelHandler.filledGreenPipeSprites[current.tileType];
+                var chosenSprite = currentType.Liquid == Liquid.Water ? 
+                    lh.filledGreenPipeSprites[(int)currentType.Type] : lh.filledGreyPipeSprites[(int)currentType.Type];
+                current.GetComponent<SpriteRenderer>().sprite = chosenSprite;
             }
+
 
             // If we filled/visited the EndPipe then mark it and continue filling
             if (current.location == LevelData.EndPipe)

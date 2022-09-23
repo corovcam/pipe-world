@@ -7,20 +7,24 @@ using UnityEngine;
 /// </summary>
 public class LevelHandler : MonoBehaviour
 {
-    public List<GameObject> waterPipePrefabs;
-    public List<GameObject> lavaPipePrefabs;
+    public GameObject[] waterPipePrefabs;
+    public GameObject[] lavaPipePrefabs;
 
     // basic water green Pipe sprites
-    public List<Sprite> greenPipeSprites;
-    public List<Sprite> filledGreenPipeSprites;
+    public Sprite[] greenPipeSprites;
+    public Sprite[] filledGreenPipeSprites;
 
     // lava grey Pipe sprites
-    public List<Sprite> greyPipeSprites;
-    public List<Sprite> filledGreyPipeSprites;
+    public Sprite[] greyPipeSprites;
+    public Sprite[] filledGreyPipeSprites;
 
-    // Start/End water red Pipe sprites
-    public List<Sprite> redPipeSprites;
-    public List<Sprite> filledRedPipeSprites;
+    // Start/End water blue-green Pipe sprites
+    public Sprite[] blueGreenPipeSprites;
+    public Sprite[] filledBlueGreenPipeSprites;
+
+    // Start/End lava red-grey Pipe sprites
+    public Sprite[] redGreyPipeSprites;
+    public Sprite[] filledRedGreyPipeSprites;
 
     // Hovers and flickers above a tile/pipe to mark the current active tile
     public GameObject tilePointer;
@@ -127,9 +131,9 @@ public class LevelHandler : MonoBehaviour
     private void ConfigurePipePrefab(GameObject tile, Pipe pipe)
     {
         GameObject pipePrefab = pipe.Liquid == Liquid.Water ? waterPipePrefabs[(int)pipe.Type] : lavaPipePrefabs[(int)pipe.Type];
-        pipePrefab.GetComponent<PipeHandler>().pipeType = pipe;
-
         GameObject pipeGO = Instantiate(pipePrefab);
+        pipeGO.GetComponent<PipeHandler>().pipeType = pipe;
+
         pipeGO.transform.position = new Vector2(tile.transform.position.x, tile.transform.position.y);
         pipeGO.transform.parent = tile.transform;
     }
@@ -191,9 +195,18 @@ public class LevelHandler : MonoBehaviour
     void SetStartEndPipeSprites()
     {
         var startPipe = LevelData.GamePieces[LevelData.StartPipe.X, LevelData.StartPipe.Y];
-        startPipe.GetComponent<SpriteRenderer>().sprite = redPipeSprites[startPipe.tileType];
+        Pipe pipeType = startPipe.pipeType;
+        var chosenSprite = pipeType.Liquid == Liquid.Water ?
+                    blueGreenPipeSprites[(int)pipeType.Type] : redGreyPipeSprites[(int)pipeType.Type];
+
+        startPipe.GetComponent<SpriteRenderer>().sprite = chosenSprite;
+        
         var endPipe = LevelData.GamePieces[LevelData.EndPipe.X, LevelData.EndPipe.Y];
-        endPipe.GetComponent<SpriteRenderer>().sprite = redPipeSprites[endPipe.tileType];
+        pipeType = startPipe.pipeType;
+        chosenSprite = pipeType.Liquid == Liquid.Water ? 
+            blueGreenPipeSprites[(int)pipeType.Type] : redGreyPipeSprites[(int)pipeType.Type];
+
+        endPipe.GetComponent<SpriteRenderer>().sprite = chosenSprite;
     }
 
     /// <summary>
@@ -207,7 +220,7 @@ public class LevelHandler : MonoBehaviour
             Pipe pipeType = pipe.pipeType;
             if (pipeType.Type != PipeType.EMPTY)
             {
-                var chosenSprite = pipe.pipeType.Liquid == Liquid.Water ? 
+                var chosenSprite = pipeType.Liquid == Liquid.Water ? 
                     greenPipeSprites[(int)pipeType.Type] : greyPipeSprites[(int)pipeType.Type];
                 pipe.GetComponent<SpriteRenderer>().sprite = chosenSprite;
             }
