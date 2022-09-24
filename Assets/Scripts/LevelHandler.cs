@@ -72,9 +72,10 @@ public class LevelHandler : MonoBehaviour
         GenerateNewGrid();
         GenerateLevel();
         // The StartPipe is the first Active Tile
-        SetActiveTile(tileObjects[LevelData.StartPipe.X, LevelData.StartPipe.Y]);
+        SetActiveTile(tileObjects[LevelData.defaultStart.Value.X, LevelData.defaultStart.Value.Y]);
         StoreGamePieces();
-        SetStartEndPipeSprites();
+        SetStartEndPipeSprites(iterateStarts: true);
+        SetStartEndPipeSprites(iterateStarts: false);
         StartCoroutine(Shuffle()); // Shuffle the Pipes
     }
 
@@ -192,21 +193,21 @@ public class LevelHandler : MonoBehaviour
     /// <summary>
     /// Change StartPipe and EndPipe sprites to their corresponding red variants
     /// </summary>
-    void SetStartEndPipeSprites()
+    void SetStartEndPipeSprites(bool iterateStarts)
     {
-        var startPipe = LevelData.GamePieces[LevelData.StartPipe.X, LevelData.StartPipe.Y];
-        Pipe pipeType = startPipe.pipeType;
-        var chosenSprite = pipeType.Liquid == Liquid.Water ?
-                    blueGreenPipeSprites[(int)pipeType.Type] : redGreyPipeSprites[(int)pipeType.Type];
+        var iterable = iterateStarts ? LevelData.Starts : LevelData.Ends;
+        foreach (Liquid liq in iterable.Keys)
+        {
+            foreach (Position pos in iterable[liq])
+            {
+                var pipe = LevelData.GamePieces[pos.X, pos.Y];
+                Pipe pipeType = pipe.pipeType;
+                var chosenSprite = pipeType.Liquid == Liquid.Water ?
+                            blueGreenPipeSprites[(int)pipeType.Type] : redGreyPipeSprites[(int)pipeType.Type];
 
-        startPipe.GetComponent<SpriteRenderer>().sprite = chosenSprite;
-        
-        var endPipe = LevelData.GamePieces[LevelData.EndPipe.X, LevelData.EndPipe.Y];
-        pipeType = startPipe.pipeType;
-        chosenSprite = pipeType.Liquid == Liquid.Water ? 
-            blueGreenPipeSprites[(int)pipeType.Type] : redGreyPipeSprites[(int)pipeType.Type];
-
-        endPipe.GetComponent<SpriteRenderer>().sprite = chosenSprite;
+                pipe.GetComponent<SpriteRenderer>().sprite = chosenSprite;
+            }
+        }
     }
 
     /// <summary>
@@ -225,8 +226,9 @@ public class LevelHandler : MonoBehaviour
                 pipe.GetComponent<SpriteRenderer>().sprite = chosenSprite;
             }
         }
-        SetStartEndPipeSprites();
-        SetActiveTile(LevelData.GamePieces[LevelData.StartPipe.X, LevelData.StartPipe.Y].gameObject);
+        SetStartEndPipeSprites(iterateStarts: true);
+        SetStartEndPipeSprites(iterateStarts: false);
+        SetActiveTile(LevelData.GamePieces[LevelData.defaultStart.Value.X, LevelData.defaultStart.Value.Y].gameObject);
         StartCoroutine(Shuffle());
     }
 

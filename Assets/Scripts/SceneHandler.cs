@@ -23,6 +23,10 @@ public static class SceneHandler
         GUIHandler.IsEndGame = false;
         PauseControl.GameIsPaused = false;
         LevelData.IsArcadeMode = true;
+        LevelData.Starts = new();
+        LevelData.Ends = new();
+        LevelData.defaultStart = null;
+        LevelData.defaultEnd = null;
         LevelData.BoardSize = 10;
         LevelData.TimeLimit = 30;
         SceneManager.LoadScene("Game", LoadSceneMode.Single);
@@ -34,6 +38,10 @@ public static class SceneHandler
         PauseControl.GameIsPaused = false;
         LevelData.IsArcadeMode = false;
         LevelData.LevelNumber = levelNumber;
+        LevelData.Starts = new();
+        LevelData.Ends = new();
+        LevelData.defaultStart = null;
+        LevelData.defaultEnd = null;
 
         if (LevelData.IsFreeWorldMode)
             LevelData.lvlData = Resources.Load<TextAsset>("FreeWorldLevels/Level" + levelNumber.ToString())

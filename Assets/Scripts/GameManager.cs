@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     {
         lh = GameObject.FindObjectOfType<LevelHandler>();
         GUIHandler = GetComponent<GUIHandler>();
-        startPipe = LevelData.GamePieces[LevelData.StartPipe.X, LevelData.StartPipe.Y]
+        startPipe = LevelData.GamePieces[LevelData.defaultStart.Value.X, LevelData.defaultStart.Value.Y]
             .GetComponent<PipeHandler>();
     }
 
@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
         GUIHandler.SetEndGameScene();
 
         PipeHandler previousPipe = startPipe;
-        distances[LevelData.StartPipe] = 0;
+        distances[LevelData.defaultStart.Value] = 0;
         visited.Add(startPipe);
         queue.Enqueue(startPipe);
 
@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
 
             Pipe currentType = current.pipeType;
             // Set filled Blue-Green/Red-Grey sprites for Start/End sprites
-            if (current.location == LevelData.StartPipe || current.location == LevelData.EndPipe)
+            if (current.location == LevelData.defaultStart.Value || current.location == LevelData.defaultEnd.Value)
             {
                 var chosenStartEndSprite = currentType.Liquid == Liquid.Water ?
                     lh.filledBlueGreenPipeSprites[(int)currentType.Type] : lh.filledRedGreyPipeSprites[(int)currentType.Type];
@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
 
 
             // If we filled/visited the EndPipe then mark it and continue filling
-            if (current.location == LevelData.EndPipe)
+            if (current.location == LevelData.defaultEnd.Value)
                 isWon = true;
 
             // Loop through each IO Dir of the Pipe

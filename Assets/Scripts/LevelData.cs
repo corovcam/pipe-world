@@ -74,12 +74,15 @@ public static class LevelData
 	public static int LevelNumber { get; set; }
 	public static int BoardSize { get; set; }
     public static int TimeLimit { get; set; }
-	public static Position StartPipe { get; set; }
-	public static Position EndPipe { get; set; }
+    public static Dictionary<Liquid, List<Position>> Starts = new();
+    public static Dictionary<Liquid, List<Position>> Ends = new();
     public static PipeHandler[,] GamePieces { get; set; }
 
     // Temporary data structure for level loading
     public static string[] lvlData;
+
+    public static Position? defaultStart;
+    public static Position? defaultEnd;
 
     /// <summary>
     /// Gets random puzzle using Random Maze generator and a Dictionary map to 
@@ -110,9 +113,11 @@ public static class LevelData
 				pipes[i, j] = new Pipe(Liquid.Water, chosenPipeType);
             }
         }
-		StartPipe = GetRandomStartPos();
-		EndPipe = GetRandomEndPos();
-		return pipes;
+        defaultStart = GetRandomStartPos();
+        defaultEnd = GetRandomEndPos();
+        Starts.Add(Liquid.Water, new List<Position> { defaultStart.Value });
+		Ends.Add(Liquid.Water, new List<Position> { defaultEnd.Value });
+        return pipes;
 	}
 
     /// <summary>
@@ -152,32 +157,57 @@ public static class LevelData
     public static Pipe[,] ReadInputLevelData()
     {
         bool isPipeInfo = false;
+        bool isStart = false;
+        bool isEnd = false;
         int xCoord = 0;
         int yCoord = 0;
         int value = 0;
         Liquid pipeLiquid = Liquid.Water;
+        Position savedPos = new Position();
         Pipe[,] pipes = new Pipe[BoardSize, BoardSize];
         int offset = BoardSize - 1;
         foreach (string line in lvlData[2..])
         {
-            foreach (char current in line)
+            int i = 0;
+            while (i < line.Length)
             {
+                char current = line[i];
                 if (current == ';')
                 {
                     if (value == 0)
                         pipes[xCoord, yCoord] = new Pipe(pipeLiquid, PipeType.EMPTY);
                     else
                         pipes[xCoord, yCoord] = new Pipe(pipeLiquid, (PipeType)(value - 1));
+                    
+                    if (isStart)
+                        if (Starts.ContainsKey(pipeLiquid))
+                            Starts[pipeLiquid].Add(savedPos);
+                        else
+                            Starts.Add(pipeLiquid, new List<Position> { savedPos });
+                    else if (isEnd)
+                        if (Ends.ContainsKey(pipeLiquid))
+                            Ends[pipeLiquid].Add(savedPos);
+                        else
+                            Ends.Add(pipeLiquid, new List<Position> { savedPos });
+                    
                     xCoord++;
                     isPipeInfo = false;
+                    isStart = false;
+                    isEnd = false;
                 }
-                if (current == 'S')
+                else if (current == 'S')
                 {
-                    StartPipe = new Position { X = xCoord, Y = yCoord + offset };
+                    //int startIndex = ReadStartEndIndex(line, ref i);
+                    savedPos = new Position { X = xCoord, Y = yCoord + offset };
+                    defaultStart = defaultStart == null ? savedPos : defaultStart;
+                    isStart = true;
                 }
-                if (current == 'E')
+                else if (current == 'E')
                 {
-                    EndPipe = new Position { X = xCoord, Y = yCoord + offset };
+                    //int endIndex = ReadStartEndIndex(line, ref i);
+                    savedPos = new Position { X = xCoord, Y = yCoord + offset };
+                    defaultEnd = defaultEnd == null ? savedPos : defaultEnd;
+                    isEnd = true;
                 }
                 if (isPipeInfo == true)
                 {
@@ -191,6 +221,7 @@ public static class LevelData
                 {
                     isPipeInfo = true;
                 }
+                i++;
             }
             yCoord++;
             xCoord = 0;
@@ -237,4 +268,22 @@ public static class LevelData
         map.Add(CellWalls.LEFT | CellWalls.UP | CellWalls.RIGHT,
             new List<PipeType> { PipeType.Straight, PipeType.Round });
     }
+
+    //private static int ReadStartEndIndex(string line, ref int i)
+    //{
+    //    char testChar = line[i++];
+    //    int index = 0;
+    //    if (testChar != ':')
+    //    {
+    //        while (testChar != ':')
+    //        {
+    //            index = 10 * index + testChar - '0';
+    //            testChar = line[i++];
+    //        }
+    //        i--;
+    //    }
+    //    else
+    //        i--;
+    //    return index;
+    //}
 }
