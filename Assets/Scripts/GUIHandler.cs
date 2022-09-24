@@ -88,6 +88,7 @@ public class GUIHandler : MonoBehaviour
     /// The End Game Menu changes accordingly.</param>
     public void ShowEndGameMenu(bool isWon)
     {
+        gm.StopAllCoroutines();
         pauseButton.enabled = false;
         skipButton.gameObject.SetActive(false);
         // Pauses the game to prevent GUI interaction and player Input

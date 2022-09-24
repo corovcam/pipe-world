@@ -136,7 +136,7 @@ public class PauseControl : MonoBehaviour
     {
         pauseMenu.SetActive(false);
         if (GUIHandler.IsEndGame)
-            GetComponent<GameManager>().StopCoroutine("Flow");
+            GetComponent<GameManager>().StopAllCoroutines();
         guiHandler.StopCoroutine("CountdownTimer");
         guiHandler.RestartGame();
     }

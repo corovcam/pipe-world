@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -10,9 +11,10 @@ public class GameManager : MonoBehaviour
     Queue<PipeHandler> queue;
     HashSet<PipeHandler> visited; // Used to determine if the given Pipe has been visited yet or not
     Dictionary<Position, int> distances; // Used to distinguish different waves for animation
-    bool isWon = false;
+    bool flowsStarted;
+    bool isWon;
+    List<bool> flowsFinished;
 
-    PipeHandler startPipe;
     LevelHandler lh;
     GUIHandler GUIHandler;
 
@@ -20,8 +22,44 @@ public class GameManager : MonoBehaviour
     {
         lh = GameObject.FindObjectOfType<LevelHandler>();
         GUIHandler = GetComponent<GUIHandler>();
-        startPipe = LevelData.GamePieces[LevelData.defaultStart.Value.X, LevelData.defaultStart.Value.Y]
-            .GetComponent<PipeHandler>();
+        isWon = false;
+        flowsStarted = false;
+        flowsFinished = new List<bool>();
+    }
+
+    void Update()
+    {
+        if (flowsStarted && flowsFinished.All(flowFinished => flowFinished))
+        {
+            flowsStarted = false;
+            bool waterAtStart = LevelData.Starts.ContainsKey(Liquid.Water);
+            bool lavaAtStart = LevelData.Starts.ContainsKey(Liquid.Lava);
+            isWon = true;
+
+            if (waterAtStart)
+                if (LevelData.Ends.ContainsKey(Liquid.Water))
+                    foreach (var pos in LevelData.Ends[Liquid.Water])
+                    {
+                        var pipe = LevelData.GamePieces[pos.X, pos.Y];
+                        isWon = visited.Contains(pipe);
+                        if (!isWon) break;
+                    }
+
+            if (!isWon) 
+                GUIHandler.ShowEndGameMenu(isWon);
+            else
+            {
+                if (lavaAtStart)
+                    if (LevelData.Ends.ContainsKey(Liquid.Lava))
+                        foreach (var pos in LevelData.Ends[Liquid.Lava])
+                        {
+                            var pipe = LevelData.GamePieces[pos.X, pos.Y];
+                            isWon = visited.Contains(pipe);
+                            if (!isWon) break;
+                        }
+                GUIHandler.ShowEndGameMenu(isWon);
+            }
+        }
     }
 
     /// <summary>
@@ -29,24 +67,42 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void StartFlow()
     {
+        flowsStarted = true;
         isWon = false;
+        flowsFinished = new List<bool>();
         distances = new Dictionary<Position, int>();
         queue = new Queue<PipeHandler>();
         visited = new HashSet<PipeHandler>();
 
-        StartCoroutine("Flow");
+        GUIHandler.SetEndGameScene();
+
+        bool waterAtStart = LevelData.Starts.ContainsKey(Liquid.Water);
+        bool lavaAtStart = LevelData.Starts.ContainsKey(Liquid.Lava);
+
+        int flowIndex = 0;
+        if (waterAtStart)
+            LevelData.Starts[Liquid.Water].ForEach(start => {
+                flowsFinished.Add(false);
+                StartCoroutine(Flow(start, Liquid.Water, flowIndex));
+                flowIndex++;
+            });
+        if (lavaAtStart)
+            LevelData.Starts[Liquid.Lava].ForEach(start => {
+                flowsFinished.Add(false);
+                StartCoroutine(Flow(start, Liquid.Lava, flowIndex));
+                flowIndex++;
+            });
     }
 
     /// <summary>
     /// Used in Couroutine that uses BFS Traversal to fill all connected pipes from the StartPipe to
     /// the EndPipe location and checks if there is such a path
     /// </summary>
-    IEnumerator Flow()
+    IEnumerator Flow(Position startPos, Liquid flowLiquid, int flowIndex)
     {
-        GUIHandler.SetEndGameScene();
-
+        PipeHandler startPipe = LevelData.GamePieces[startPos.X, startPos.Y];
         PipeHandler previousPipe = startPipe;
-        distances[LevelData.defaultStart.Value] = 0;
+        distances[startPipe.location] = 0;
         visited.Add(startPipe);
         queue.Enqueue(startPipe);
 
@@ -58,11 +114,14 @@ public class GameManager : MonoBehaviour
             // If the previous pipe is 1 level below current, then the whole level
             // has been visited and wait for next wave (used for wave animation)
             if (distances[previousPipe.location] < distances[current.location])
-                yield return new WaitForSeconds(0.5f);
+                if (flowLiquid == Liquid.Water)
+                    yield return new WaitForSeconds(0.5f);
+                else
+                    yield return new WaitForSeconds(1f);
 
             Pipe currentType = current.pipeType;
             // Set filled Blue-Green/Red-Grey sprites for Start/End sprites
-            if (current.location == LevelData.defaultStart.Value || current.location == LevelData.defaultEnd.Value)
+            if (current.location == startPipe.location || LevelData.Ends[flowLiquid].Exists(pos => pos == current.location))
             {
                 var chosenStartEndSprite = currentType.Liquid == Liquid.Water ?
                     lh.filledBlueGreenPipeSprites[(int)currentType.Type] : lh.filledRedGreyPipeSprites[(int)currentType.Type];
@@ -70,15 +129,16 @@ public class GameManager : MonoBehaviour
             }
             else // Otherwise set filled green/grey sprites
             {
-                var chosenSprite = currentType.Liquid == Liquid.Water ? 
+                var chosenSprite = currentType.Liquid == Liquid.Water ?
                     lh.filledGreenPipeSprites[(int)currentType.Type] : lh.filledGreyPipeSprites[(int)currentType.Type];
                 current.GetComponent<SpriteRenderer>().sprite = chosenSprite;
             }
 
 
-            // If we filled/visited the EndPipe then mark it and continue filling
-            if (current.location == LevelData.defaultEnd.Value)
-                isWon = true;
+            //// If we filled/visited the EndPipe then mark it and continue filling
+            //if (LevelData.Ends.ContainsKey(flowLiquid))
+            //    if (LevelData.Ends[flowLiquid].Exists(pos => pos == current.location))
+            //        isWon = true;
 
             // Loop through each IO Dir of the Pipe
             for (int dir = 0; dir < current.IODirs.Length; dir++)
@@ -130,7 +190,6 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        //Debug.Log(isWon);
-        GUIHandler.ShowEndGameMenu(isWon); // The Flow is terminated
+        flowsFinished[flowIndex] = true;
     }
 }
