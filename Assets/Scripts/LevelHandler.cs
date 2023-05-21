@@ -78,6 +78,7 @@ public class LevelHandler : MonoBehaviour
             inventoryManager.gameObject.SetActive(true);
             inventoryManager.SetInventoryVisibilityTo(true);
             SetActiveTile(tileObjects[LevelData.defaultStart.Value.X, LevelData.defaultStart.Value.Y]);
+            StoreGamePieces();
             return;
         }
 
@@ -122,7 +123,6 @@ public class LevelHandler : MonoBehaviour
         else
             pipes = LevelData.ReadInputLevelData();
 
-        Debug.Log(LevelData.IsFreeWorldMode);
         if (LevelData.IsFreeWorldMode)
         {
             InstantiateStartEndPipes(true, pipes);
@@ -281,6 +281,8 @@ public class LevelHandler : MonoBehaviour
     /// </summary>
     public void ResetLevel()
     {
+        if (LevelData.IsFreeWorldMode) return;
+
         foreach (var pipe in LevelData.GamePieces)
         {
             Pipe pipeType = pipe.pipeType;
