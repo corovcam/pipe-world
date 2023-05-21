@@ -75,6 +75,7 @@ public class GameManager : MonoBehaviour
         visited = new HashSet<PipeHandler>();
 
         GUIHandler.SetEndGameScene();
+        lh.StoreGamePieces();
 
         bool waterAtStart = LevelData.Starts.ContainsKey(Liquid.Water);
         bool lavaAtStart = LevelData.Starts.ContainsKey(Liquid.Lava);

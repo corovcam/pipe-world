@@ -12,6 +12,9 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [HideInInspector]
     public Transform parentAfterDrag;
     
+    public GameObject pipePrefab;
+    public Pipe pipeType;
+    
     public void OnBeginDrag(PointerEventData eventData)
     {
         parentAfterDrag = transform.parent;

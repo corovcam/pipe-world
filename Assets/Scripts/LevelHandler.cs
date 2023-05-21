@@ -56,6 +56,7 @@ public class LevelHandler : MonoBehaviour
     public GameObject[,] tileObjects;
 
     public PauseControl pauseControl;
+    public InventoryManager inventoryManager;
 
     void Start()
     {
@@ -69,8 +70,17 @@ public class LevelHandler : MonoBehaviour
         }
         boardSize = LevelData.BoardSize;
         tileObjects = new GameObject[boardSize, boardSize]; // Initialize default square board
+
         GenerateNewGrid();
         GenerateLevel();
+        if (LevelData.IsFreeWorldMode)
+        {
+            inventoryManager.gameObject.SetActive(true);
+            inventoryManager.SetInventoryVisibilityTo(true);
+            SetActiveTile(tileObjects[LevelData.defaultStart.Value.X, LevelData.defaultStart.Value.Y]);
+            return;
+        }
+
         // The StartPipe is the first Active Tile
         SetActiveTile(tileObjects[LevelData.defaultStart.Value.X, LevelData.defaultStart.Value.Y]);
         StoreGamePieces();
@@ -111,6 +121,14 @@ public class LevelHandler : MonoBehaviour
             pipes = LevelData.GetRandomPuzzle(boardSize, boardSize);
         else
             pipes = LevelData.ReadInputLevelData();
+
+        Debug.Log(LevelData.IsFreeWorldMode);
+        if (LevelData.IsFreeWorldMode)
+        {
+            InstantiateStartEndPipes(true, pipes);
+            InstantiateStartEndPipes(false, pipes);
+        }
+
         // Offset is used to transform the Unity's default coord system from the lower-left corner
         // to a more practical upper-left corner start position (0,0)
         int offset = boardSize - 1;
@@ -118,7 +136,18 @@ public class LevelHandler : MonoBehaviour
         {
             for (int x = 0; x < boardSize; x++)
             {
-                ConfigurePipePrefab(tileObjects[x, y + offset], pipes[x, y]);
+                Pipe pipe = pipes[x, y];
+                GameObject pipePrefab = pipe.Liquid == Liquid.Water ? waterPipePrefabs[(int)pipe.Type] : lavaPipePrefabs[(int)pipe.Type];
+
+                if (LevelData.IsFreeWorldMode)
+                {
+                    if (pipe.Type == PipeType.EMPTY)
+                        continue;
+                    inventoryManager.AddPipeToInventory(pipe, pipePrefab);
+                    continue;
+                }
+
+                ConfigurePipePrefab(tileObjects[x, y + offset], pipePrefab, pipe);
             }
             offset -= 2;
         }
@@ -129,11 +158,13 @@ public class LevelHandler : MonoBehaviour
     /// </summary>
     /// <param name="tile">The Tile GO where the Pipe should be placed on</param>
     /// <param name="pipeID">The corresponding Pipe enum index</param>
-    private void ConfigurePipePrefab(GameObject tile, Pipe pipe)
+    private void ConfigurePipePrefab(GameObject tile, GameObject pipePrefab, Pipe pipe, Sprite chosenSprite = null)
     {
-        GameObject pipePrefab = pipe.Liquid == Liquid.Water ? waterPipePrefabs[(int)pipe.Type] : lavaPipePrefabs[(int)pipe.Type];
         GameObject pipeGO = Instantiate(pipePrefab);
         pipeGO.GetComponent<PipeHandler>().pipeType = pipe;
+        
+        if (chosenSprite != null)
+            pipeGO.GetComponent<SpriteRenderer>().sprite = chosenSprite;
 
         pipeGO.transform.position = new Vector2(tile.transform.position.x, tile.transform.position.y);
         pipeGO.transform.parent = tile.transform;
@@ -157,7 +188,7 @@ public class LevelHandler : MonoBehaviour
     /// Auxiliary function to store 2D array of PipeHandler script instances after 
     /// the grid and pipes were generated
     /// </summary>
-    private void StoreGamePieces()
+    public void StoreGamePieces()
     {
         LevelData.GamePieces = new PipeHandler[boardSize, boardSize];
         foreach (var piece in GameObject.FindGameObjectsWithTag("Pipe"))
@@ -165,6 +196,23 @@ public class LevelHandler : MonoBehaviour
             int xCoord = (int)piece.transform.parent.localPosition.x;
             int yCoord = (int)piece.transform.parent.localPosition.y;
             LevelData.GamePieces[xCoord, yCoord] = piece.GetComponent<PipeHandler>();
+        }
+        if (LevelData.IsFreeWorldMode)
+        {
+            // Set the rest of the grid to empty pipes to avoid null reference exceptions
+            for (int x = 0; x < boardSize; x++)
+            {
+                for (int y = 0; y < boardSize; y++)
+                {
+                    if (LevelData.GamePieces[x, y] == null)
+                    {
+                        GameObject emptyPipe = Instantiate(waterPipePrefabs[(int)PipeType.EMPTY]);
+                        emptyPipe.transform.position = new Vector2(x, y);
+                        emptyPipe.transform.parent = tileObjects[x, y].transform;
+                        LevelData.GamePieces[x, y] = emptyPipe.GetComponent<PipeHandler>();
+                    }
+                }
+            }
         }
     }
 
@@ -186,6 +234,23 @@ public class LevelHandler : MonoBehaviour
                 {
                     LevelData.GamePieces[x, y]?.RotatePiece();
                 }
+            }
+        }
+    }
+
+    void InstantiateStartEndPipes(bool iterateStarts, Pipe[,] pipes)
+    {
+        var iterable = iterateStarts ? LevelData.Starts : LevelData.Ends;
+        foreach (Liquid liq in iterable.Keys)
+        {
+            foreach (Position pos in iterable[liq])
+            {
+                int offset = boardSize - 1;
+                Pipe pipe = pipes[pos.X, offset - pos.Y];
+                GameObject pipePrefab = pipe.Liquid == Liquid.Water ? waterPipePrefabs[(int)pipe.Type] : lavaPipePrefabs[(int)pipe.Type];
+                var chosenSprite = pipe.Liquid == Liquid.Water ? blueGreenPipeSprites[(int)pipe.Type] : redGreyPipeSprites[(int)pipe.Type];
+
+                ConfigurePipePrefab(tileObjects[pos.X, pos.Y], pipePrefab, pipe, chosenSprite);
             }
         }
     }

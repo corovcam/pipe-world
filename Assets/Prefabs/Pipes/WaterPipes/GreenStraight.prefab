@@ -127,20 +127,10 @@ MonoBehaviour:
   IODirs: 00010001
   speed: 0.1
   rotation: 0
-  tileRotation: 0
-  tileType: 0
-  in_Out1: 0000000001000000
-  in_Out2: 0200000003000000
-  locX: 0
-  locY: 0
-  upB: 0
-  rightB: 0
-  downB: 0
-  leftB: 0
-  isPump: 0
-  pumpOut: 2
-  pumpIns: 0
-  flowPrefab: {fileID: 0}
+  upFree: 0
+  downFree: 0
+  rightFree: 0
+  leftFree: 0
   up: {fileID: 0}
   right: {fileID: 0}
   down: {fileID: 0}
