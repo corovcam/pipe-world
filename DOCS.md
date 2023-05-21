@@ -1,6 +1,52 @@
 # Documentation
 
-## Unity Project Description
+## Overview
+Pipe World is a puzzle game developed in Unity 2021.3.5f1 using C# scripting language. The game is designed for the WebGl platform and is inspired by popular puzzle games such as Pipe Mania and Water Pipes. The player's goal is to transport liquid from one end of the game board to the other using interconnected pipes.
+
+### Game Mechanics
+The game consists of a static matrix-like game board that contains randomly rotated pipes of different types, including straight, right-bent/left-bent, three-way, and cross. The player can rotate a pipe by clicking on it. The player must create a connection with nearby pipes to transport the liquid/water from one edge of the board to the other edge. The player has a set time limit during which they can rotate pipes. The earlier the player finishes, the more total score they receive. After every second level, the game board gets bigger, or the time limit is changed to reflect the increasing difficulty of the level.
+
+### Board Setup
+Upon starting the game, the player is presented with a game board that consists of a matrix-like grid, where the pipes are randomly placed and rotated. The player must connect the pipes in order to create a continuous path from the start pipe to the end pipe.
+
+### Pipes
+There are four types of pipes: straight, right-bent/left-bent, three-way, and cross pipes. These pipes are randomly placed on the game board and the player must rotate them by clicking on them until they are connected to the adjacent pipes.
+
+### Flowing Mechanic
+The objective of the game is to create a continuous path from the start pipe to the end pipe, allowing water to flow through the connected pipes. The water flows through the pipes automatically once the Flow button is pressed. The player has a limited amount of time to connect the pipes before the water begins to flow. If the player fails to connect the pipes before the time limit expires, the game ends.
+
+### Score Calculation
+The game score is calculated based on the time it takes the player to connect the pipes and complete the level. The faster the player completes the level, the higher the score. The score is also affected by the number of pipes the player has used to complete the level. The fewer pipes the player uses, the higher the score.
+
+### Level Progression
+After completing a level, the player is presented with the option to advance to the next level. As the player progresses through the levels, the game board becomes larger and more complex, and the time limit becomes shorter, making it more challenging to complete the levels.
+
+### Game Modes
+There are two game modes in Pipe World: Arcade Mode and Level Select Mode. In Arcade Mode, the player must complete as many levels as possible in a given time. In Level Select Mode, the player can choose to play any of the available levels.
+
+### Game Flow
+1. Main Menu
+When the game is launched, the player is presented with the Main Menu. The Main Menu contains two buttons: Play and Quit. Clicking on Play takes the player to the Level Select Menu.
+
+2. Level Select Menu
+The Level Select Menu contains a paginated list of available levels that the player can choose to play. Each level displays the level number, the number of pipes used, and the time limit. Clicking on a level takes the player to the Game Scene with the selected level loaded.
+
+3. Game Scene
+The Game Scene is where the player can play the game. The game board is displayed in the center of the screen, and the GUI components are displayed on the sides of the screen. The player can rotate the pipes by clicking on them, and start the water flow by clicking the Flow button. The player can pause the game by clicking on the Pause button.
+
+4. Pause Menu
+When the game is paused, the Pause Menu is displayed. The Pause Menu contains two buttons: Resume and Quit. Clicking on Resume returns the player to the Game Scene. Clicking on Quit takes the player back to the Main Menu.
+
+5. End Game Menu
+When the player completes a level or runs out of time, the End Game Menu is displayed. The End Game Menu displays the player's score, the number of pipes used, and the time taken to complete the level. The End Game Menu contains two buttons: Retry and Quit. Clicking on Retry restarts the level. Clicking on Quit takes the player back to the Level Select Menu.
+
+### Conclusion
+Pipe World is a fun and challenging puzzle game that requires the player to connect pipes to allow water to flow through them. With its randomly generated levels, variety of pipe types, and score calculation system, Pipe World provides a unique and engaging gameplay experience.
+
+***
+
+## Unity Project Structure
+
 ### Folders:
 - **Assets** - scripts, pictures, sprites, audio, animations and user-made files
 - **Packages** - contains information about required packages to install and build the Unity project
@@ -57,7 +103,21 @@
 
 ***
 
+## Technical details
+All scripts attached to GameObjects inherit from the base MonoBehaviour class in Unity. MonoBehaviour is a class that allows the user to attach scripts to GameObjects in the Unity Editor. The MonoBehaviour class contains several methods that are called at specific moments in the game loop. These methods are called in the following order:
+1. Awake
+2. Start
+3. Update
+4. LateUpdate
+5. FixedUpdate
+
+### Script (Class) Diagram
+
+
+***
+
 ## Scenes
+
 ### **Scene: LevelSelect**
 Scene contains a Title and a Grid of Levels in a paginated view.  
 
@@ -123,6 +183,7 @@ Game scene is the main scene in the build.
 ***
 
 ## Build, install and run
+
 Game is built using the Unity Editor, version 2021.3.5f1, so the assemblies and scripts are mostly compatible with the 2021.3 major versions. If run built using a version lower than this one, compatibility issues may arise considering that the game uses newer Universal Render Pipeline, Input system and Coroutines.  
 
 When cloned, start the Editor using the Unity Hub (or manually) and wait till the Editor finishes downloading and importing packages.
@@ -135,6 +196,7 @@ Or using: <https://developer.cloud.unity3d.com/share/share.html?shareId=ZyLqMsO6
 ***
 
 ## Credits and 3rd Party Assets
+
 [^1]: <https://assetstore.unity.com/packages/2d/gui/puzzle-stage-settings-gui-pack-147389> "Puzzle stage & settings GUI Pack"
 [^2]: <https://opengameart.org/content/puzzle-pack-2-795-assets> "Puzzle Pack 2, made by Kenney.nl"
 [^3]: <https://opengameart.org/content/2d-pipe-parts> "2D Pipe parts, made by TwistedDonkey in Blender, further costumized by me"

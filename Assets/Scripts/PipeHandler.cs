@@ -52,17 +52,17 @@ public class PipeHandler : MonoBehaviour
 
         if (location.Y != 0)
         {
-            down = LevelData.GamePieces[location.X, location.Y - 1]; ;
+            down = LevelData.GamePieces[location.X, location.Y - 1];
         }
 
         if (location.X + 1 < LevelData.BoardSize)
         {
-            right = LevelData.GamePieces[location.X + 1, location.Y]; ;
+            right = LevelData.GamePieces[location.X + 1, location.Y];
         }
 
         if (location.X != 0)
         {
-            left = LevelData.GamePieces[location.X - 1, location.Y]; ;
+            left = LevelData.GamePieces[location.X - 1, location.Y];
         }
     }
 
