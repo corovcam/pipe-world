@@ -8,6 +8,8 @@ public enum CellWalls
 {
     // 0000 -> NO WALLS
     // 1111 -> LEFT,RIGHT,UP,DOWN
+    NO_WALLS = 0, // 0000
+
     LEFT = 1, // 0001
     RIGHT = 2, // 0010
     UP = 4, // 0100

@@ -243,11 +243,14 @@ public static class LevelData
     /// </summary>
     private static void FillWallsToPipesMap(ref Dictionary<CellWalls, List<PipeType>> map)
     {
+        // 0 Walls
+        map.Add(CellWalls.NO_WALLS, new List<PipeType> { PipeType.Cross });
+
         // 1 Wall
-        map.Add(CellWalls.UP, new List<PipeType> { PipeType.ThreeWay, PipeType.Cross });
-        map.Add(CellWalls.DOWN, new List<PipeType> { PipeType.ThreeWay, PipeType.Cross });
-        map.Add(CellWalls.LEFT, new List<PipeType> { PipeType.ThreeWay, PipeType.Cross });
-        map.Add(CellWalls.RIGHT, new List<PipeType> { PipeType.ThreeWay, PipeType.Cross });
+        map.Add(CellWalls.UP, new List<PipeType> { PipeType.ThreeWay });
+        map.Add(CellWalls.DOWN, new List<PipeType> { PipeType.ThreeWay });
+        map.Add(CellWalls.LEFT, new List<PipeType> { PipeType.ThreeWay });
+        map.Add(CellWalls.RIGHT, new List<PipeType> { PipeType.ThreeWay });
 
         // 2 Walls
         map.Add(CellWalls.UP | CellWalls.DOWN,
