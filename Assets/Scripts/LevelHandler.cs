@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -57,6 +58,7 @@ public class LevelHandler : MonoBehaviour
 
     public PauseControl pauseControl;
     public InventoryManager inventoryManager;
+    public GameManager gameManager;
 
     void Start()
     {
@@ -73,14 +75,14 @@ public class LevelHandler : MonoBehaviour
 
         GenerateNewGrid();
         GenerateLevel();
-        if (LevelData.IsFreeWorldMode)
-        {
-            inventoryManager.gameObject.SetActive(true);
-            inventoryManager.SetInventoryVisibilityTo(true);
-            SetActiveTile(tileObjects[LevelData.defaultStart.Value.X, LevelData.defaultStart.Value.Y]);
-            StoreGamePieces();
-            return;
-        }
+        //if (LevelData.IsFreeWorldMode)
+        //{
+        //    inventoryManager.gameObject.SetActive(true);
+        //    inventoryManager.SetInventoryVisibilityTo(true);
+        //    SetActiveTile(tileObjects[LevelData.defaultStart.Value.X, LevelData.defaultStart.Value.Y]);
+        //    StoreGamePieces();
+        //    return;
+        //}
 
         // The StartPipe is the first Active Tile
         SetActiveTile(tileObjects[LevelData.defaultStart.Value.X, LevelData.defaultStart.Value.Y]);
@@ -105,6 +107,15 @@ public class LevelHandler : MonoBehaviour
                 temp.transform.position = tileTransform;
                 temp.name = string.Format("({0}, {1})", x, y);
                 temp.transform.parent = gameObject.transform;
+
+                if (LevelData.IsFreeWorldMode)
+                {
+                    temp.layer = LayerMask.NameToLayer("Ignore Raycast");
+                    var collider = temp.AddComponent<BoxCollider2D>();
+                    collider.isTrigger = true;
+                    collider.size = new Vector2(1, 1);
+                }
+
                 tileObjects[x, y] = temp;
             }
         }
@@ -123,11 +134,11 @@ public class LevelHandler : MonoBehaviour
         else
             pipes = LevelData.ReadInputLevelData();
 
-        if (LevelData.IsFreeWorldMode)
-        {
-            InstantiateStartEndPipes(true, pipes);
-            InstantiateStartEndPipes(false, pipes);
-        }
+        //if (LevelData.IsFreeWorldMode)
+        //{
+        //    InstantiateStartEndPipes(true, pipes);
+        //    InstantiateStartEndPipes(false, pipes);
+        //}
 
         // Offset is used to transform the Unity's default coord system from the lower-left corner
         // to a more practical upper-left corner start position (0,0)
@@ -138,16 +149,19 @@ public class LevelHandler : MonoBehaviour
             {
                 Pipe pipe = pipes[x, y];
                 GameObject pipePrefab = pipe.Liquid == Liquid.Water ? waterPipePrefabs[(int)pipe.Type] : lavaPipePrefabs[(int)pipe.Type];
+                GameObject pipeGO = Instantiate(pipePrefab);
 
                 if (LevelData.IsFreeWorldMode)
                 {
-                    if (pipe.Type == PipeType.EMPTY)
-                        continue;
-                    inventoryManager.AddPipeToInventory(pipe, pipePrefab);
-                    continue;
+                    pipeGO.AddComponent<GridPipe>();
+                    var rb = pipeGO.AddComponent<Rigidbody2D>();
+                    rb.bodyType = RigidbodyType2D.Kinematic;
+                    if (pipe.Type != PipeType.EMPTY)
+                        inventoryManager.AddPipeToInventory(pipe, pipePrefab);
                 }
 
-                ConfigurePipePrefab(tileObjects[x, y + offset], pipePrefab, pipe);
+                pipeGO.GetComponent<PipeHandler>().pipeType = pipe;
+                PositionPipeGO(tileObjects[x, y + offset], pipeGO);
             }
             offset -= 2;
         }
@@ -158,14 +172,8 @@ public class LevelHandler : MonoBehaviour
     /// </summary>
     /// <param name="tile">The Tile GO where the Pipe should be placed on</param>
     /// <param name="pipeID">The corresponding Pipe enum index</param>
-    private void ConfigurePipePrefab(GameObject tile, GameObject pipePrefab, Pipe pipe, Sprite chosenSprite = null)
+    private void PositionPipeGO(GameObject tile, GameObject pipeGO)
     {
-        GameObject pipeGO = Instantiate(pipePrefab);
-        pipeGO.GetComponent<PipeHandler>().pipeType = pipe;
-        
-        if (chosenSprite != null)
-            pipeGO.GetComponent<SpriteRenderer>().sprite = chosenSprite;
-
         pipeGO.transform.position = new Vector2(tile.transform.position.x, tile.transform.position.y);
         pipeGO.transform.parent = tile.transform;
     }
@@ -197,23 +205,22 @@ public class LevelHandler : MonoBehaviour
             int yCoord = (int)piece.transform.parent.localPosition.y;
             LevelData.GamePieces[xCoord, yCoord] = piece.GetComponent<PipeHandler>();
         }
-        if (LevelData.IsFreeWorldMode)
-        {
-            // Set the rest of the grid to empty pipes to avoid null reference exceptions
-            for (int x = 0; x < boardSize; x++)
-            {
-                for (int y = 0; y < boardSize; y++)
-                {
-                    if (LevelData.GamePieces[x, y] == null)
-                    {
-                        GameObject emptyPipe = Instantiate(waterPipePrefabs[(int)PipeType.EMPTY]);
-                        emptyPipe.transform.position = new Vector2(x, y);
-                        emptyPipe.transform.parent = tileObjects[x, y].transform;
-                        LevelData.GamePieces[x, y] = emptyPipe.GetComponent<PipeHandler>();
-                    }
-                }
-            }
-        }
+        //if (LevelData.IsFreeWorldMode)
+        //{
+        //    // Set the rest of the grid to empty pipes to avoid null reference exceptions
+        //    for (int x = 0; x < boardSize; x++)
+        //    {
+        //        for (int y = 0; y < boardSize; y++)
+        //        {
+        //            if (LevelData.GamePieces[x, y] == null)
+        //            {
+        //                GameObject emptyPipe = Instantiate(waterPipePrefabs[(int)PipeType.EMPTY], tileObjects[x, y].transform);
+        //                emptyPipe.GetComponent<PipeHandler>().pipeType = new Pipe(Liquid.Water, PipeType.EMPTY);
+        //                LevelData.GamePieces[x, y] = emptyPipe.GetComponent<PipeHandler>();
+        //            }
+        //        }
+        //    }
+        //}
     }
 
     /// <summary>
@@ -238,7 +245,7 @@ public class LevelHandler : MonoBehaviour
         }
     }
 
-    void InstantiateStartEndPipes(bool iterateStarts, Pipe[,] pipes)
+    void InstantiateStartEndPipes(bool iterateStarts, Pipe[,] pipes) // Free World Mode only
     {
         var iterable = iterateStarts ? LevelData.Starts : LevelData.Ends;
         foreach (Liquid liq in iterable.Keys)
@@ -250,7 +257,15 @@ public class LevelHandler : MonoBehaviour
                 GameObject pipePrefab = pipe.Liquid == Liquid.Water ? waterPipePrefabs[(int)pipe.Type] : lavaPipePrefabs[(int)pipe.Type];
                 var chosenSprite = pipe.Liquid == Liquid.Water ? blueGreenPipeSprites[(int)pipe.Type] : redGreyPipeSprites[(int)pipe.Type];
 
-                ConfigurePipePrefab(tileObjects[pos.X, pos.Y], pipePrefab, pipe, chosenSprite);
+                GameObject pipeGO = Instantiate(pipePrefab);
+                pipeGO.GetComponent<PipeHandler>().pipeType = pipe;
+                pipeGO.GetComponent<SpriteRenderer>().sprite = chosenSprite;
+                pipeGO.AddComponent<GridPipe>();
+                var rb = pipeGO.AddComponent<Rigidbody2D>();
+                rb.bodyType = RigidbodyType2D.Kinematic;
+                // pipeGO.GetComponent<BoxCollider2D>().isTrigger = true;
+
+                PositionPipeGO(tileObjects[pos.X, pos.Y], pipeGO);
             }
         }
     }
@@ -271,6 +286,8 @@ public class LevelHandler : MonoBehaviour
                             blueGreenPipeSprites[(int)pipeType.Type] : redGreyPipeSprites[(int)pipeType.Type];
 
                 pipe.GetComponent<SpriteRenderer>().sprite = chosenSprite;
+                if (LevelData.IsFreeWorldMode)
+                    Destroy(pipe.GetComponent<GridPipe>());
             }
         }
     }

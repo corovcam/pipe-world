@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.Burst.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -37,17 +35,33 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         // Debug.Log(eventData.pointerCurrentRaycast.gameObject.name);
 
-        //Debug.Log(eventData.pointerCurrentRaycast.gameObject);
-        //Debug.Log(Input.mousePosition);
+        Debug.Log(eventData.pointerCurrentRaycast.gameObject);
+        Debug.Log(Input.mousePosition);
+        List<RaycastResult> touches = new();
+        EventSystem.current.RaycastAll(eventData, touches);
         //Ray ray = Camera.main.ScreenPointToRay(Camera.main.WorldToScreenPoint(Input.mousePosition));
         //Debug.Log(ray.origin + "; " + ray.direction);
-        //if (Physics.Raycast(ray, out RaycastHit hit, 10000f))
-        //{
-        //    Vector3 worldPoint = hit.point;
-
-        //    Debug.DrawRay(ray.origin, ray.direction, Color.yellow);
-        //    Debug.Log(worldPoint);
-        //    Debug.Log(hit.transform.gameObject.name);
-        //}
+        //RaycastHit2D[] touches = Physics2D.RaycastAll(
+        //    Camera.main.WorldToScreenPoint(Input.mousePosition),
+        //    Camera.main.transform.forward);
+        //Debug.DrawRay(Camera.main.WorldToScreenPoint(Input.mousePosition), Camera.main.transform.forward, Color.red);
+        foreach (var hit in touches)
+        {
+            if (hit.gameObject.CompareTag("Pipe"))
+            {
+                Debug.Log(hit.gameObject.name);
+                var pipe = hit.gameObject.GetComponent<PipeHandler>();
+                if (pipe.pipeType.Type == PipeType.EMPTY)
+                {
+                    var pipeGO = Instantiate(pipePrefab, pipe.transform);
+                    pipeGO.transform.localPosition = Vector3.zero;
+                    //pipeGO = pipe.GetComponent<Pipe>();
+                    //pipe.pipe.pipeType = pipeType;
+                    Destroy(pipe.gameObject);
+                }
+            }
+            Debug.Log(hit);
+            Debug.Log(hit.gameObject.name);
+        }
     }
 }

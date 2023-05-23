@@ -127,7 +127,6 @@ MonoBehaviour:
   IODirs: 00010101
   speed: 0.1
   rotation: 0
-  tileType: 2
   upFree: 0
   downFree: 0
   rightFree: 0

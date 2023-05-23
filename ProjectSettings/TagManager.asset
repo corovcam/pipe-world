@@ -6,7 +6,7 @@ TagManager:
   tags:
   - Pipe
   - Settings
-  - Cell
+  - Tile
   layers:
   - Default
   - TransparentFX
