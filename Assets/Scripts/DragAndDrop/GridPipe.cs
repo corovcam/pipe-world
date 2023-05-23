@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Burst.CompilerServices;
 
 public class GridPipe : MonoBehaviour
 {
@@ -103,7 +102,7 @@ public class GridPipe : MonoBehaviour
         var otherPipeHandler = otherPipeTransform.GetComponent<PipeHandler>();
 
         transform.SetParent(otherPipeTransform.parent);
-        StartCoroutine(SlotIntoPlace(transform.position, newPosition));
+        StartCoroutine(SlotIntoPlace(transform.position, newPosition, thisPipeHandler));
         LevelData.GamePieces[thisPipeHandler.location.X, thisPipeHandler.location.Y] = otherPipeHandler;
 
         Transform otherPipeParent = otherPipeTransform.parent;
@@ -139,7 +138,7 @@ public class GridPipe : MonoBehaviour
         }
     }
 
-    IEnumerator SlotIntoPlace(Vector2 startingPos, Vector2 endingPos)
+    IEnumerator SlotIntoPlace(Vector2 startingPos, Vector2 endingPos, PipeHandler pipeHandler)
     {
         float duration = 0.1f;
         float elapsedTime = 0;
@@ -151,5 +150,6 @@ public class GridPipe : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         transform.position = endingPos;
+        pipeHandler.SetActiveTileToThisGO();
     }
 }

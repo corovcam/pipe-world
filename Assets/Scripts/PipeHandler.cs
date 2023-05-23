@@ -93,9 +93,14 @@ public class PipeHandler : MonoBehaviour
         if (!PauseControl.GameIsPaused && !GUIHandler.IsEndGame)
         {
             RotatePiece();
-            levelHandler.SetActiveTile(gameObject);
+            SetActiveTileToThisGO();
         }
 	}
+
+    public void SetActiveTileToThisGO()
+    {
+        levelHandler.SetActiveTile(gameObject);
+    }
 
     /// <summary>
     /// Rotates the pipe and sets new IOs, available neighbouring pipes, and updates the neighbouring pipes as well
