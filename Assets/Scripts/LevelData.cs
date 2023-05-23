@@ -38,6 +38,12 @@ public struct Position
     public int X;
     public int Y;
 
+    public Position(int x, int y)
+    {
+        X = x;
+        Y = y;
+    }
+
     public override bool Equals(object obj)
     {
         return base.Equals(obj);
@@ -269,21 +275,4 @@ public static class LevelData
             new List<PipeType> { PipeType.Straight, PipeType.Round });
     }
 
-    //private static int ReadStartEndIndex(string line, ref int i)
-    //{
-    //    char testChar = line[i++];
-    //    int index = 0;
-    //    if (testChar != ':')
-    //    {
-    //        while (testChar != ':')
-    //        {
-    //            index = 10 * index + testChar - '0';
-    //            testChar = line[i++];
-    //        }
-    //        i--;
-    //    }
-    //    else
-    //        i--;
-    //    return index;
-    //}
 }

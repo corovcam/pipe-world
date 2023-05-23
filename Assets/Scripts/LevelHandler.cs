@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -75,14 +75,6 @@ public class LevelHandler : MonoBehaviour
 
         GenerateNewGrid();
         GenerateLevel();
-        //if (LevelData.IsFreeWorldMode)
-        //{
-        //    inventoryManager.gameObject.SetActive(true);
-        //    inventoryManager.SetInventoryVisibilityTo(true);
-        //    SetActiveTile(tileObjects[LevelData.defaultStart.Value.X, LevelData.defaultStart.Value.Y]);
-        //    StoreGamePieces();
-        //    return;
-        //}
 
         // The StartPipe is the first Active Tile
         SetActiveTile(tileObjects[LevelData.defaultStart.Value.X, LevelData.defaultStart.Value.Y]);
@@ -134,20 +126,39 @@ public class LevelHandler : MonoBehaviour
         else
             pipes = LevelData.ReadInputLevelData();
 
-        //if (LevelData.IsFreeWorldMode)
-        //{
-        //    InstantiateStartEndPipes(true, pipes);
-        //    InstantiateStartEndPipes(false, pipes);
-        //}
-
         // Offset is used to transform the Unity's default coord system from the lower-left corner
         // to a more practical upper-left corner start position (0,0)
         int offset = boardSize - 1;
+        List<Pipe> pipesList = new List<Pipe>();
+        if (LevelData.IsFreeWorldMode)
+        {
+            foreach (var pipe in pipes)
+                pipesList.Add(pipe);
+        }
         for (int y = 0; y < boardSize; y++)
         {
             for (int x = 0; x < boardSize; x++)
             {
-                Pipe pipe = pipes[x, y];
+                Pipe pipe;
+                if (LevelData.IsFreeWorldMode)
+                {
+                    if (LevelData.Starts.Select(kv => kv.Value).Any(v => v.Contains(new Position(x, y + offset)) ||
+                    LevelData.Ends.Select(kv => kv.Value).Any(v => v.Contains(new Position(x, y + offset)))))
+                    {
+                        pipe = pipes[x, y];
+                        pipesList.Remove(pipe);
+                    }
+                    else
+                    {
+                        int randIndex = Random.Range(0, pipesList.Count);
+                        pipe = pipesList[randIndex];
+                        pipesList.RemoveAt(randIndex);
+                    }
+                } else
+                {
+                    pipe = pipes[x, y];
+                }
+
                 GameObject pipePrefab = pipe.Liquid == Liquid.Water ? waterPipePrefabs[(int)pipe.Type] : lavaPipePrefabs[(int)pipe.Type];
                 GameObject pipeGO = Instantiate(pipePrefab);
 
@@ -205,22 +216,6 @@ public class LevelHandler : MonoBehaviour
             int yCoord = (int)piece.transform.parent.localPosition.y;
             LevelData.GamePieces[xCoord, yCoord] = piece.GetComponent<PipeHandler>();
         }
-        //if (LevelData.IsFreeWorldMode)
-        //{
-        //    // Set the rest of the grid to empty pipes to avoid null reference exceptions
-        //    for (int x = 0; x < boardSize; x++)
-        //    {
-        //        for (int y = 0; y < boardSize; y++)
-        //        {
-        //            if (LevelData.GamePieces[x, y] == null)
-        //            {
-        //                GameObject emptyPipe = Instantiate(waterPipePrefabs[(int)PipeType.EMPTY], tileObjects[x, y].transform);
-        //                emptyPipe.GetComponent<PipeHandler>().pipeType = new Pipe(Liquid.Water, PipeType.EMPTY);
-        //                LevelData.GamePieces[x, y] = emptyPipe.GetComponent<PipeHandler>();
-        //            }
-        //        }
-        //    }
-        //}
     }
 
     /// <summary>
