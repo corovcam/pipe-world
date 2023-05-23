@@ -41,13 +41,32 @@ public class PipeHandler : MonoBehaviour
         levelHandler = GameObject.Find("Grid").GetComponent<LevelHandler>();
 		rotation = 0;
 
+        // Initializes the neighbouring PipeHandlers at the start of the script instance
+        UpdateNeighbouringPipeHandlers();
+    }
+
+	void Update()
+	{
+        // Handles the rotation animation using the Main Loop
+		if (transform.rotation.eulerAngles.z != rotation)
+		{
+			transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, rotation), speed);
+		}
+	}
+
+    public void UpdateNeighbouringPipeHandlers()
+    {
         location.X = (int)gameObject.transform.parent.localPosition.x;
         location.Y = (int)gameObject.transform.parent.localPosition.y;
 
-        // Initializes the neighbouring PipeHandlers at the start of the script instance
+        up = null;
+        right = null;
+        down = null;
+        left = null;
+
         if (location.Y + 1 < LevelData.BoardSize)
         {
-			up = LevelData.GamePieces[location.X, location.Y + 1];
+            up = LevelData.GamePieces[location.X, location.Y + 1];
         }
 
         if (location.Y != 0)
@@ -65,15 +84,6 @@ public class PipeHandler : MonoBehaviour
             left = LevelData.GamePieces[location.X - 1, location.Y];
         }
     }
-
-	void Update()
-	{
-        // Handles the rotation animation using the Main Loop
-		if (transform.rotation.eulerAngles.z != rotation)
-		{
-			transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, rotation), speed);
-		}
-	}
 
     /// <summary>
     /// Fires when this pipe was clicked on, rotates the pipe and sets new ActiveTile to this tile
@@ -101,16 +111,7 @@ public class PipeHandler : MonoBehaviour
 
 		RotateIODirections();
 
-        UpdateAvailableSides();
-
-        if (up != null)
-            up.UpdateAvailableSides();
-        if (down != null)
-            down.UpdateAvailableSides();
-        if (left != null)
-            left.UpdateAvailableSides();
-        if (right != null)
-            right.UpdateAvailableSides();
+        ProcessNearbyPipeChanges(setNearbyPipeHandlers: false);
     }
 
     /// <summary>
@@ -126,6 +127,34 @@ public class PipeHandler : MonoBehaviour
 		}
 		IODirs[3] = storedUp;
 	}
+
+    public void ProcessNearbyPipeChanges(bool setNearbyPipeHandlers)
+    {
+        if (setNearbyPipeHandlers)
+        {
+            UpdateNeighbouringPipeHandlers();
+
+            if (up != null)
+                up.UpdateNeighbouringPipeHandlers();
+            if (down != null)
+                down.UpdateNeighbouringPipeHandlers();
+            if (left != null)
+                left.UpdateNeighbouringPipeHandlers();
+            if (right != null)
+                right.UpdateNeighbouringPipeHandlers();
+        }
+
+        UpdateAvailableSides();
+
+        if (up != null)
+            up.UpdateAvailableSides();
+        if (down != null)
+            down.UpdateAvailableSides();
+        if (left != null)
+            left.UpdateAvailableSides();
+        if (right != null)
+            right.UpdateAvailableSides();
+    }
 
     /// <summary>
     /// Used to determine if the water can flow to the corresponding Dirs and updates the Free flags
