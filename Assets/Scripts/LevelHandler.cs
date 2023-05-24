@@ -142,7 +142,7 @@ public class LevelHandler : MonoBehaviour
                 if (LevelData.IsFreeWorldMode)
                 {
                     if (LevelData.Starts.Select(kv => kv.Value).Any(v => v.Contains(new Position(x, y + offset)) ||
-                    LevelData.Ends.Select(kv => kv.Value).Any(v => v.Contains(new Position(x, y + offset)))))
+                        LevelData.Ends.Select(kv => kv.Value).Any(v => v.Contains(new Position(x, y + offset)))))
                     {
                         pipe = pipes[x, y];
                         pipesList.Remove(pipe);
@@ -249,9 +249,17 @@ public class LevelHandler : MonoBehaviour
             {
                 var pipe = LevelData.GamePieces[pos.X, pos.Y];
                 Pipe pipeType = pipe.pipeType;
-                var chosenSprite = pipeType.Liquid == Liquid.Water ?
-                            blueGreenPipeSprites[(int)pipeType.Type] : redGreyPipeSprites[(int)pipeType.Type];
-
+                Sprite chosenSprite;
+                if (iterateStarts)
+                {
+                    chosenSprite = pipeType.Liquid == Liquid.Water ?
+                            filledBlueGreenPipeSprites[(int)pipeType.Type] : filledRedGreyPipeSprites[(int)pipeType.Type];
+                }
+                else
+                {
+                    chosenSprite = pipeType.Liquid == Liquid.Water ? 
+                        blueGreenPipeSprites[(int)pipeType.Type] : redGreyPipeSprites[(int)pipeType.Type];
+                }
                 pipe.GetComponent<SpriteRenderer>().sprite = chosenSprite;
                 if (LevelData.IsFreeWorldMode)
                     Destroy(pipe.GetComponent<GridPipe>());

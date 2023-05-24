@@ -6,18 +6,18 @@ public class GridPipe : MonoBehaviour
 {
     private bool draggingItem = false;
     private Vector2 touchOffset;
+    private Camera mainCamera;
 
     public Vector2 startingPosition;
     public Transform myParent;
 
     [SerializeField] private List<Transform> touchingTiles = new();
-    //private AudioSource audSource;
 
     void Start()
     {
         startingPosition = transform.position;
         myParent = transform.parent;
-        //audSource = gameObject.GetComponent<AudioSource>();
+        mainCamera = Camera.main;
     }
 
     void Update()
@@ -39,14 +39,11 @@ public class GridPipe : MonoBehaviour
 
     void OnMouseUp()
     {
-        if (!PauseControl.GameIsPaused && !GUIHandler.IsEndGame)
-        {
-            draggingItem = false;
-            Drop();
-        }
+        draggingItem = false;
+        Drop();
     }
 
-    Vector2 GetMousePos() => Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    Vector2 GetMousePos() => mainCamera.ScreenToWorldPoint(Input.mousePosition);
 
     public void PickUp()
     {
@@ -109,9 +106,6 @@ public class GridPipe : MonoBehaviour
         otherPipeTransform.SetParent(myParent);
         otherPipeTransform.position = startingPosition;
         LevelData.GamePieces[otherPipeHandler.location.X, otherPipeHandler.location.Y] = thisPipeHandler;
-        //var otherGridPipeComp = otherPipeTransform.GetComponent<GridPipe>();
-        //otherGridPipeComp.startingPosition = startingPosition;
-        //otherGridPipeComp.myParent = myParent;
         
         startingPosition = newPosition;
         myParent = otherPipeParent;
@@ -142,7 +136,6 @@ public class GridPipe : MonoBehaviour
     {
         float duration = 0.1f;
         float elapsedTime = 0;
-        //audSource.Play();
         while (elapsedTime < duration)
         {
             transform.position = Vector2.Lerp(startingPos, endingPos, elapsedTime / duration);
