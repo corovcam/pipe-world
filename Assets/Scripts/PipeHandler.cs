@@ -41,29 +41,8 @@ public class PipeHandler : MonoBehaviour
         levelHandler = GameObject.Find("Grid").GetComponent<LevelHandler>();
 		rotation = 0;
 
-        location.X = (int)gameObject.transform.parent.localPosition.x;
-        location.Y = (int)gameObject.transform.parent.localPosition.y;
-
         // Initializes the neighbouring PipeHandlers at the start of the script instance
-        if (location.Y + 1 < LevelData.BoardSize)
-        {
-			up = LevelData.GamePieces[location.X, location.Y + 1];
-        }
-
-        if (location.Y != 0)
-        {
-            down = LevelData.GamePieces[location.X, location.Y - 1]; ;
-        }
-
-        if (location.X + 1 < LevelData.BoardSize)
-        {
-            right = LevelData.GamePieces[location.X + 1, location.Y]; ;
-        }
-
-        if (location.X != 0)
-        {
-            left = LevelData.GamePieces[location.X - 1, location.Y]; ;
-        }
+        UpdateNeighbouringPipeHandlers();
     }
 
 	void Update()
@@ -75,6 +54,37 @@ public class PipeHandler : MonoBehaviour
 		}
 	}
 
+    public void UpdateNeighbouringPipeHandlers()
+    {
+        location.X = (int)gameObject.transform.parent.localPosition.x;
+        location.Y = (int)gameObject.transform.parent.localPosition.y;
+
+        up = null;
+        right = null;
+        down = null;
+        left = null;
+
+        if (location.Y + 1 < LevelData.BoardSize)
+        {
+            up = LevelData.GamePieces[location.X, location.Y + 1];
+        }
+
+        if (location.Y != 0)
+        {
+            down = LevelData.GamePieces[location.X, location.Y - 1];
+        }
+
+        if (location.X + 1 < LevelData.BoardSize)
+        {
+            right = LevelData.GamePieces[location.X + 1, location.Y];
+        }
+
+        if (location.X != 0)
+        {
+            left = LevelData.GamePieces[location.X - 1, location.Y];
+        }
+    }
+
     /// <summary>
     /// Fires when this pipe was clicked on, rotates the pipe and sets new ActiveTile to this tile
     /// </summary>
@@ -83,9 +93,14 @@ public class PipeHandler : MonoBehaviour
         if (!PauseControl.GameIsPaused && !GUIHandler.IsEndGame)
         {
             RotatePiece();
-            levelHandler.SetActiveTile(gameObject);
+            SetActiveTileToThisGO();
         }
 	}
+
+    public void SetActiveTileToThisGO()
+    {
+        levelHandler.SetActiveTile(gameObject);
+    }
 
     /// <summary>
     /// Rotates the pipe and sets new IOs, available neighbouring pipes, and updates the neighbouring pipes as well
@@ -101,16 +116,7 @@ public class PipeHandler : MonoBehaviour
 
 		RotateIODirections();
 
-        UpdateAvailableSides();
-
-        if (up != null)
-            up.UpdateAvailableSides();
-        if (down != null)
-            down.UpdateAvailableSides();
-        if (left != null)
-            left.UpdateAvailableSides();
-        if (right != null)
-            right.UpdateAvailableSides();
+        ProcessNearbyPipeChanges(setNearbyPipeHandlers: false);
     }
 
     /// <summary>
@@ -126,6 +132,34 @@ public class PipeHandler : MonoBehaviour
 		}
 		IODirs[3] = storedUp;
 	}
+
+    public void ProcessNearbyPipeChanges(bool setNearbyPipeHandlers)
+    {
+        if (setNearbyPipeHandlers)
+        {
+            UpdateNeighbouringPipeHandlers();
+
+            if (up != null)
+                up.UpdateNeighbouringPipeHandlers();
+            if (down != null)
+                down.UpdateNeighbouringPipeHandlers();
+            if (left != null)
+                left.UpdateNeighbouringPipeHandlers();
+            if (right != null)
+                right.UpdateNeighbouringPipeHandlers();
+        }
+
+        UpdateAvailableSides();
+
+        if (up != null)
+            up.UpdateAvailableSides();
+        if (down != null)
+            down.UpdateAvailableSides();
+        if (left != null)
+            left.UpdateAvailableSides();
+        if (right != null)
+            right.UpdateAvailableSides();
+    }
 
     /// <summary>
     /// Used to determine if the water can flow to the corresponding Dirs and updates the Free flags

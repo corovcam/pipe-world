@@ -38,6 +38,12 @@ public struct Position
     public int X;
     public int Y;
 
+    public Position(int x, int y)
+    {
+        X = x;
+        Y = y;
+    }
+
     public override bool Equals(object obj)
     {
         return base.Equals(obj);
@@ -237,11 +243,14 @@ public static class LevelData
     /// </summary>
     private static void FillWallsToPipesMap(ref Dictionary<CellWalls, List<PipeType>> map)
     {
+        // 0 Walls
+        map.Add(CellWalls.NO_WALLS, new List<PipeType> { PipeType.Cross });
+
         // 1 Wall
-        map.Add(CellWalls.UP, new List<PipeType> { PipeType.ThreeWay, PipeType.Cross });
-        map.Add(CellWalls.DOWN, new List<PipeType> { PipeType.ThreeWay, PipeType.Cross });
-        map.Add(CellWalls.LEFT, new List<PipeType> { PipeType.ThreeWay, PipeType.Cross });
-        map.Add(CellWalls.RIGHT, new List<PipeType> { PipeType.ThreeWay, PipeType.Cross });
+        map.Add(CellWalls.UP, new List<PipeType> { PipeType.ThreeWay });
+        map.Add(CellWalls.DOWN, new List<PipeType> { PipeType.ThreeWay });
+        map.Add(CellWalls.LEFT, new List<PipeType> { PipeType.ThreeWay });
+        map.Add(CellWalls.RIGHT, new List<PipeType> { PipeType.ThreeWay });
 
         // 2 Walls
         map.Add(CellWalls.UP | CellWalls.DOWN,
@@ -269,21 +278,4 @@ public static class LevelData
             new List<PipeType> { PipeType.Straight, PipeType.Round });
     }
 
-    //private static int ReadStartEndIndex(string line, ref int i)
-    //{
-    //    char testChar = line[i++];
-    //    int index = 0;
-    //    if (testChar != ':')
-    //    {
-    //        while (testChar != ':')
-    //        {
-    //            index = 10 * index + testChar - '0';
-    //            testChar = line[i++];
-    //        }
-    //        i--;
-    //    }
-    //    else
-    //        i--;
-    //    return index;
-    //}
 }

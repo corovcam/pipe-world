@@ -130,6 +130,12 @@ public class GUIHandler : MonoBehaviour
         startFlowButton.enabled = true;
         levelHandler.ResetLevel();
         timerText.text = LevelData.TimeLimit.ToString();
+
+        if (LevelData.IsFreeWorldMode)
+        {
+            SceneHandler.LoadLevel(LevelData.LevelNumber);
+        }
+
         StartCoroutine("CountdownTimer"); // Starts the CountdownTimer coroutine for the new game
     }
 

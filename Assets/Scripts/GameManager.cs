@@ -75,6 +75,7 @@ public class GameManager : MonoBehaviour
         visited = new HashSet<PipeHandler>();
 
         GUIHandler.SetEndGameScene();
+        lh.StoreGamePieces();
 
         bool waterAtStart = LevelData.Starts.ContainsKey(Liquid.Water);
         bool lavaAtStart = LevelData.Starts.ContainsKey(Liquid.Lava);
@@ -95,7 +96,7 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Used in Couroutine that uses BFS Traversal to fill all connected pipes from the StartPipe to
+    /// Used in Coroutine that uses BFS Traversal to fill all connected pipes from the StartPipe to
     /// the EndPipe location and checks if there is such a path
     /// </summary>
     IEnumerator Flow(Position startPos, Liquid flowLiquid, int flowIndex)
@@ -148,9 +149,9 @@ public class GameManager : MonoBehaviour
                     switch (dir) // Check the direction and continue there
                     {
                         case (int)Dir.UP:
-                            // Check if we can move the water to the UP Pipe and check if it hasn't
-                            // been already visited
-                            if (current.upFree && !visited.Contains(current.up))
+                            // Check if we can move the water to the UP Pipe, check if it hasn't been already visited and 
+                            // also the the liquid type must be the same, otherwise the liquid doesn't move through
+                            if (current.upFree && !visited.Contains(current.up) && currentType.Liquid == current.up.pipeType.Liquid)
                             {
                                 previousPipe = current; // Remember the previous Pipe for wave animation
                                 distances[current.up.location] = distances[current.location] + 1;
@@ -159,7 +160,7 @@ public class GameManager : MonoBehaviour
                             }
                             break;
                         case (int)Dir.RIGHT:
-                            if (current.rightFree && !visited.Contains(current.right))
+                            if (current.rightFree && !visited.Contains(current.right) && currentType.Liquid == current.right.pipeType.Liquid)
                             {
                                 previousPipe = current;
                                 distances[current.right.location] = distances[current.location] + 1;
@@ -168,7 +169,7 @@ public class GameManager : MonoBehaviour
                             }
                             break;
                         case (int)Dir.DOWN:
-                            if (current.downFree && !visited.Contains(current.down))
+                            if (current.downFree && !visited.Contains(current.down) && currentType.Liquid == current.down.pipeType.Liquid)
                             {
                                 previousPipe = current;
                                 distances[current.down.location] = distances[current.location] + 1;
@@ -177,7 +178,7 @@ public class GameManager : MonoBehaviour
                             }
                             break;
                         case (int)Dir.LEFT:
-                            if (current.leftFree && !visited.Contains(current.left))
+                            if (current.leftFree && !visited.Contains(current.left) && currentType.Liquid == current.left.pipeType.Liquid)
                             {
                                 previousPipe = current;
                                 distances[current.left.location] = distances[current.location] + 1;
