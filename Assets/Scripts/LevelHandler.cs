@@ -57,7 +57,6 @@ public class LevelHandler : MonoBehaviour
     public GameObject[,] tileObjects;
 
     public PauseControl pauseControl;
-    public InventoryManager inventoryManager;
     public GameManager gameManager;
 
     void Start()
@@ -167,8 +166,6 @@ public class LevelHandler : MonoBehaviour
                     pipeGO.AddComponent<GridPipe>();
                     var rb = pipeGO.AddComponent<Rigidbody2D>();
                     rb.bodyType = RigidbodyType2D.Kinematic;
-                    if (pipe.Type != PipeType.EMPTY)
-                        inventoryManager.AddPipeToInventory(pipe, pipePrefab);
                 }
 
                 pipeGO.GetComponent<PipeHandler>().pipeType = pipe;
@@ -236,31 +233,6 @@ public class LevelHandler : MonoBehaviour
                 {
                     LevelData.GamePieces[x, y]?.RotatePiece();
                 }
-            }
-        }
-    }
-
-    void InstantiateStartEndPipes(bool iterateStarts, Pipe[,] pipes) // Free World Mode only
-    {
-        var iterable = iterateStarts ? LevelData.Starts : LevelData.Ends;
-        foreach (Liquid liq in iterable.Keys)
-        {
-            foreach (Position pos in iterable[liq])
-            {
-                int offset = boardSize - 1;
-                Pipe pipe = pipes[pos.X, offset - pos.Y];
-                GameObject pipePrefab = pipe.Liquid == Liquid.Water ? waterPipePrefabs[(int)pipe.Type] : lavaPipePrefabs[(int)pipe.Type];
-                var chosenSprite = pipe.Liquid == Liquid.Water ? blueGreenPipeSprites[(int)pipe.Type] : redGreyPipeSprites[(int)pipe.Type];
-
-                GameObject pipeGO = Instantiate(pipePrefab);
-                pipeGO.GetComponent<PipeHandler>().pipeType = pipe;
-                pipeGO.GetComponent<SpriteRenderer>().sprite = chosenSprite;
-                pipeGO.AddComponent<GridPipe>();
-                var rb = pipeGO.AddComponent<Rigidbody2D>();
-                rb.bodyType = RigidbodyType2D.Kinematic;
-                // pipeGO.GetComponent<BoxCollider2D>().isTrigger = true;
-
-                PositionPipeGO(tileObjects[pos.X, pos.Y], pipeGO);
             }
         }
     }

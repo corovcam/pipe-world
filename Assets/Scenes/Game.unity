@@ -517,7 +517,6 @@ MonoBehaviour:
   levelNum: 1
   arcadeMode: 1
   pauseControl: {fileID: 616749219}
-  inventoryManager: {fileID: 616749221}
   gameManager: {fileID: 616749216}
 --- !u!4 &198401964
 Transform:
@@ -1743,7 +1742,6 @@ GameObject:
   - component: {fileID: 616749218}
   - component: {fileID: 616749219}
   - component: {fileID: 616749220}
-  - component: {fileID: 616749221}
   m_Layer: 0
   m_Name: Manager
   m_TagString: GameController
@@ -1837,23 +1835,8 @@ MonoBehaviour:
   skipButton: {fileID: 2041737952}
   startFlowButton: {fileID: 349450057}
   timerText: {fileID: 392351580}
-  isDebug: 1
+  isDebug: 0
   defaultTimeLimit: 20
---- !u!114 &616749221
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 616749215}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8e5d45610a94b4408ec76c19acf5e63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventoryGO: {fileID: 658104222}
-  inventorySlotPrefab: {fileID: 8020692382576678316, guid: c4e9522712b7eac46a631ea2abddad23, type: 3}
-  inventoryItemPrefab: {fileID: 8583644887859674421, guid: ef0a4717ee509bc4ebb687a30afee9f9, type: 3}
 --- !u!1 &636430563
 GameObject:
   m_ObjectHideFlags: 0
