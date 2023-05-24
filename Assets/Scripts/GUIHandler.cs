@@ -88,6 +88,7 @@ public class GUIHandler : MonoBehaviour
     /// The End Game Menu changes accordingly.</param>
     public void ShowEndGameMenu(bool isWon)
     {
+        gm.StopAllCoroutines();
         pauseButton.enabled = false;
         skipButton.gameObject.SetActive(false);
         // Pauses the game to prevent GUI interaction and player Input
@@ -129,6 +130,12 @@ public class GUIHandler : MonoBehaviour
         startFlowButton.enabled = true;
         levelHandler.ResetLevel();
         timerText.text = LevelData.TimeLimit.ToString();
+
+        if (LevelData.IsFreeWorldMode)
+        {
+            SceneHandler.LoadLevel(LevelData.LevelNumber);
+        }
+
         StartCoroutine("CountdownTimer"); // Starts the CountdownTimer coroutine for the new game
     }
 

@@ -321,11 +321,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 297398c464239364fb35682c46ee6658, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelsCount: 14
   mainMenuBtnPrefab: {fileID: 4419311698731089839, guid: d3135779f8b071f45a5e7ff93d3e0907, type: 3}
   previousPageBtn: {fileID: 2119686867068614871, guid: 7ce33b4feeb8c134289919604ca2c577, type: 3}
   nextPageBtn: {fileID: 2182331232340365148, guid: d500bac98846747438bdfa032e035ccf, type: 3}
-  levelBtnBackground: {fileID: 21300000, guid: 389f7ee28bb8fd64b856a0812f5dd053, type: 3}
-  numbers:
+  levelSelectBtnBG: {fileID: 21300000, guid: 389f7ee28bb8fd64b856a0812f5dd053, type: 3}
+  freeWorldBtnBG: {fileID: 21300000, guid: 90c4b4d51296e1f40b1f303cff90392d, type: 3}
+  levelSelectNumbers:
   - {fileID: 21300000, guid: f86448eb3b6b7984fbc581cac2d03d6f, type: 3}
   - {fileID: 21300000, guid: 4974684f902e6074382cd861fb0dc2fa, type: 3}
   - {fileID: 21300000, guid: 53e151e56013b7146b7096aa0845eb83, type: 3}
@@ -336,6 +338,16 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 8d5d1b1667b4c474480a7758f7fcdbdf, type: 3}
   - {fileID: 21300000, guid: 6eff7a2803fff2e4b815b19c57b754d5, type: 3}
   - {fileID: 21300000, guid: 0744cd0684b9ebf4198b23e8c555df43, type: 3}
-  levelsCount: 14
+  freeWorldNumbers:
+  - {fileID: 21300000, guid: 751654c6b8911a045bb5cf43c1fd5e3c, type: 3}
+  - {fileID: 21300000, guid: 1f87b806756f5204dafcdc9fc6f53e57, type: 3}
+  - {fileID: 21300000, guid: ac6e31da4662c264f856a12ae15c6d9b, type: 3}
+  - {fileID: 21300000, guid: ed5a54fe08d997d418a7c533ae18afed, type: 3}
+  - {fileID: 21300000, guid: a6107d567eaed494c91c5dcd0b537000, type: 3}
+  - {fileID: 21300000, guid: 7a6034b18634f054eba58913c6f558e9, type: 3}
+  - {fileID: 21300000, guid: ddb4605843576654595d855a5a2d387e, type: 3}
+  - {fileID: 21300000, guid: 7f650be9ca81d914c956c8e8e19f92e3, type: 3}
+  - {fileID: 21300000, guid: 577e72f1ef0b9294caa4eeddbd3b9f74, type: 3}
+  - {fileID: 21300000, guid: cbb224ebb0cd4b34eb07cc2e8152aeb0, type: 3}
   levelPagesGO: []
   currentPage: 0

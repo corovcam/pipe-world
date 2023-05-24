@@ -11,16 +11,22 @@ using TMPro;
 public class LevelSelectHandler : MonoBehaviour
 {
     /// <summary>
-    /// Need to be changed in Inspector when new Levels are addded or removed from the Resources folder
+    /// Need to be changed in Inspector when new Levels are addded or removed from the Resources/LevelSelectLevels folder
     /// </summary>
-    public int levelsCount = 14;
+    public int levelSelectlvlCount = 14;
+    /// <summary>
+    /// Need to be changed in Inspector when new Levels are addded or removed from the Resources/FreeWorldLevels folder
+    /// </summary>
+    public int freeWorldLvlCount = 8;
     public static int MaxTimeLimit { get; } = 20;
 
     public Button mainMenuBtnPrefab;
     public Button previousPageBtn;
     public Button nextPageBtn;
-    public Sprite levelBtnBackground;
-    public Sprite[] numbers;
+    public Sprite levelSelectBtnBG;
+    public Sprite freeWorldBtnBG;
+    public Sprite[] levelSelectNumbers;
+    public Sprite[] freeWorldNumbers;
 
     private GameObject canvasGO;
     private List<AudioSource> audioSources = new List<AudioSource>();
@@ -46,6 +52,7 @@ public class LevelSelectHandler : MonoBehaviour
         // Levels are organized in Pages containing 8 Levels at maximum
         int pageID = 0;
         GenerateLevelsPage(pageID);
+        int levelsCount = LevelData.IsFreeWorldMode ? freeWorldLvlCount : levelSelectlvlCount;
         for (int levelID = 1; levelID <= levelsCount; levelID++)
         {
             GenerateLevelButton(levelID, pageID);
@@ -72,10 +79,10 @@ public class LevelSelectHandler : MonoBehaviour
         GameObject titleGO = new GameObject();
         titleGO.transform.parent = canvasGO.transform;
         titleGO.layer = canvasGO.layer;
-        titleGO.name = "Level Select";
+        titleGO.name = LevelData.IsFreeWorldMode ? "Free World" : "Level Select";
 
         TextMeshProUGUI textComp = titleGO.AddComponent<TextMeshProUGUI>();
-        textComp.text = "LEVEL SELECT";
+        textComp.text = LevelData.IsFreeWorldMode ? "FREE WORLD" : "LEVEL SELECT";
         textComp.font = (TMP_FontAsset)Resources.Load("UI/Electronic Highway Sign SDF");
         textComp.fontSize = 100;
         textComp.fontStyle = FontStyles.Bold;
@@ -130,7 +137,7 @@ public class LevelSelectHandler : MonoBehaviour
 
         // Image
         Image buttonImg = buttonGO.AddComponent<Image>();
-        buttonImg.sprite = levelBtnBackground;
+        buttonImg.sprite = LevelData.IsFreeWorldMode ? freeWorldBtnBG : levelSelectBtnBG;
         buttonImg.color = new Color(214, 214, 214, 255);
 
         // Button
@@ -141,11 +148,8 @@ public class LevelSelectHandler : MonoBehaviour
         RectTransform transform = buttonComp.GetComponent<RectTransform>();
         transform.localScale = new Vector3(1, 1, 1);
 
-        MenuHandler.ConfigureButtonSounds(ref buttonComp, () =>
-        {
-            audioSources[0].Play();
-            SceneHandler.LoadLevel(levelNumber);
-        }, audioSources[1].Play);
+        MenuHandler.ConfigureButtonSounds(ref buttonComp, audioSources[0].Play, audioSources[1].Play);
+        buttonComp.onClick.AddListener(() => SceneHandler.LoadLevel(levelNumber));
 
         // Horizontal Layout Group (for multiple number sprites)
         GameObject horizontalGO = new GameObject();
@@ -177,7 +181,8 @@ public class LevelSelectHandler : MonoBehaviour
             imageNumberGO.name = literal.ToString();
 
             Image numberImg = imageNumberGO.AddComponent<Image>();
-            numberImg.sprite = numbers[literal - '0'];
+            numberImg.sprite = LevelData.IsFreeWorldMode ? 
+                freeWorldNumbers[literal - '0'] : levelSelectNumbers[literal - '0'];
             numberImg.color = Color.white;
 
             // Button Text Component relative position
@@ -193,6 +198,9 @@ public class LevelSelectHandler : MonoBehaviour
     {
         previousBtn = Instantiate(previousPageBtn, canvasGO.transform);
         nextBtn = Instantiate(nextPageBtn, canvasGO.transform);
+
+        previousBtn.GetComponent<Image>().sprite = LevelData.IsFreeWorldMode ? freeWorldBtnBG : levelSelectBtnBG;
+        nextBtn.GetComponent<Image>().sprite = LevelData.IsFreeWorldMode ? freeWorldBtnBG : levelSelectBtnBG;
 
         SetButtonTransform(previousBtn, 115, 65);
         SetButtonTransform(nextBtn, -115, 65);
@@ -263,6 +271,7 @@ public class LevelSelectHandler : MonoBehaviour
     void ConfigureMainMenuButton()
     {
         Button mainMenuBtn = Instantiate(mainMenuBtnPrefab, canvasGO.transform);
+        mainMenuBtn.GetComponent<Image>().sprite = LevelData.IsFreeWorldMode ? freeWorldBtnBG : levelSelectBtnBG;
         SetButtonTransform(mainMenuBtn, 137.3f, -65);
         MenuHandler.ConfigureButtonSounds(ref mainMenuBtn, audioSources[0].Play, audioSources[1].Play);
         mainMenuBtn.onClick.AddListener(SceneHandler.LoadMainMenuScene);

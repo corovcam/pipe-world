@@ -24,7 +24,7 @@ public class PipeHandler : MonoBehaviour
     [SerializeField]
 	float rotation; // 0 is up, 90 is right, 180 is down, 270 is left
 
-	public int tileType; // Determines the index in the Pipe enum
+    public Pipe pipeType; // Determines the tile/pipe type
     public Position location;
     // Determines if the corresponding neighbouring Tile is free for the flow to continue
 	public bool upFree = false;
@@ -41,29 +41,8 @@ public class PipeHandler : MonoBehaviour
         levelHandler = GameObject.Find("Grid").GetComponent<LevelHandler>();
 		rotation = 0;
 
-        location.X = (int)gameObject.transform.parent.localPosition.x;
-        location.Y = (int)gameObject.transform.parent.localPosition.y;
-
         // Initializes the neighbouring PipeHandlers at the start of the script instance
-        if (location.Y + 1 < LevelData.BoardSize)
-        {
-			up = LevelData.GamePieces[location.X, location.Y + 1];
-        }
-
-        if (location.Y != 0)
-        {
-            down = LevelData.GamePieces[location.X, location.Y - 1]; ;
-        }
-
-        if (location.X + 1 < LevelData.BoardSize)
-        {
-            right = LevelData.GamePieces[location.X + 1, location.Y]; ;
-        }
-
-        if (location.X != 0)
-        {
-            left = LevelData.GamePieces[location.X - 1, location.Y]; ;
-        }
+        UpdateNeighbouringPipeHandlers();
     }
 
 	void Update()
@@ -76,6 +55,43 @@ public class PipeHandler : MonoBehaviour
 	}
 
     /// <summary>
+    /// Update neighbouring pipe handlers.
+    /// </summary>
+    public void UpdateNeighbouringPipeHandlers()
+    {
+        // Get the x and y positions of the parent object.
+        location.X = (int)gameObject.transform.parent.localPosition.x;
+        location.Y = (int)gameObject.transform.parent.localPosition.y;
+
+        // Reset all neighbour variables to default values.
+        up = null;
+        right = null;
+        down = null;
+        left = null;
+
+        // Check for neighbours in each direction.
+        if (location.Y + 1 < LevelData.BoardSize)
+        {
+            up = LevelData.GamePieces[location.X, location.Y + 1];
+        }
+
+        if (location.Y != 0)
+        {
+            down = LevelData.GamePieces[location.X, location.Y - 1];
+        }
+
+        if (location.X + 1 < LevelData.BoardSize)
+        {
+            right = LevelData.GamePieces[location.X + 1, location.Y];
+        }
+
+        if (location.X != 0)
+        {
+            left = LevelData.GamePieces[location.X - 1, location.Y];
+        }
+    }
+
+    /// <summary>
     /// Fires when this pipe was clicked on, rotates the pipe and sets new ActiveTile to this tile
     /// </summary>
 	void OnMouseDown()
@@ -83,9 +99,17 @@ public class PipeHandler : MonoBehaviour
         if (!PauseControl.GameIsPaused && !GUIHandler.IsEndGame)
         {
             RotatePiece();
-            levelHandler.SetActiveTile(gameObject);
+            SetActiveTileToThisGO();
         }
 	}
+
+    /// <summary>
+    /// Sets the active tile to the game object.
+    /// </summary>
+    public void SetActiveTileToThisGO()
+    {
+        levelHandler.SetActiveTile(gameObject);
+    }
 
     /// <summary>
     /// Rotates the pipe and sets new IOs, available neighbouring pipes, and updates the neighbouring pipes as well
@@ -101,16 +125,7 @@ public class PipeHandler : MonoBehaviour
 
 		RotateIODirections();
 
-        UpdateAvailableSides();
-
-        if (up != null)
-            up.UpdateAvailableSides();
-        if (down != null)
-            down.UpdateAvailableSides();
-        if (left != null)
-            left.UpdateAvailableSides();
-        if (right != null)
-            right.UpdateAvailableSides();
+        ProcessNearbyPipeChanges(setNearbyPipeHandlers: false);
     }
 
     /// <summary>
@@ -128,15 +143,52 @@ public class PipeHandler : MonoBehaviour
 	}
 
     /// <summary>
-    /// Used to determine if the water can flow to the corresponding Dirs and updates the Free flags
+    /// Processes nearby pipe changes.
+    /// </summary>
+    /// <param name="setNearbyPipeHandlers">Whether or not to update the nearby pipe handlers.</param>
+    public void ProcessNearbyPipeChanges(bool setNearbyPipeHandlers)
+    {
+        // If we are updating nearby pipe handlers.
+        if (setNearbyPipeHandlers)
+        {
+            // Update nearby pipe handlers and their available sides.
+            UpdateNeighbouringPipeHandlers();
+
+            if (up != null)
+                up.UpdateNeighbouringPipeHandlers();
+            if (down != null)
+                down.UpdateNeighbouringPipeHandlers();
+            if (left != null)
+                left.UpdateNeighbouringPipeHandlers();
+            if (right != null)
+                right.UpdateNeighbouringPipeHandlers();
+        }
+
+        // Update available sides for this pipe handler.
+        UpdateAvailableSides();
+
+        if (up != null)
+            up.UpdateAvailableSides();
+        if (down != null)
+            down.UpdateAvailableSides();
+        if (left != null)
+            left.UpdateAvailableSides();
+        if (right != null)
+            right.UpdateAvailableSides();
+    }
+
+    /// <summary>
+    /// Determines if the water can flow to the corresponding directions and updates the Free flags accordingly.
     /// </summary>
     public void UpdateAvailableSides()
     {
+        // Set all free flags to false by default.
         upFree = false;
         downFree = false;
         rightFree = false;
         leftFree = false;
 
+        // Check for neighbours in each direction and update the free flags accordingly.
         for (int dirIndex = 0; dirIndex < IODirs.Length; dirIndex++)
         {
             if (IODirs[dirIndex])
