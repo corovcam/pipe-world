@@ -54,16 +54,22 @@ public class PipeHandler : MonoBehaviour
 		}
 	}
 
+    /// <summary>
+    /// Update neighbouring pipe handlers.
+    /// </summary>
     public void UpdateNeighbouringPipeHandlers()
     {
+        // Get the x and y positions of the parent object.
         location.X = (int)gameObject.transform.parent.localPosition.x;
         location.Y = (int)gameObject.transform.parent.localPosition.y;
 
+        // Reset all neighbour variables to default values.
         up = null;
         right = null;
         down = null;
         left = null;
 
+        // Check for neighbours in each direction.
         if (location.Y + 1 < LevelData.BoardSize)
         {
             up = LevelData.GamePieces[location.X, location.Y + 1];
@@ -97,6 +103,9 @@ public class PipeHandler : MonoBehaviour
         }
 	}
 
+    /// <summary>
+    /// Sets the active tile to the game object.
+    /// </summary>
     public void SetActiveTileToThisGO()
     {
         levelHandler.SetActiveTile(gameObject);
@@ -133,10 +142,16 @@ public class PipeHandler : MonoBehaviour
 		IODirs[3] = storedUp;
 	}
 
+    /// <summary>
+    /// Processes nearby pipe changes.
+    /// </summary>
+    /// <param name="setNearbyPipeHandlers">Whether or not to update the nearby pipe handlers.</param>
     public void ProcessNearbyPipeChanges(bool setNearbyPipeHandlers)
     {
+        // If we are updating nearby pipe handlers.
         if (setNearbyPipeHandlers)
         {
+            // Update nearby pipe handlers and their available sides.
             UpdateNeighbouringPipeHandlers();
 
             if (up != null)
@@ -149,6 +164,7 @@ public class PipeHandler : MonoBehaviour
                 right.UpdateNeighbouringPipeHandlers();
         }
 
+        // Update available sides for this pipe handler.
         UpdateAvailableSides();
 
         if (up != null)
@@ -162,15 +178,17 @@ public class PipeHandler : MonoBehaviour
     }
 
     /// <summary>
-    /// Used to determine if the water can flow to the corresponding Dirs and updates the Free flags
+    /// Determines if the water can flow to the corresponding directions and updates the Free flags accordingly.
     /// </summary>
     public void UpdateAvailableSides()
     {
+        // Set all free flags to false by default.
         upFree = false;
         downFree = false;
         rightFree = false;
         leftFree = false;
 
+        // Check for neighbours in each direction and update the free flags accordingly.
         for (int dirIndex = 0; dirIndex < IODirs.Length; dirIndex++)
         {
             if (IODirs[dirIndex])

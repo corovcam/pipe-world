@@ -75,19 +75,59 @@ public struct Position
 /// </summary>
 public static class LevelData
 {
+    /// <summary>
+    /// The current mode of the game: "Arcade".
+    /// </summary>
     public static bool IsArcadeMode { get; set; } = false;
+
+    /// <summary>
+    /// The current mode of the game: "Free World".
+    /// </summary>
     public static bool IsFreeWorldMode { get; set; } = false;
-	public static int LevelNumber { get; set; }
-	public static int BoardSize { get; set; }
+
+    /// <summary>
+    /// The level number of the current game.
+    /// </summary>
+    public static int LevelNumber { get; set; }
+
+    /// <summary>
+    /// The size of the puzzle game board.
+    /// </summary>
+    public static int BoardSize { get; set; }
+
+    /// <summary>
+    /// The time limit for the current level.
+    /// </summary>
     public static int TimeLimit { get; set; }
+
+    /// <summary>
+    /// A dictionary containing the starting positions for a specific liquid type.
+    /// </summary>
     public static Dictionary<Liquid, List<Position>> Starts = new();
+
+    /// <summary>
+    /// A dictionary containing the ending positions for a specific liquid type.
+    /// </summary>
     public static Dictionary<Liquid, List<Position>> Ends = new();
+
+    /// <summary>
+    /// A two-dimensional array of PipeHandlers representing the game pieces.
+    /// </summary>
     public static PipeHandler[,] GamePieces { get; set; }
 
-    // Temporary data structure for level loading
+    /// <summary>
+    /// Temporary data structure for level loading
+    /// </summary>
     public static string[] lvlData;
 
+    /// /// <summary>
+    /// The default starting position for the liquid type.
+    /// </summary>
     public static Position? defaultStart;
+
+    /// <summary>
+    /// The default ending position for the liquid type.
+    /// </summary>
     public static Position? defaultEnd;
 
     /// <summary>
@@ -101,30 +141,35 @@ public static class LevelData
     {
         // Used to translate CellWalls in a maze to potential List of Pipes that can
         // occupy the given cell
-        Dictionary<CellWalls, List<PipeType>> wallsToPipesMap 
-            = new Dictionary<CellWalls, List<PipeType>>();
+        Dictionary<CellWalls, List<PipeType>> wallsToPipesMap = new Dictionary<CellWalls, List<PipeType>>();
+        // Fills Dictionary of CellWall pipe possibilities.
         FillWallsToPipesMap(ref wallsToPipesMap);
 
+        // Generate maze and store the maze Cell states for each cell.
         CellWalls[,] puzzleWalls = PuzzleGenerator.GenerateMaze(width, height);
-		Pipe[,] pipes = new Pipe[width, height];
-		for (int i = 0; i < width; i++)
+        // Pipes Array of dimensions Width * Height.
+        Pipe[,] pipes = new Pipe[width, height];
+
+        for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
             {
                 // Removes the VISITED Flag from the CellWall
-				var wallStateWOVisited = puzzleWalls[i, j] & ~CellWalls.VISITED;
-				var possibleWalls = wallsToPipesMap[wallStateWOVisited];
-                // Chooses a random Pipe from the Dictionary to generate random (but correct) Pipe Puzzle
-				PipeType chosenPipeType = possibleWalls[Random.Range(0, possibleWalls.Count)];
-				pipes[i, j] = new Pipe(Liquid.Water, chosenPipeType);
+                var wallStateWOVisited = puzzleWalls[i, j] & ~CellWalls.VISITED;
+                var possiblePipes = wallsToPipesMap[wallStateWOVisited];
+                // Selects a random Pipe Type to generate a random Pipe Puzzle for each cell.
+                PipeType chosenPipeType = possiblePipes[Random.Range(0, possiblePipes.Count)];
+                pipes[i, j] = new Pipe(Liquid.Water, chosenPipeType);
             }
         }
         defaultStart = GetRandomStartPos();
         defaultEnd = GetRandomEndPos();
+        // Dictionary entry to store Liquid and corresponding list of starting cell positions.
         Starts.Add(Liquid.Water, new List<Position> { defaultStart.Value });
-		Ends.Add(Liquid.Water, new List<Position> { defaultEnd.Value });
+        // Dictionary entry to store Liquid and corresponding list of ending cell positions.
+        Ends.Add(Liquid.Water, new List<Position> { defaultEnd.Value });
         return pipes;
-	}
+    }
 
     /// <summary>
     /// Chooses a random StartPipe Position in the upper-left half of the Board
@@ -157,9 +202,9 @@ public static class LevelData
     }
 
     /// <summary>
-    /// Read Input from a text file in a given format
+    /// Read level data from text file in given format.
     /// </summary>
-    /// <returns>2D list of Pipes for the puzzle</returns>
+    /// <returns>2D list of Pipes for the puzzle.</returns>
     public static Pipe[,] ReadInputLevelData()
     {
         bool isPipeInfo = false;
@@ -172,69 +217,97 @@ public static class LevelData
         Position savedPos = new Position();
         Pipe[,] pipes = new Pipe[BoardSize, BoardSize];
         int offset = BoardSize - 1;
+
         foreach (string line in lvlData[2..])
         {
             int i = 0;
             while (i < line.Length)
             {
                 char current = line[i];
+
+                // If current character is semicolon, create new Pipe object with correct liquid and pipe type.
                 if (current == ';')
                 {
                     if (value == 0)
+                    {
                         pipes[xCoord, yCoord] = new Pipe(pipeLiquid, PipeType.EMPTY);
+                    }
                     else
+                    {
                         pipes[xCoord, yCoord] = new Pipe(pipeLiquid, (PipeType)(value - 1));
-                    
+                    }
+
+                    // Check if Pipe is Start, End, or neither and add to corresponding dictionary.
                     if (isStart)
+                    {
                         if (Starts.ContainsKey(pipeLiquid))
+                        {
                             Starts[pipeLiquid].Add(savedPos);
+                        }
                         else
+                        {
                             Starts.Add(pipeLiquid, new List<Position> { savedPos });
+                        }
+                    }
                     else if (isEnd)
+                    {
                         if (Ends.ContainsKey(pipeLiquid))
+                        {
                             Ends[pipeLiquid].Add(savedPos);
+                        }
                         else
+                        {
                             Ends.Add(pipeLiquid, new List<Position> { savedPos });
-                    
+                        }
+                    }
+
+                    // Update xCoord and reset flags.
                     xCoord++;
                     isPipeInfo = false;
                     isStart = false;
                     isEnd = false;
                 }
-                else if (current == 'S')
+                else if (current == 'S') // If current character is S, it is start position.
                 {
-                    //int startIndex = ReadStartEndIndex(line, ref i);
+                    // Save starting position and set default start position if necessary.
                     savedPos = new Position { X = xCoord, Y = yCoord + offset };
                     defaultStart = defaultStart == null ? savedPos : defaultStart;
                     isStart = true;
                 }
-                else if (current == 'E')
+                else if (current == 'E') // If current character is E, it is end position.
                 {
-                    //int endIndex = ReadStartEndIndex(line, ref i);
+                    // Save ending position and set default end position if necessary.
                     savedPos = new Position { X = xCoord, Y = yCoord + offset };
                     defaultEnd = defaultEnd == null ? savedPos : defaultEnd;
                     isEnd = true;
                 }
+
+                // If isPipeInfo flag is true, update pipeLiquid and pipeType values.
                 if (isPipeInfo == true)
                 {
                     int testValue = current - '0';
                     if (testValue < 0 || 9 < testValue)
+                    {
                         pipeLiquid = current == 'W' ? Liquid.Water : Liquid.Lava;
+                    }
                     value = testValue;
                     isPipeInfo = false;
                 }
+                // If current character is colon, set isPipeInfo flag to true.
                 if (current == ':')
                 {
                     isPipeInfo = true;
                 }
+                // Update i.
                 i++;
             }
+            // Update yCoord, xCoord, and offset.
             yCoord++;
             xCoord = 0;
             offset -= 2;
         }
 
-        lvlData = null;
+        lvlData = null; // Set lvlData to null to free up memory.
         return pipes;
     }
 

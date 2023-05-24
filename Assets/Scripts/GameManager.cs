@@ -8,14 +8,26 @@ using UnityEngine;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
+    // Queue of PipeHandlers for tracking the pipes that need to be processed during flow.
     Queue<PipeHandler> queue;
-    HashSet<PipeHandler> visited; // Used to determine if the given Pipe has been visited yet or not
-    Dictionary<Position, int> distances; // Used to distinguish different waves for animation
+
+    // Set of visited PipeHandlers to prevent processing of the same PipeHandler multiple times.
+    HashSet<PipeHandler> visited;
+
+    // Dictionary of positions to integer distances, used for distinguishing different waves of animation.
+    Dictionary<Position, int> distances;
+
+    // Boolean flags to track if flow has started and if a win condition has been reached.
     bool flowsStarted;
     bool isWon;
+
+    // List of boolean flags to keep track of whether each flow has finished.
     List<bool> flowsFinished;
 
+    // The LevelHandler for the current level.
     LevelHandler lh;
+
+    // The GUIHandler for the current level.
     GUIHandler GUIHandler;
 
     void Start()
@@ -27,15 +39,21 @@ public class GameManager : MonoBehaviour
         flowsFinished = new List<bool>();
     }
 
-    void Update()
+    /// <summary>
+    /// Updates the GameManager's state and checks for win conditions.
+    /// </summary>
+    public void Update()
     {
+        // If all flows have started and finished,
         if (flowsStarted && flowsFinished.All(flowFinished => flowFinished))
         {
+            // Set flag and check for liquid at level start and end points.
             flowsStarted = false;
             bool waterAtStart = LevelData.Starts.ContainsKey(Liquid.Water);
             bool lavaAtStart = LevelData.Starts.ContainsKey(Liquid.Lava);
             isWon = true;
 
+            // If water is at the start and end points.
             if (waterAtStart)
                 if (LevelData.Ends.ContainsKey(Liquid.Water))
                     foreach (var pos in LevelData.Ends[Liquid.Water])
@@ -45,10 +63,12 @@ public class GameManager : MonoBehaviour
                         if (!isWon) break;
                     }
 
-            if (!isWon) 
+            // If water is not won, show endgame menu.
+            if (!isWon)
                 GUIHandler.ShowEndGameMenu(isWon);
             else
             {
+                // If lava is at the start and end points.
                 if (lavaAtStart)
                     if (LevelData.Ends.ContainsKey(Liquid.Lava))
                         foreach (var pos in LevelData.Ends[Liquid.Lava])
@@ -63,36 +83,54 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Starts the flow of water from the StartPipe location
+    /// StartFlow function initializes required variables to start a liquid (water/lava) flow and starts a coroutine for each instantiation of a liquid drop/
     /// </summary>
     public void StartFlow()
     {
+        // Reset boolean flags
         flowsStarted = true;
         isWon = false;
+
+        // Initialize data structures for flow
         flowsFinished = new List<bool>();
         distances = new Dictionary<Position, int>();
         queue = new Queue<PipeHandler>();
         visited = new HashSet<PipeHandler>();
 
+        // Set end game scene and store game pieces
         GUIHandler.SetEndGameScene();
         lh.StoreGamePieces();
 
+        // Check if starting point has water or lava
         bool waterAtStart = LevelData.Starts.ContainsKey(Liquid.Water);
         bool lavaAtStart = LevelData.Starts.ContainsKey(Liquid.Lava);
 
+        // Counter to help distinguish different instances of liquid flows.
         int flowIndex = 0;
+
+        // If water is at the starting point, instantiate water
         if (waterAtStart)
-            LevelData.Starts[Liquid.Water].ForEach(start => {
+        {
+            // For each starting point - start a new coroutine and keep track of flowsFinished status
+            LevelData.Starts[Liquid.Water].ForEach(start =>
+            {
                 flowsFinished.Add(false);
                 StartCoroutine(Flow(start, Liquid.Water, flowIndex));
                 flowIndex++;
             });
+        }
+
+        // If lava is at the starting point, instantiate lava
         if (lavaAtStart)
-            LevelData.Starts[Liquid.Lava].ForEach(start => {
+        {
+            // For each starting point - start a new coroutine and keep track of flowsFinished status
+            LevelData.Starts[Liquid.Lava].ForEach(start =>
+            {
                 flowsFinished.Add(false);
                 StartCoroutine(Flow(start, Liquid.Lava, flowIndex));
                 flowIndex++;
             });
+        }
     }
 
     /// <summary>
@@ -134,12 +172,6 @@ public class GameManager : MonoBehaviour
                     lh.filledGreenPipeSprites[(int)currentType.Type] : lh.filledGreyPipeSprites[(int)currentType.Type];
                 current.GetComponent<SpriteRenderer>().sprite = chosenSprite;
             }
-
-
-            //// If we filled/visited the EndPipe then mark it and continue filling
-            //if (LevelData.Ends.ContainsKey(flowLiquid))
-            //    if (LevelData.Ends[flowLiquid].Exists(pos => pos == current.location))
-            //        isWon = true;
 
             // Loop through each IO Dir of the Pipe
             for (int dir = 0; dir < current.IODirs.Length; dir++)
