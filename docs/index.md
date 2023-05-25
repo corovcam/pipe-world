@@ -1,4 +1,30 @@
+---
+layout: home
+---
+
 # Documentation
+
+## Table of Contents
+
+- [Overview](#overview)
+    - [Game Mechanics](#game-mechanics)
+    - [Board Setup](#board-setup)
+    - [Pipes](#pipes)
+    - [Flowing Mechanic](#flowing-mechanic)
+    - [Score Calculation](#score-calculation)
+    - [Level Progression](#level-progression)
+    - [Game Modes](#game-modes)
+    - [Game Flow](#game-flow)
+- [Unity Project Structure](#unity-project-structure)
+    - [Folders](#folders)
+    - [Assets](#assets)
+- [Technical details](#technical-details)
+    - [Script (Class) Diagram](#script-class-diagram)
+- [Scenes](#scenes)
+    - [Level Select Menu](#scene-levelselect)
+    - [Game Scene](#scene-game)
+- [Build, Install, and Run](#build-install-and-run)
+- [Credits and 3rd Party Assets](#credits-and-3rd-party-assets)
 
 ## Overview
 Pipe World is a puzzle game developed in Unity 2021.3.5f1 using C# scripting language. The game is designed for the WebGl platform and is inspired by popular puzzle games such as Pipe Mania and Water Pipes. The player's goal is to transport liquid from one end of the game board to the other using interconnected pipes.
@@ -25,23 +51,26 @@ After completing a level, the player is presented with the option to advance to 
 There are two game modes in Pipe World: Arcade Mode and Level Select Mode. In Arcade Mode, the player must complete as many levels as possible in a given time. In Level Select Mode, the player can choose to play any of the available levels.
 
 ### Game Flow
+
 1. Main Menu
-When the game is launched, the player is presented with the Main Menu. The Main Menu contains two buttons: Play and Quit. Clicking on Play takes the player to the Level Select Menu.
 
-2. Level Select Menu
-The Level Select Menu contains a paginated list of available levels that the player can choose to play. Each level displays the level number, the number of pipes used, and the time limit. Clicking on a level takes the player to the Game Scene with the selected level loaded.
+    When the game is launched, the player is presented with the Main Menu. The Main Menu contains two buttons: Play and Quit. Clicking on Play takes the player to the Level Select Menu.
 
-3. Game Scene
-The Game Scene is where the player can play the game. The game board is displayed in the center of the screen, and the GUI components are displayed on the sides of the screen. The player can rotate the pipes by clicking on them, and start the water flow by clicking the Flow button. The player can pause the game by clicking on the Pause button.
+2. Level Select Menu 
 
-4. Pause Menu
-When the game is paused, the Pause Menu is displayed. The Pause Menu contains two buttons: Resume and Quit. Clicking on Resume returns the player to the Game Scene. Clicking on Quit takes the player back to the Main Menu.
+    The Level Select Menu contains a paginated list of available levels that the player can choose to play. Each level displays the level number, the number of pipes used, and the time limit. Clicking on a level takes the player to the Game Scene with the selected level loaded.
 
-5. End Game Menu
-When the player completes a level or runs out of time, the End Game Menu is displayed. The End Game Menu displays the player's score, the number of pipes used, and the time taken to complete the level. The End Game Menu contains two buttons: Retry and Quit. Clicking on Retry restarts the level. Clicking on Quit takes the player back to the Level Select Menu.
+3. Game Scene 
 
-### Conclusion
-Pipe World is a fun and challenging puzzle game that requires the player to connect pipes to allow water to flow through them. With its randomly generated levels, variety of pipe types, and score calculation system, Pipe World provides a unique and engaging gameplay experience.
+    The Game Scene is where the player can play the game. The game board is displayed in the center of the screen, and the GUI components are displayed on the sides of the screen. The player can rotate the pipes by clicking on them, and start the water flow by clicking the Flow button. The player can pause the game by clicking on the Pause button.
+
+4. Pause Menu 
+
+    When the game is paused, the Pause Menu is displayed. The Pause Menu contains two buttons: Resume and Quit. Clicking on Resume returns the player to the Game Scene. Clicking on Quit takes the player back to the Main Menu.
+
+5. End Game Menu 
+
+    When the player completes a level or runs out of time, the End Game Menu is displayed. The End Game Menu displays the player's score, the number of pipes used, and the time taken to complete the level. The End Game Menu contains two buttons: Retry and Quit. Clicking on Retry restarts the level. Clicking on Quit takes the player back to the Level Select Menu.
 
 ***
 
@@ -113,6 +142,24 @@ All scripts attached to GameObjects inherit from the base MonoBehaviour class in
 
 ### Script (Class) Diagram
 
+[![Class Diagram](./images/class-diagram.png)](./images/class-diagram.png)
+
+Check out individual **Script Docs** for more information:
+
+1. [GameManager.cs](/scripts-docs/GameManager.md)
+2. [GUIHandler.cs](/scripts-docs/GUIHandler.md)
+3. [LevelHandler.cs](/scripts-docs/LevelHandler.md)
+4. [PauseControl.cs](/scripts-docs/PauseControl.md)
+5. [PipeHandler.cs](/scripts-docs/PipeHandler.md)
+6. [Player.cs](/scripts-docs/Player.md)
+7. [PauseControl.cs](/scripts-docs/PauseControl.md)
+8. [MenuHandler.cs](/scripts-docs/MenuHandler.md)
+9. [LevelSelectHandler.cs](/scripts-docs/LevelSelectHandler.md)
+10. [DragAndDrop/GridPipe.cs](/scripts-docs/DragAndDrop/GridPipe.md)
+11. [StaticClasses/Extensions.cs](/scripts-docs/StaticClasses/Extensions.md)
+12. [StaticClasses/LevelData.cs](/scripts-docs/StaticClasses/LevelData.md)
+13. [StaticClasses/PuzzleGenerator.cs](/scripts-docs/StaticClasses/PuzzleGenerator.md)
+14. [StaticClasses/SceneHandler.cs](/scripts-docs/StaticClasses/SceneHandler.md)
 
 ***
 
@@ -188,10 +235,9 @@ Game is built using the Unity Editor, version 2021.3.5f1, so the assemblies and 
 
 When cloned, start the Editor using the Unity Hub (or manually) and wait till the Editor finishes downloading and importing packages.
 
-The game is mainly configured for the desktop Windows and WebGl platforms (though it also works on Android). The intended resolution aspect ratio is 16:9 (developed using the 1920x1080 resolution as a reference endpoint) and played in the landscape mode. Though the game can be run on mobile device browsers, the settings need to be configured properly for the game to run smoothly.
+The game is mainly configured for the WebGl (browser) platform (though it also works on Android and Windows). The intended resolution aspect ratio is 16:9 (developed using the 1920x1080 resolution as a reference endpoint) and played in the landscape mode. Though the game can be run on mobile device browsers, the settings need to be configured properly for the game to run smoothly.
 
 The WebGl build can be found here: <https://play.unity.com/mg/other/pipe-world> 
-Or using: <https://developer.cloud.unity3d.com/share/share.html?shareId=ZyLqMsO6KO> 
 
 ***
 
