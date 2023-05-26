@@ -1,6 +1,5 @@
 ---
 layout: default
-permalink: /scripts-docs/GameManager.md/
 ---
 
 ## [GameManager.cs](https://github.com/corovcam/pipe-world/blob/main/Assets/Scripts/GameManager.cs)

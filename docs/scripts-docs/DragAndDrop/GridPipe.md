@@ -1,6 +1,5 @@
 ---
 layout: default
-permalink: /scripts-docs/DragAndDrop/GridPipe.md/
 ---
 
 ## [GridPipe.cs](https://github.com/corovcam/pipe-world/blob/main/Assets/Scripts/DragAndDrop/GridPipe.cs)

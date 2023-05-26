@@ -1,6 +1,5 @@
 ---
 layout: default
-permalink: /scripts-docs/Player.md/
 ---
 
 ## [Player.cs](https://github.com/corovcam/pipe-world/blob/main/Assets/Scripts/Player.cs)

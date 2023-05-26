@@ -1,6 +1,5 @@
 ---
 layout: default
-permalink: /scripts-docs/StaticClasses/Extensions.md/
 ---
 
 ## [Extensions.cs](https://github.com/corovcam/pipe-world/blob/main/Assets/Scripts/StaticClasses/Extensions.cs)

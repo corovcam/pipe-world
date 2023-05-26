@@ -1,6 +1,5 @@
 ---
 layout: default
-permalink: /scripts-docs/LevelSelectHandler.md/
 ---
 
 ## [LevelSelectHandler.cs](https://github.com/corovcam/pipe-world/blob/main/Assets/Scripts/LevelSelectHandler.cs)

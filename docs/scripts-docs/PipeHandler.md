@@ -1,6 +1,5 @@
 ---
 layout: default
-permalink: /scripts-docs/PipeHandler.md/
 ---
 
 ## [PipeHandler.cs](https://github.com/corovcam/pipe-world/blob/main/Assets/Scripts/PipeHandler.cs)

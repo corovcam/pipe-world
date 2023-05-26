@@ -1,6 +1,5 @@
 ---
 layout: default
-permalink: /scripts-docs/StaticClasses/SceneHandler.md/
 ---
 
 ## [SceneHandler.cs](https://github.com/corovcam/pipe-world/blob/main/Assets/Scripts/StaticClasses/SceneHandler.cs)

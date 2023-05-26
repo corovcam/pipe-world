@@ -1,6 +1,5 @@
 ---
 layout: default
-permalink: /scripts-docs/LevelHandler.md/
 ---
 
 ### [LevelHandler.cs](https://github.com/corovcam/pipe-world/blob/main/Assets/Scripts/LevelHandler.cs)

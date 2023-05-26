@@ -1,6 +1,5 @@
 ---
 layout: default
-permalink: /scripts-docs/GUIHandler.md/
 ---
 
 ## [GUIHandler.cs](https://github.com/corovcam/pipe-world/blob/main/Assets/Scripts/GUIHandler.cs)

@@ -1,6 +1,5 @@
 ---
 layout: default
-permalink: /scripts-docs/StaticClasses/PuzzleGenerator.md/
 ---
 
 ## [PuzzleGenerator.cs](https://github.com/corovcam/pipe-world/blob/main/Assets/Scripts/StaticClasses/PuzzleGenerator.cs)

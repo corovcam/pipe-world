@@ -1,6 +1,5 @@
 ---
 layout: default
-permalink: /scripts-docs/MenuHandler.md/
 ---
 
 ## [MenuHandler.cs](https://github.com/corovcam/pipe-world/blob/main/Assets/Scripts/MenuHandler.cs)

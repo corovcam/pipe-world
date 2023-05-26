@@ -1,6 +1,5 @@
 ---
 layout: default
-permalink: /scripts-docs/PauseControl.md/
 ---
 
 ## [PauseControl.cs](https://github.com/corovcam/pipe-world/blob/main/Assets/Scripts/PauseControl.cs)

@@ -1,6 +1,5 @@
 ---
 layout: default
-permalink: /scripts-docs/StaticClasses/LevelData.md/
 ---
 
 ## [LevelData](https://github.com/corovcam/pipe-world/blob/main/Assets/Scripts/StaticClasses/LevelData.cs)
