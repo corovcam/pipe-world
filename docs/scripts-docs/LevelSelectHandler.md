@@ -49,10 +49,13 @@ Finally, `ConfigureMainMenuButton()` creates and configures the main menu button
 ### Questions & Answers
 
 1. **How does the script handle the addition or removal of levels to the `Resources/LevelSelectLevels` and `Resources/FreeWorldLevels` folders?**
+
     The script requires manual updating of the `levelSelectlvlCount` and `freeWorldLvlCount` variables in the Unity Inspector when levels are added or removed from the respective folders.
 
 2. **How is the pagination of level buttons implemented in this script?**
+
     Level buttons are organized into pages containing a maximum of 8 levels. The `PreviousPage` and `NextPage` methods handle pagination along with the `HandleFirstLastPage` method, which manages the interactability of the Previous and Next buttons.
 
 3. **How are level numbers displayed on the level buttons?**
+
     Level numbers are displayed using a combination of `Sprite` objects for each digit in the level number. The `GenerateLevelButton` method iterates through the digits and assigns the appropriate sprites to create the multi-digit level number display.

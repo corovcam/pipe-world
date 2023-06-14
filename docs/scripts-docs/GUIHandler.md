@@ -20,10 +20,13 @@ Overall this script provides essential GUI and gameplay control for the pipe-wor
 
 
 1. **What other scripts does this GUIHandler script interact with?**
+
     This script interacts with the LevelHandler, GameManager, PauseControl, and SceneHandler scripts.
 
 2. **What happens if the timer reaches 0?**
+
     If the timer reaches 0, the ShowEndGameMenu method is called with isWon set to false. This shows the end game menu and displays a "You Lost" message, setting the total score to 0.
 
 3. **Why is the MAXIMUM_SCORE constant used?**
+
     The MAXIMUM_SCORE constant is used in the CalculateTotalScore method to determine the player's score. It calculates a percentage of the maximum score based on the time remaining, so MAXIMUM_SCORE represents the total possible points. A higher score is earned by completing the level with more time remaining.

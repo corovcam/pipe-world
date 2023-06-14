@@ -31,10 +31,13 @@ void Update()
 ### Questions & Answers
 
 1. **What happens if the endGameMenu is showing and the player presses the pause button?**
+
     The game will not pause since pausing is disabled when the endGameMenu is active.
 
 2. **Why is the AudioListener pause state controlled through a toggle?**
+
     To give the player the option to mute or unmute the audio from the pause menu.
 
 3. **What other scripts does this PauseControl script interact with?**
+
     It interacts with GUIHandler, LevelHandler, and GameManager.

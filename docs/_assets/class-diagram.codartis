@@ -1,0 +1,976 @@
+﻿{
+  "Version": 1,
+  "Properties": {
+    "AreNodeDescriptionsVisible": "True"
+  },
+  "Nodes": [
+    {
+      "Id": "1",
+      "Name": "MenuHandler",
+      "Stereotype": "Class",
+      "CreatedAtUtc": "2023-05-25T16:46:16.6093804Z",
+      "AbsoluteTopLeft": "654.6531,260.3707",
+      "HeaderContentSize": "252.66,75.4",
+      "NodeTotalSize": "252.66,75.4",
+      "ChildrenAreaTopLeft": "1,0",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "MenuHandler",
+        "FullName": "class MenuHandler",
+        "Symbols": [
+          "MenuHandler"
+        ],
+        "Description": "Handles Main Menu GUI components construction and management",
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "2",
+      "Name": "LevelHandler",
+      "Stereotype": "Class",
+      "CreatedAtUtc": "2023-05-25T16:46:16.6093804Z",
+      "AbsoluteTopLeft": "542.2466,-131.6502",
+      "HeaderContentSize": "308.46,75.4",
+      "NodeTotalSize": "308.46,75.4",
+      "ChildrenAreaTopLeft": "1,0",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "LevelHandler",
+        "FullName": "class LevelHandler",
+        "Symbols": [
+          "LevelHandler"
+        ],
+        "Description": "Handles Level building, Tile/Pipe management, Restart, Tiles shuffle, rotation and audio",
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "3",
+      "Name": "CellWalls",
+      "Stereotype": "Enum",
+      "CreatedAtUtc": "2023-05-25T16:46:16.6093804Z",
+      "AbsoluteTopLeft": "-200.7805,228.851",
+      "HeaderContentSize": "102,52",
+      "NodeTotalSize": "102,52",
+      "ChildrenAreaTopLeft": "1,0",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "CellWalls",
+        "FullName": "enum CellWalls",
+        "Symbols": [
+          "CellWalls"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "4",
+      "Name": "AdjacentCell",
+      "Stereotype": "Struct",
+      "CreatedAtUtc": "2023-05-25T16:46:16.6103819Z",
+      "AbsoluteTopLeft": "-47.5105,350.6057",
+      "HeaderContentSize": "307.9767,75.4",
+      "NodeTotalSize": "307.9767,75.4",
+      "ChildrenAreaTopLeft": "1,0",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "AdjacentCell",
+        "FullName": "struct AdjacentCell",
+        "Symbols": [
+          "AdjacentCell"
+        ],
+        "Description": "A struct used to identify a Adjacent/Neighbouring Cell that shares a CommonWall with a given Cell",
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "5",
+      "Name": "PuzzleGenerator",
+      "Stereotype": "Class",
+      "CreatedAtUtc": "2023-05-25T16:46:16.6103819Z",
+      "AbsoluteTopLeft": "144.6228,-131.2327",
+      "HeaderContentSize": "102.7733,52",
+      "NodeTotalSize": "102.7733,52",
+      "ChildrenAreaTopLeft": "1,0",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "PuzzleGenerator",
+        "FullName": "class PuzzleGenerator",
+        "Symbols": [
+          "PuzzleGenerator"
+        ],
+        "IsDescriptionVisible": true,
+        "IsStatic": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "6",
+      "Name": "Player",
+      "Stereotype": "Class",
+      "CreatedAtUtc": "2023-05-25T16:46:16.6103819Z",
+      "AbsoluteTopLeft": "546.4669,-6.2502",
+      "HeaderContentSize": "285.3433,75.4",
+      "NodeTotalSize": "285.3433,75.4",
+      "ChildrenAreaTopLeft": "1,0",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "Player",
+        "FullName": "class Player",
+        "Symbols": [
+          "Player"
+        ],
+        "Description": "Player Input interaction with the game. Game Controls. Pointer movement: Arrows, WASD. Rotate Active Pipe: R. Start Flow: F.",
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "7",
+      "Name": "Dir",
+      "Stereotype": "Enum",
+      "CreatedAtUtc": "2023-05-25T16:46:16.6113833Z",
+      "AbsoluteTopLeft": "-200.5848,330.851",
+      "HeaderContentSize": "102,63.4",
+      "NodeTotalSize": "102,63.4",
+      "ChildrenAreaTopLeft": "1,0",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "Dir",
+        "FullName": "enum Dir",
+        "Symbols": [
+          "Dir"
+        ],
+        "Description": "Direction enum",
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "8",
+      "Name": "PipeHandler",
+      "Stereotype": "Class",
+      "CreatedAtUtc": "2023-05-25T16:46:16.6113833Z",
+      "AbsoluteTopLeft": "189.2569,-29.2327",
+      "HeaderContentSize": "307.21,75.4",
+      "NodeTotalSize": "307.21,75.4",
+      "ChildrenAreaTopLeft": "1,0",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "PipeHandler",
+        "FullName": "class PipeHandler",
+        "Symbols": [
+          "PipeHandler"
+        ],
+        "Description": "Handles individual information about a Pipe (location, rotation) and its surrounding Pipes",
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "9",
+      "Name": "GUIHandler",
+      "Stereotype": "Class",
+      "CreatedAtUtc": "2023-05-25T16:46:16.6113833Z",
+      "AbsoluteTopLeft": "900.2247,-7.4374",
+      "HeaderContentSize": "284.59,75.4",
+      "NodeTotalSize": "284.59,75.4",
+      "ChildrenAreaTopLeft": "1,0",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "GUIHandler",
+        "FullName": "class GUIHandler",
+        "Symbols": [
+          "GUIHandler"
+        ],
+        "Description": "Handles Game scene GUI Components, End Game Menu, Total Score calculaction and Timer and its mechanism",
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "10",
+      "Name": "LevelSelectHandler",
+      "Stereotype": "Class",
+      "CreatedAtUtc": "2023-05-25T16:46:16.6123833Z",
+      "AbsoluteTopLeft": "307.4157,119.1498",
+      "HeaderContentSize": "306.5567,75.4",
+      "NodeTotalSize": "306.5567,75.4",
+      "ChildrenAreaTopLeft": "1,0",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "LevelSelectHandler",
+        "FullName": "class LevelSelectHandler",
+        "Symbols": [
+          "LevelSelectHandler"
+        ],
+        "Description": "Handles Level Select menu GUI components, their construction and management including pagination buttons and page counting",
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "11",
+      "Name": "SceneHandler",
+      "Stereotype": "Class",
+      "CreatedAtUtc": "2023-05-25T16:46:16.6123833Z",
+      "AbsoluteTopLeft": "320.5818,244.5498",
+      "HeaderContentSize": "268.3267,75.4",
+      "NodeTotalSize": "268.3267,75.4",
+      "ChildrenAreaTopLeft": "1,0",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "SceneHandler",
+        "FullName": "class SceneHandler",
+        "Symbols": [
+          "SceneHandler"
+        ],
+        "Description": "Used to handle the load of new Scenes in the game and to configure the static default values.",
+        "IsDescriptionVisible": true,
+        "IsStatic": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "12",
+      "Name": "PauseControl",
+      "Stereotype": "Class",
+      "CreatedAtUtc": "2023-05-25T16:46:16.6133832Z",
+      "AbsoluteTopLeft": "722.9108,-257.0502",
+      "HeaderContentSize": "293.5933,75.4",
+      "NodeTotalSize": "293.5933,75.4",
+      "ChildrenAreaTopLeft": "1,0",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "PauseControl",
+        "FullName": "class PauseControl",
+        "Symbols": [
+          "PauseControl"
+        ],
+        "Description": "Handles Pause mechanic in the game as well as Pause menu and buttons",
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "13",
+      "Name": "GridPipe",
+      "Stereotype": "Class",
+      "CreatedAtUtc": "2023-05-25T16:46:16.6133832Z",
+      "AbsoluteTopLeft": "-155.5135,-24.7777",
+      "HeaderContentSize": "257.1933,63.4",
+      "NodeTotalSize": "257.1933,63.4",
+      "ChildrenAreaTopLeft": "1,0",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "GridPipe",
+        "FullName": "class GridPipe",
+        "Symbols": [
+          "GridPipe"
+        ],
+        "Description": "Handles drag and drop events for the Pipe game object.",
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "14",
+      "Name": "Liquid",
+      "Stereotype": "Enum",
+      "CreatedAtUtc": "2023-05-25T16:46:16.6143840Z",
+      "AbsoluteTopLeft": "500.9605,-233.6502",
+      "HeaderContentSize": "102,52",
+      "NodeTotalSize": "102,52",
+      "ChildrenAreaTopLeft": "1,0",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "Liquid",
+        "FullName": "enum Liquid",
+        "Symbols": [
+          "Liquid"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "15",
+      "Name": "PipeType",
+      "Stereotype": "Enum",
+      "CreatedAtUtc": "2023-05-25T16:46:16.6153814Z",
+      "AbsoluteTopLeft": "165.3747,-244.6327",
+      "HeaderContentSize": "222.7467,63.4",
+      "NodeTotalSize": "222.7467,63.4",
+      "ChildrenAreaTopLeft": "1,0",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "PipeType",
+        "FullName": "enum PipeType",
+        "Symbols": [
+          "PipeType"
+        ],
+        "Description": "Public enum of Pipe types (last is always EMPTY)",
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "16",
+      "Name": "Pipe",
+      "Stereotype": "Struct",
+      "CreatedAtUtc": "2023-05-25T16:46:16.6153814Z",
+      "AbsoluteTopLeft": "356.3872,-131.2327",
+      "HeaderContentSize": "102,52",
+      "NodeTotalSize": "102,52",
+      "ChildrenAreaTopLeft": "1,0",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "Pipe",
+        "FullName": "struct Pipe",
+        "Symbols": [
+          "Pipe"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "17",
+      "Name": "Position",
+      "Stereotype": "Struct",
+      "CreatedAtUtc": "2023-05-25T16:46:16.6163825Z",
+      "AbsoluteTopLeft": "-48.7805,221.5673",
+      "HeaderContentSize": "287.0633,75.4",
+      "NodeTotalSize": "287.0633,75.4",
+      "ChildrenAreaTopLeft": "1,0",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "Position",
+        "FullName": "struct Position",
+        "Symbols": [
+          "Position"
+        ],
+        "Description": "Struct used to store X and Y coordinates of Pipes on the Board. Overrides basic equality operators.",
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "18",
+      "Name": "LevelData",
+      "Stereotype": "Class",
+      "CreatedAtUtc": "2023-05-25T16:46:16.6163825Z",
+      "AbsoluteTopLeft": "-57.2494,96.1673",
+      "HeaderContentSize": "293.3667,75.4",
+      "NodeTotalSize": "293.3667,75.4",
+      "ChildrenAreaTopLeft": "1,0",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "LevelData",
+        "FullName": "class LevelData",
+        "Symbols": [
+          "LevelData"
+        ],
+        "Description": "Static class used to store all information about the current Game and Level",
+        "IsDescriptionVisible": true,
+        "IsStatic": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "19",
+      "Name": "RectTransformExtensions",
+      "Stereotype": "Class",
+      "CreatedAtUtc": "2023-05-25T16:46:16.6173798Z",
+      "AbsoluteTopLeft": "-71.5655,-126.7777",
+      "HeaderContentSize": "152.06,52",
+      "NodeTotalSize": "152.06,52",
+      "ChildrenAreaTopLeft": "1,0",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "RectTransformExtensions",
+        "FullName": "class RectTransformExtensions",
+        "Symbols": [
+          "RectTransformExtensions"
+        ],
+        "IsDescriptionVisible": true,
+        "IsStatic": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "20",
+      "Name": "GameManager",
+      "Stereotype": "Class",
+      "CreatedAtUtc": "2023-05-25T16:46:16.6173798Z",
+      "AbsoluteTopLeft": "672.7724,146.9707",
+      "HeaderContentSize": "300.8167,63.4",
+      "NodeTotalSize": "300.8167,63.4",
+      "ChildrenAreaTopLeft": "1,0",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "GameManager",
+        "FullName": "class GameManager",
+        "Symbols": [
+          "GameManager"
+        ],
+        "Description": "Manages core water flowing mechanic after Flow start is triggered",
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    }
+  ],
+  "Connectors": [
+    {
+      "Id": "1",
+      "SourceNodeId": "6",
+      "TargetNodeId": "2",
+      "Stereotype": "Association",
+      "Route": [
+        "691.3447,-6.2502",
+        "694.2705,-56.2502"
+      ],
+      "Payload": {
+        "Discriminator": "Association",
+        "Relationship": "Player|Association|LevelHandler",
+        "TargetLabels": [
+          {
+            "Label": {
+              "Text2": "levelHandler",
+              "Tooltip": "private LevelHandler levelHandler",
+              "CanBeHidden": true
+            },
+            "Symbol": "Player.levelHandler"
+          }
+        ],
+        "TargetLabelCenter": "692.8101,-31.2929"
+      }
+    },
+    {
+      "Id": "2",
+      "SourceNodeId": "8",
+      "TargetNodeId": "2",
+      "Stereotype": "Association",
+      "Route": [
+        "473.0279,-29.2327",
+        "566.3106,-56.2502"
+      ],
+      "Payload": {
+        "Discriminator": "Association",
+        "Relationship": "PipeHandler|Association|LevelHandler",
+        "TargetLabels": [
+          {
+            "Label": {
+              "Text2": "levelHandler",
+              "Tooltip": "private LevelHandler levelHandler",
+              "CanBeHidden": true
+            },
+            "Symbol": "PipeHandler.levelHandler"
+          }
+        ],
+        "TargetLabelCenter": "542.2975,-49.2953"
+      }
+    },
+    {
+      "Id": "3",
+      "SourceNodeId": "9",
+      "TargetNodeId": "2",
+      "Stereotype": "Association",
+      "Route": [
+        "937.4917,-7.4374",
+        "801.5046,-56.2502"
+      ],
+      "Payload": {
+        "Discriminator": "Association",
+        "Relationship": "GUIHandler|Association|LevelHandler",
+        "TargetLabels": [
+          {
+            "Label": {
+              "Text2": "levelHandler",
+              "Tooltip": "public LevelHandler levelHandler",
+              "CanBeHidden": true
+            },
+            "Symbol": "GUIHandler.levelHandler"
+          }
+        ],
+        "TargetLabelCenter": "825.0346,-47.8041"
+      }
+    },
+    {
+      "Id": "4",
+      "SourceNodeId": "12",
+      "TargetNodeId": "2",
+      "Stereotype": "Association",
+      "Route": [
+        "817.6277,-181.6502",
+        "748.5564,-131.6502"
+      ],
+      "Payload": {
+        "Discriminator": "Association",
+        "Relationship": "PauseControl|Association|LevelHandler",
+        "TargetLabels": [
+          {
+            "Label": {
+              "Text2": "levelHandler",
+              "Tooltip": "public LevelHandler levelHandler",
+              "CanBeHidden": true
+            },
+            "Symbol": "PauseControl.levelHandler"
+          }
+        ],
+        "TargetLabelCenter": "768.8073,-146.3097"
+      }
+    },
+    {
+      "Id": "5",
+      "SourceNodeId": "20",
+      "TargetNodeId": "2",
+      "Stereotype": "Association",
+      "Route": [
+        "808.4477,146.9707",
+        "713.9982,-56.2502"
+      ],
+      "Payload": {
+        "Discriminator": "Association",
+        "Relationship": "GameManager|Association|LevelHandler",
+        "TargetLabels": [
+          {
+            "Label": {
+              "Text2": "lh",
+              "Tooltip": "private LevelHandler lh"
+            },
+            "Symbol": "GameManager.lh"
+          }
+        ],
+        "TargetLabelCenter": "724.5349,-33.5791"
+      }
+    },
+    {
+      "Id": "6",
+      "SourceNodeId": "2",
+      "TargetNodeId": "8",
+      "Stereotype": "Association",
+      "Route": [
+        "566.3106,-56.2502",
+        "473.0279,-29.2327"
+      ],
+      "Payload": {
+        "Discriminator": "Association",
+        "Relationship": "LevelHandler|Association|PipeHandler",
+        "TargetLabels": [
+          {
+            "Label": {
+              "Text2": "activePipeHandler",
+              "Tooltip": "private PipeHandler activePipeHandler"
+            },
+            "Symbol": "LevelHandler.activePipeHandler"
+          }
+        ],
+        "TargetLabelCenter": "497.041,-36.1877"
+      }
+    },
+    {
+      "Id": "7",
+      "SourceNodeId": "2",
+      "TargetNodeId": "12",
+      "Stereotype": "Association",
+      "Route": [
+        "748.5564,-131.6502",
+        "817.6277,-181.6502"
+      ],
+      "Payload": {
+        "Discriminator": "Association",
+        "Relationship": "LevelHandler|Association|PauseControl",
+        "TargetLabels": [
+          {
+            "Label": {
+              "Text2": "pauseControl",
+              "Tooltip": "public PauseControl pauseControl",
+              "CanBeHidden": true
+            },
+            "Symbol": "LevelHandler.pauseControl"
+          }
+        ],
+        "TargetLabelCenter": "797.3768,-166.9908"
+      }
+    },
+    {
+      "Id": "8",
+      "SourceNodeId": "2",
+      "TargetNodeId": "20",
+      "Stereotype": "Association",
+      "Route": [
+        "713.9982,-56.2502",
+        "808.4477,146.9707"
+      ],
+      "Payload": {
+        "Discriminator": "Association",
+        "Relationship": "LevelHandler|Association|GameManager",
+        "TargetLabels": [
+          {
+            "Label": {
+              "Text2": "gameManager",
+              "Tooltip": "public GameManager gameManager",
+              "CanBeHidden": true
+            },
+            "Symbol": "LevelHandler.gameManager"
+          }
+        ],
+        "TargetLabelCenter": "797.9111,124.2997"
+      }
+    },
+    {
+      "Id": "9",
+      "SourceNodeId": "4",
+      "TargetNodeId": "3",
+      "Stereotype": "Association",
+      "Route": [
+        "34.0867,350.6057",
+        "-99.8556,280.851"
+      ],
+      "Payload": {
+        "Discriminator": "Association",
+        "Relationship": "AdjacentCell|Association|CellWalls",
+        "TargetLabels": [
+          {
+            "Label": {
+              "Text2": "CommonWall",
+              "Tooltip": "public CellWalls CommonWall"
+            },
+            "Symbol": "AdjacentCell.CommonWall"
+          }
+        ],
+        "TargetLabelCenter": "-77.6822,292.3985"
+      }
+    },
+    {
+      "Id": "10",
+      "SourceNodeId": "4",
+      "TargetNodeId": "17",
+      "Stereotype": "Association",
+      "Route": [
+        "103.0518,350.6057",
+        "98.1773,296.9673"
+      ],
+      "Payload": {
+        "Discriminator": "Association",
+        "Relationship": "AdjacentCell|Association|Position",
+        "TargetLabels": [
+          {
+            "Label": {
+              "Text2": "Location",
+              "Tooltip": "public Position Location"
+            },
+            "Symbol": "AdjacentCell.Location"
+          }
+        ],
+        "TargetLabelCenter": "100.4399,321.8647"
+      }
+    },
+    {
+      "Id": "11",
+      "SourceNodeId": "6",
+      "TargetNodeId": "20",
+      "Stereotype": "Association",
+      "Route": [
+        "723.4638,69.1498",
+        "794.3184,146.9707"
+      ],
+      "Payload": {
+        "Discriminator": "Association",
+        "Relationship": "Player|Association|GameManager",
+        "TargetLabels": [
+          {
+            "Label": {
+              "Text2": "gm",
+              "Tooltip": "private GameManager gm"
+            },
+            "Symbol": "Player.gm"
+          }
+        ],
+        "TargetLabelCenter": "777.4875,128.4851"
+      }
+    },
+    {
+      "Id": "12",
+      "SourceNodeId": "20",
+      "TargetNodeId": "8",
+      "Stereotype": "Association",
+      "Route": [
+        "733.7225,146.9707",
+        "449.2523,46.1673"
+      ],
+      "Payload": {
+        "Discriminator": "Association",
+        "Relationship": "GameManager|Association|PipeHandler",
+        "TargetLabels": [
+          {
+            "Label": {
+              "Text1": "*",
+              "Text2": "queue",
+              "Tooltip": "private Queue<PipeHandler> queue"
+            },
+            "Symbol": "GameManager.queue"
+          },
+          {
+            "Label": {
+              "Text1": "*",
+              "Text2": "visited",
+              "Tooltip": "private HashSet<PipeHandler> visited"
+            },
+            "Symbol": "GameManager.visited"
+          }
+        ],
+        "TargetLabelCenter": "472.8166,54.5174"
+      }
+    },
+    {
+      "Id": "13",
+      "SourceNodeId": "8",
+      "TargetNodeId": "16",
+      "Stereotype": "Association",
+      "Route": [
+        "364.2568,-29.2327",
+        "392.632,-79.2327"
+      ],
+      "Payload": {
+        "Discriminator": "Association",
+        "Relationship": "PipeHandler|Association|Pipe",
+        "TargetLabels": [
+          {
+            "Label": {
+              "Text2": "pipeType",
+              "Tooltip": "public Pipe pipeType"
+            },
+            "Symbol": "PipeHandler.pipeType"
+          }
+        ],
+        "TargetLabelCenter": "380.293,-57.49"
+      }
+    },
+    {
+      "Id": "14",
+      "SourceNodeId": "8",
+      "TargetNodeId": "17",
+      "Stereotype": "Association",
+      "Route": [
+        "305.5662,46.1673",
+        "132.0469,221.5673"
+      ],
+      "Payload": {
+        "Discriminator": "Association",
+        "Relationship": "PipeHandler|Association|Position",
+        "TargetLabels": [
+          {
+            "Label": {
+              "Text2": "location",
+              "Tooltip": "public Position location"
+            },
+            "Symbol": "PipeHandler.location"
+          }
+        ],
+        "TargetLabelCenter": "149.6291,203.7946"
+      }
+    },
+    {
+      "Id": "15",
+      "SourceNodeId": "20",
+      "TargetNodeId": "9",
+      "Stereotype": "Association",
+      "Route": [
+        "870.0316,146.9707",
+        "986.8012,67.9626"
+      ],
+      "Payload": {
+        "Discriminator": "Association",
+        "Relationship": "GameManager|Association|GUIHandler",
+        "TargetLabels": [
+          {
+            "Label": {
+              "Text2": "GUIHandler",
+              "Tooltip": "private GUIHandler GUIHandler",
+              "CanBeHidden": true
+            },
+            "Symbol": "GameManager.GUIHandler"
+          }
+        ],
+        "TargetLabelCenter": "966.0955,81.9724"
+      }
+    },
+    {
+      "Id": "16",
+      "SourceNodeId": "12",
+      "TargetNodeId": "9",
+      "Stereotype": "Association",
+      "Route": [
+        "895.808,-181.6502",
+        "1016.4192,-7.4374"
+      ],
+      "Payload": {
+        "Discriminator": "Association",
+        "Relationship": "PauseControl|Association|GUIHandler",
+        "TargetLabels": [
+          {
+            "Label": {
+              "Text2": "guiHandler",
+              "Tooltip": "private GUIHandler guiHandler",
+              "CanBeHidden": true
+            },
+            "Symbol": "PauseControl.guiHandler"
+          }
+        ],
+        "TargetLabelCenter": "1002.1888,-27.992"
+      }
+    },
+    {
+      "Id": "17",
+      "SourceNodeId": "9",
+      "TargetNodeId": "20",
+      "Stereotype": "Association",
+      "Route": [
+        "986.8012,67.9626",
+        "870.0316,146.9707"
+      ],
+      "Payload": {
+        "Discriminator": "Association",
+        "Relationship": "GUIHandler|Association|GameManager",
+        "TargetLabels": [
+          {
+            "Label": {
+              "Text2": "gm",
+              "Tooltip": "private GameManager gm"
+            },
+            "Symbol": "GUIHandler.gm"
+          }
+        ],
+        "TargetLabelCenter": "890.7373,132.961"
+      }
+    },
+    {
+      "Id": "18",
+      "SourceNodeId": "16",
+      "TargetNodeId": "14",
+      "Stereotype": "Association",
+      "Route": [
+        "444.089,-131.2327",
+        "515.2587,-181.6502"
+      ],
+      "Payload": {
+        "Discriminator": "Association",
+        "Relationship": "Pipe|Association|Liquid",
+        "TargetLabels": [
+          {
+            "Label": {
+              "Text2": "Liquid",
+              "Tooltip": "public Liquid Liquid { get; }",
+              "CanBeHidden": true
+            },
+            "Symbol": "Pipe.Liquid"
+          }
+        ],
+        "TargetLabelCenter": "494.8589,-167.1987"
+      }
+    },
+    {
+      "Id": "19",
+      "SourceNodeId": "16",
+      "TargetNodeId": "15",
+      "Stereotype": "Association",
+      "Route": [
+        "375.8494,-131.2327",
+        "315.1998,-181.2327"
+      ],
+      "Payload": {
+        "Discriminator": "Association",
+        "Relationship": "Pipe|Association|PipeType",
+        "TargetLabels": [
+          {
+            "Label": {
+              "Text2": "Type",
+              "Tooltip": "public PipeType Type { get; }"
+            },
+            "Symbol": "Pipe.Type"
+          }
+        ],
+        "TargetLabelCenter": "334.4898,-165.33"
+      }
+    },
+    {
+      "Id": "20",
+      "SourceNodeId": "18",
+      "TargetNodeId": "17",
+      "Stereotype": "Association",
+      "Route": [
+        "91.0325,171.5673",
+        "93.1526,221.5673"
+      ],
+      "Payload": {
+        "Discriminator": "Association",
+        "Relationship": "LevelData|Association|Position",
+        "TargetLabels": [
+          {
+            "Label": {
+              "Text1": "0..1",
+              "Text2": "defaultEnd",
+              "Tooltip": "public static Position? defaultEnd"
+            },
+            "Symbol": "LevelData.defaultEnd"
+          },
+          {
+            "Label": {
+              "Text1": "0..1",
+              "Text2": "defaultStart",
+              "Tooltip": "public static Position? defaultStart"
+            },
+            "Symbol": "LevelData.defaultStart"
+          }
+        ],
+        "TargetLabelCenter": "92.0935,196.5897"
+      }
+    }
+  ]
+}

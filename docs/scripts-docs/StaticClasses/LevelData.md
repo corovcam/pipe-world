@@ -47,10 +47,13 @@ The resulting dictionary can be used to quickly look up the `PipeHandler` object
 ### Questions & Answers
 
 1. **What is the purpose of the `Position` struct?**
+
     The `Position` struct is used to store X and Y coordinates of pipes on the board and overrides basic equality operators.
 
 1. **What is the purpose of the `LevelData` static class?**
+
     The `LevelData` static class is used to store all information about the current game and level, including the mode of the game, level number, board size, time limit, starting and ending positions, and the game pieces.
 
 1. **What is the purpose of the `GetRandomPuzzle` method in the `LevelData` static class?**
+
     The `GetRandomPuzzle` method generates a random pipe puzzle using a random maze generator and a dictionary map to convert it to the pipes puzzle, and returns a 2D array of `Pipe`s. It also sets the default starting and ending positions for the liquid type and adds them to the corresponding dictionaries.

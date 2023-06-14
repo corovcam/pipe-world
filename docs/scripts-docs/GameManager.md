@@ -26,10 +26,13 @@ The `GameManager` class is essential to the `Pipe World` game as it manages the 
 ### Questions & Answers
 
 1. **What are the win conditions for the game?**
+
    The win condition is met when all flows (water and/or lava) have started and finished, and have reached their respective end points without any interruptions or mismatches in liquid type.
 
 2. **How does the GameManager handle multiple instances of liquid (water/lava) flows?**
+
    The GameManager maintains separate coroutines for each instance of liquid flow, keeping track of their finished status in a `flowsFinished` list and using a `flowIndex` counter to distinguish between different instances.
 
 3. **What is the purpose of the `distances` dictionary in the GameManager class?**
+
    The `distances` dictionary is used to store the integer distances of each visited pipe from the starting position. It is primarily used to distinguish different waves of animation during the flow of liquid through the pipes.

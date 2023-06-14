@@ -5,3 +5,6 @@ _site
 vendor
 Gemfile.lock
 docs-qa/
+concantenated.md
+counter.py
+*.mp4

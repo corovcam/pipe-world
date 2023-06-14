@@ -32,10 +32,13 @@ Overall, this script provides the functionality to build levels, manage tiles an
 
 
 1. **What is the purpose of the `LevelData` class and how is it used in this script?**
+
    The `LevelData` class is used to store and manage data related to the game level, such as board size, level number, pipe types, and their positions. It is accessed to set and retrieve level data throughout the script.
 
 2. **How does the `GenerateNewGrid` function position the back tiles and what is the purpose of the `temp` variable?**
+
    The `GenerateNewGrid` function generates a grid of back tiles by instantiating the `backTilePrefab` and configuring each tile's sprite, position, name, and parent. The `temp` variable is used to store the instantiated back tile game object before assigning it to the corresponding position in the `tileObjects` 2D array.
 
 3. **What is the purpose of the `SetActiveTile` function and how is it used in the script?**
+
    The `SetActiveTile` function sets the current active tile by assigning the provided tile game object to the `activePipe` variable. It also positions and activates the `tilePointer` object above the active tile. This function is called to update the active tile during gameplay and allows the player to interact with the currently selected tile.

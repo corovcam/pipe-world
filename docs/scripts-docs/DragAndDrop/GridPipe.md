@@ -21,10 +21,13 @@ Overall, the `GridPipe` script is an essential component of the pipe-world proje
 ### Questions & Answers
 
 1. **How is drag and drop implemented for pipes?**
+
     The OnMouseDown, OnMouseUp, PickUp, and Drop methods handle detecting mouse clicks, moving the pipe, dropping the pipe, and handling placement logic.
 
 2. **What happens if a pipe is dropped on an occupied tile?**
+
     The pipe is returned to its starting position since only one pipe is allowed per tile. 
 
 3. **What other scripts does this GridPipe script interact with?**
+
     It interacts with PipeHandler and PauseControl.

@@ -29,10 +29,13 @@ Finally, `GenerateAudioSource()` creates an AudioSource GameObject with an Audio
 ### Questions & Answers
 
 1. **What does the `GenerateMenuBtn` method do?**
+
    The `GenerateMenuBtn` method creates a menu button with a specified label and position, and assigns a delegate function to be called when the button is clicked.
 
 2. **How are the audio sources for button click and mouse enter events handled?**
+
    The audio sources are generated and stored in the `audioSources` list. The `ConfigureButtonSounds` method sets up the listeners for button click and mouse enter events, playing the corresponding audio sources when the events occur.
 
 3. **How does the `GenerateCanvasGO` method set up the canvas for the main menu?**
+
    The `GenerateCanvasGO` method creates a new canvas game object, sets its properties like render mode and layer, and adds necessary components such as `Canvas`, `CanvasScaler`, and `GraphicRaycaster` to properly display and scale the UI elements on the screen.

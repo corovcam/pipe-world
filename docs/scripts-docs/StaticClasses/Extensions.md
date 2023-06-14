@@ -28,10 +28,13 @@ These extension methods facilitate precise positioning of UI elements within a U
 ### Questions & Answers
 
 1. **How do these extension methods handle negative offset values?**
+
    The methods accept negative values without any restrictions, allowing developers to position the `RectTransform` either inside or outside the parent's bounds.
 
 2. **Can these extension methods be used to simultaneously set offsets for multiple edges?**
+
    Yes, developers can chain multiple method calls to set offsets for multiple edges, e.g., `panel.SetLeft(10f).SetTop(5f);`.
 
 3. **Would these methods work with non-UI elements, such as regular `Transform` objects?**
+
    No, these methods are specifically designed for `RectTransform` objects, which are used for UI elements in Unity. They won't work with regular `Transform` objects.

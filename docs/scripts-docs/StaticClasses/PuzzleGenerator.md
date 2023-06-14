@@ -25,10 +25,13 @@ This code will generate a maze of size 10x10, where each cell's walls are repres
 ### Questions & Answers
 
 1. **What is the purpose of the `CellWalls` enum and why is the `[Flags]` attribute used?**
+
    The `CellWalls` enum is used to represent the possible wall configurations for each cell in the maze. The `[Flags]` attribute is used to allow bitwise operations on the enum values, facilitating the combination and manipulation of wall configurations.
 
 2. **How does the `Backtrack` method work to generate the maze?**
+
    The `Backtrack` method implements a depth-first search (DFS) algorithm to visit all cells in a grid maze, removing walls between adjacent cells in the process. It uses a stack to maintain the path, ensuring that every cell is visited and the maze is generated with a valid solution.
 
 3. **How do the `GetUnvisitedAdjacentCells` and `AdjacentCell` struct work together in the maze generation process?**
+
    The `GetUnvisitedAdjacentCells` method returns a list of unvisited adjacent cells from the current position. The `AdjacentCell` struct stores information about each adjacent cell, such as its location and the common wall between the two cells. This information is used in the maze generation process to break down walls and mark cells as visited.
