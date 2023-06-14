@@ -45,4 +45,4 @@ Oproti hre [Water Pipes](https://play.google.com/store/apps/details?id=com.mobil
 ### Knižnice a vývojové prostredie
 Vývojové prostredie je herný engine Unity 2021.3.5f1 a IDE Visual Studio 2022 na tvorbu a debugovanie skriptov. Na vývoj sú použité štandardné Unity a .NET knižnice s využitím dodatočných knižníc podľa potreby. Na testovanie funkčnosti v prehliadačoch je použitá knižnica WebGL. Hra bude prispôsobená aj čiastočne pre Android.
 
-Viac v [DOCS.md](DOCS.md).
+Viac v Dokumentácii: https://corovcam.github.io/pipe-world/.
