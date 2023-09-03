@@ -7,6 +7,10 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public static class SceneHandler
 {
+
+    public static int LevelSelectLevelCount = Resources.LoadAll("LevelSelectLevels", typeof(TextAsset)).Length;
+    public static int FreeWorldLevelCount = Resources.LoadAll("FreeWorldLevels", typeof(TextAsset)).Length;
+
     public static void LoadMainMenuScene()
     {
         SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);

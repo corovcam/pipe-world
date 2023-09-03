@@ -22,6 +22,7 @@ public class GUIHandler : MonoBehaviour
 
     public Button restartButton;
     public Button quitButton;
+    public Button nextLevelButton;
     public Button pauseButton;
     public Button skipButton;
     public Button startFlowButton;
@@ -44,6 +45,7 @@ public class GUIHandler : MonoBehaviour
         gm = GetComponent<GameManager>();
         restartButton.onClick.AddListener(RestartGame);
         quitButton.onClick.AddListener(GetBackToMainMenu);
+        nextLevelButton.onClick.AddListener(GoToNextLevel);
         skipButton.onClick.AddListener(AccelerateFlow);
         startFlowButton.onClick.AddListener(gm.StartFlow);
     }
@@ -52,6 +54,12 @@ public class GUIHandler : MonoBehaviour
     {
         if (isDebug)
             LevelData.TimeLimit = defaultTimeLimit;
+
+        bool isLastLevel = LevelData.LevelNumber == 
+            (LevelData.IsFreeWorldMode ? SceneHandler.FreeWorldLevelCount : SceneHandler.LevelSelectLevelCount);
+        if (LevelData.IsArcadeMode || isLastLevel)
+            nextLevelButton.gameObject.SetActive(false);
+
         timerText.text = LevelData.TimeLimit.ToString();
         StartCoroutine("CountdownTimer");
     }
@@ -82,7 +90,7 @@ public class GUIHandler : MonoBehaviour
     }
 
     /// <summary>
-    /// A popup GUI that shows the End Game menu with the Total Score, Restart and Quit buttons
+    /// A popup GUI that shows the End Game menu with the Total Score, Restart, Quit and Next Level buttons
     /// </summary>
     /// <param name="isWon">Used to determine if the player won or lost the game. 
     /// The End Game Menu changes accordingly.</param>
@@ -152,6 +160,21 @@ public class GUIHandler : MonoBehaviour
         endGameMenu.SetActive(false);
 
         SceneHandler.LoadMainMenuScene();
+    }
+
+    /// <summary>
+    /// Navigation to the next level
+    /// </summary>
+    void GoToNextLevel()
+    {
+        if (PauseControl.GameIsPaused)
+        {
+            PauseControl.GameIsPaused = false;
+            Time.timeScale = 1;
+        }
+        endGameMenu.SetActive(false);
+
+        SceneHandler.LoadLevel(LevelData.LevelNumber + 1);
     }
 
     /// <summary>

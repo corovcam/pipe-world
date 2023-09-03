@@ -10,14 +10,6 @@ using TMPro;
 /// </summary>
 public class LevelSelectHandler : MonoBehaviour
 {
-    /// <summary>
-    /// Need to be changed in Inspector when new Levels are addded or removed from the Resources/LevelSelectLevels folder
-    /// </summary>
-    public int levelSelectlvlCount = 14;
-    /// <summary>
-    /// Need to be changed in Inspector when new Levels are addded or removed from the Resources/FreeWorldLevels folder
-    /// </summary>
-    public int freeWorldLvlCount = 8;
     public static int MaxTimeLimit { get; } = 20;
 
     public Button mainMenuBtnPrefab;
@@ -52,7 +44,8 @@ public class LevelSelectHandler : MonoBehaviour
         // Levels are organized in Pages containing 8 Levels at maximum
         int pageID = 0;
         GenerateLevelsPage(pageID);
-        int levelsCount = LevelData.IsFreeWorldMode ? freeWorldLvlCount : levelSelectlvlCount;
+        int levelsCount = LevelData.IsFreeWorldMode ? 
+            SceneHandler.FreeWorldLevelCount : SceneHandler.LevelSelectLevelCount;
         for (int levelID = 1; levelID <= levelsCount; levelID++)
         {
             GenerateLevelButton(levelID, pageID);
