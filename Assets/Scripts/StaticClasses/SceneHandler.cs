@@ -34,7 +34,8 @@ public static class SceneHandler
         LevelData.defaultEnd = null;
         LevelData.GamePieces = null;
         LevelData.BoardSize = 10;
-        LevelData.TimeLimit = 30;
+        LevelData.TimeLimit = LevelData.Difficulty == Difficulty.Normal ? 40 : 
+            (LevelData.Difficulty == Difficulty.Hard ? 30 : 60);
         SceneManager.LoadScene("Game", LoadSceneMode.Single);
     }
 
@@ -58,7 +59,11 @@ public static class SceneHandler
                 .text.Split(Environment.NewLine);
 
         LevelData.BoardSize = int.Parse(LevelData.lvlData[0]);
-        LevelData.TimeLimit = int.Parse(LevelData.lvlData[1]);
+
+        int normalTimeLimit = int.Parse(LevelData.lvlData[1]);
+        LevelData.TimeLimit = LevelData.Difficulty == Difficulty.Normal ? normalTimeLimit :
+            (LevelData.Difficulty == Difficulty.Hard ? (int)(normalTimeLimit / 1.2f) : (int)(normalTimeLimit * 1.5f));
+
         SceneManager.LoadScene("Game", LoadSceneMode.Single);
     }
 }

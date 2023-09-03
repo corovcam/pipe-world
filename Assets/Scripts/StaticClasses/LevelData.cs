@@ -15,6 +15,11 @@ public enum PipeType
     Straight, Round, ThreeWay, Cross, EMPTY
 }
 
+public enum Difficulty
+{
+    Easy, Normal, Hard
+}
+
 public struct Pipe
 {
     static Pipe() => new Pipe(Liquid.Water, PipeType.EMPTY);
@@ -99,6 +104,8 @@ public static class LevelData
     /// The time limit for the current level.
     /// </summary>
     public static int TimeLimit { get; set; }
+
+    public static Difficulty Difficulty { get; set; }
 
     /// <summary>
     /// A dictionary containing the starting positions for a specific liquid type.

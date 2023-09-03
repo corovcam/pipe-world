@@ -509,6 +509,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 07a4ce2148550fa4591850999d6b28a3, type: 3}
   - {fileID: 21300000, guid: 93895693a747aa14e980ad75c438cd9d, type: 3}
   - {fileID: 21300000, guid: a53759b6a79ccb94d908a4e77a45d472, type: 3}
+  backTileEnd: {fileID: 21300000, guid: 944c2121b1fa2f94d957f3f56bb8e1ca, type: 3}
   pipeRotationAudio: {fileID: 3167966525210941805}
   winningAudio: {fileID: 7624317611607508692}
   activePipe: {fileID: 0}

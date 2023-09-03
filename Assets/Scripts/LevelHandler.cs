@@ -36,6 +36,7 @@ public class LevelHandler : MonoBehaviour
     // Holds the back tile prefab and its sprites
     public GameObject backTilePrefab;
     public List<Sprite> backTileSprites;
+    public Sprite backTileEnd;
 
     // Audio sources for playing pipe rotation and winning sounds
     public AudioSource pipeRotationAudio;
@@ -200,6 +201,11 @@ public class LevelHandler : MonoBehaviour
             }
             offset -= 2;
         }
+        // Set the End pipe backTile to a Finish Flag
+        LevelData.Ends.Select(kv => kv.Value).ToList()
+            .ForEach(endsList =>
+                endsList.ForEach(end => tileObjects[end.X, end.Y].GetComponent<SpriteRenderer>().sprite = backTileEnd)
+                );
     }
 
     /// <summary>

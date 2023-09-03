@@ -13,6 +13,8 @@ using TMPro;
 /// </summary>
 public class MenuHandler : MonoBehaviour
 {
+    public TMP_Dropdown difficultyDropdown;
+
     private GameObject canvasGO;
     private List<AudioSource> audioSources = new List<AudioSource>();
 
@@ -23,9 +25,10 @@ public class MenuHandler : MonoBehaviour
 
         canvasGO = GenerateCanvasGO("Main Menu Canvas");
 
-        GenerateMenuBtn("Level Select", 0, 158, () => SceneHandler.LoadLevelSelectScene(isFreeWorldMode: false));
-        GenerateMenuBtn("Arcade", 0, -92, SceneHandler.LoadArcadeGameScene);
-        GenerateMenuBtn("Free World", 0, -342, () => SceneHandler.LoadLevelSelectScene(isFreeWorldMode: true));
+        GenerateMenuBtn("Level Select", 0, 224, () => SceneHandler.LoadLevelSelectScene(isFreeWorldMode: false));
+        GenerateMenuBtn("Arcade", 0, 15, SceneHandler.LoadArcadeGameScene);
+        GenerateMenuBtn("Free World", 0, -194, () => SceneHandler.LoadLevelSelectScene(isFreeWorldMode: true));
+        ConfigureDropdownGO();
 
         GenerateTitleText();
     }
@@ -139,10 +142,15 @@ public class MenuHandler : MonoBehaviour
         btn.onClick.AddListener(onClickFunc);
 
         // Event Trigger - Mouse enter
-        EventTrigger trigger = btn.gameObject.AddComponent<EventTrigger>();
+        GameObject btnGO = btn.gameObject;
+        addEventTrigger(ref btnGO, EventTriggerType.PointerEnter, onMouseEnterFunc);
+    }
+
+    private static void addEventTrigger(ref GameObject gameObject, EventTriggerType eventTriggerType, UnityAction callback) {
+        EventTrigger trigger = gameObject.AddComponent<EventTrigger>();
         EventTrigger.Entry triggerEntry = new EventTrigger.Entry();
-        triggerEntry.eventID = EventTriggerType.PointerEnter;
-        triggerEntry.callback.AddListener((_) => onMouseEnterFunc());
+        triggerEntry.eventID = eventTriggerType;
+        triggerEntry.callback.AddListener((_) => callback());
         trigger.triggers.Add(triggerEntry);
     }
 
@@ -160,5 +168,33 @@ public class MenuHandler : MonoBehaviour
         audioSrc.clip = (AudioClip)Resources.Load(audioPath);
 
         return audioSrc;
+    }
+
+    void ConfigureDropdownGO()
+    {
+        var difficultyDropdownGO = difficultyDropdown.gameObject;
+
+        difficultyDropdownGO.transform.SetParent(canvasGO.transform);
+        difficultyDropdownGO.layer = canvasGO.layer;
+
+        RectTransform transform = difficultyDropdownGO.GetComponent<RectTransform>();
+        transform.localPosition = new Vector3(0, -430, 0);
+        transform.sizeDelta = new Vector2(160, 30);
+        transform.localScale = new Vector3(4.5f, 4.5f, 0);
+
+        // Event Trigger - Mouse enter
+        addEventTrigger(ref difficultyDropdownGO, EventTriggerType.PointerEnter, audioSources[1].Play);
+
+        // Event Trigger - Mouse click
+        addEventTrigger(ref difficultyDropdownGO, EventTriggerType.PointerClick, audioSources[0].Play);
+
+        difficultyDropdown.onValueChanged.AddListener((int val) =>
+        {
+            audioSources[0].Play();
+            LevelData.Difficulty = (Difficulty)val;
+            Debug.Log("Difficulty: " + LevelData.Difficulty);
+        });
+
+        LevelData.Difficulty = (Difficulty)difficultyDropdown.value;
     }
 }
