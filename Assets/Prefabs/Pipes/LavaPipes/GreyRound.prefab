@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IODirs: 00010100
-  speed: 0.1
+  speed: 540
   rotation: 0
   upFree: 0
   downFree: 0

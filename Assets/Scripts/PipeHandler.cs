@@ -50,7 +50,7 @@ public class PipeHandler : MonoBehaviour
         // Handles the rotation animation using the Main Loop
 		if (transform.rotation.eulerAngles.z != rotation)
 		{
-			transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, rotation), speed);
+			transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, rotation), speed * Time.deltaTime);
 		}
 	}
 
