@@ -31,6 +31,7 @@ layout: home
   - [Scenes](#scenes)
     - [MainMenu](#scene-mainmenu)
     - [LevelSelect](#scene-levelselect)
+    - [Tutorial](#scene-tutorial)
     - [Game](#scene-game)
   - [Build, install and run](#build-install-and-run)
   - [Credits and 3rd Party Assets](#credits-and-3rd-party-assets)
@@ -72,15 +73,19 @@ After completing a level, the player is presented with the option to go back and
 
     The Level Select Menu contains a paginated list of available levels that the player can choose to play. Each level displays the level number. Clicking on a level takes the player to the Game Scene with the selected level loaded.
 
-3. **Game Scene**
+3. **Tutorial Scene**
+
+    The Tutorial Scene is a simple scene that contains a Video Player and a Skip Button.
+
+4. **Game Scene**
 
     The Game Scene is where the player can play the game. The game board is displayed in the center of the screen, and the GUI components are displayed on the sides of the screen. The player can rotate the pipes by clicking on them, and start the liquid *Flow* by clicking the *Flow button* or pressing *F* key. The player can pause the game by clicking on the *Pause button* and after *Flow* press *Skip button* to accelerate flow.
 
-4. **Pause Menu**
+5. **Pause Menu**
 
     When the game is paused, the Pause Menu is displayed. The Pause Menu contains buttons: *Help*, *Restart*, *Quit* and *Resume*. Clicking on *Resume* returns the player to the Game Scene. Clicking on *Quit* takes the player back to the Main Menu. *Restart* restarts the current level. *Help* displays the Help Menu (Keyboard Shortcuts).
 
-5. **End Game Menu**
+6. **End Game Menu**
 
     When the player completes a level or runs out of time, the End Game Menu is displayed. The End Game Menu displays the player's final score. The End Game Menu contains two buttons: *Restart* and *Quit*. Clicking on *Restart* restarts the level. Clicking on *Quit* takes the player back to the *Main Menu*.
 
@@ -136,7 +141,11 @@ By clicking on *Flow*, or when the time limit expires, the flow starts from all 
     - *Level Select Levels* - Custom level data accessible from Level Select menu
         - *LevelX* - new level can be added easily following this pattern:
             - First row: Grid row/column length
-            - Second row: Default *TimeLimit*
+            - Second row: *TimeLimit* for each Difficulty
+                - 3 integers separated by semicolon ';'
+                - First integer: Easy Difficulty Time Limit
+                - Second integer: Medium Difficulty Time Limit
+                - Third integer: Hard Difficulty Time Limit
             - GameBoard:
                 - Each cell in the matrix is divided by semicolon ';'
                 - The first symbol can be either: S = StartPipe, E = EndPipe, 0 = Any other Pipe
@@ -146,7 +155,11 @@ By clicking on *Flow*, or when the time limit expires, the flow starts from all 
     - *Free World Levels* - Custom level data accessible from Free World (Level Select) menu
         - *LevelX* - new level can be added easily following this pattern:
             - First row: Grid row/column length
-            - Second row: Default *TimeLimit*
+            - Second row: *TimeLimit* for each Difficulty
+                - 3 integers separated by semicolon ';'
+                - First integer: Easy Difficulty Time Limit
+                - Second integer: Medium Difficulty Time Limit
+                - Third integer: Hard Difficulty Time Limit
             - GameBoard:
                 - Each cell in the matrix is divided by semicolon ';'
                 - The first symbol can be either: S = StartPipe, E = EndPipe, 0 = No Pipe
@@ -172,6 +185,7 @@ By clicking on *Flow*, or when the time limit expires, the flow starts from all 
     - *GUIHandler.cs* - Handles *Game* scene GUI Components, Pause Menu, End Game Menu, Total Score calculaction and Timer and its mechanism
     - *LevelHandler.cs* - Handles Level building, Tile/Pipe management, Restart, Tiles shuffle, rotation and audio
     - *LevelSelectHandler.cs* - Handles Level Select menu GUI components, their construction and management including pagination buttons and page counting
+    - *TutorialPlayer.cs* - Handles Tutorial video player and skip button
     - *MenuHandler.cs* - Handles Main Menu GUI components construction and management
     - *PauseControl.cs* - Handles Pause mechanic in the game as well as Pause menu and buttons
     - *PipeHandler.cs* - Handles individual information about a Pipe (location, rotation) and its surrounding Pipes
@@ -186,6 +200,8 @@ By clicking on *Flow*, or when the time limit expires, the flow starts from all 
         - Their filled -lava and -water versions
         - **BlenderFiles** - Blender files used to create the PipeTiles
         - Red Pipes[^3] are the original pipe sprites
+- **StreamingAssets** - Video files used in Tutorial scene
+- **Objects** - Contains VideoTexture object used in Tutorial scene to set up the video player (resolution)
 - **TextMesh Pro** - A Unity plugin used in all TextMeshPro components
 - **UI Toolkit** - Not used in the project, just the default UI settings
 
@@ -211,11 +227,12 @@ Check out individual **Script Docs** for more information:
 7. [PauseControl.cs](scripts-docs/PauseControl)
 8. [MenuHandler.cs](scripts-docs/MenuHandler)
 9. [LevelSelectHandler.cs](scripts-docs/LevelSelectHandler)
-10. [DragAndDrop/GridPipe.cs](scripts-docs/DragAndDrop/GridPipe)
-11. [StaticClasses/Extensions.cs](scripts-docs/StaticClasses/Extensions)
-12. [StaticClasses/LevelData.cs](scripts-docs/StaticClasses/LevelData)
-13. [StaticClasses/PuzzleGenerator.cs](scripts-docs/StaticClasses/PuzzleGenerator)
-14. [StaticClasses/SceneHandler.cs](scripts-docs/StaticClasses/SceneHandler)
+10. [TutorialPlayer.cs](scripts-docs/TutorialPlayer)
+11. [DragAndDrop/GridPipe.cs](scripts-docs/DragAndDrop/GridPipe)
+12. [StaticClasses/Extensions.cs](scripts-docs/StaticClasses/Extensions)
+13. [StaticClasses/LevelData.cs](scripts-docs/StaticClasses/LevelData)
+14. [StaticClasses/PuzzleGenerator.cs](scripts-docs/StaticClasses/PuzzleGenerator)
+15. [StaticClasses/SceneHandler.cs](scripts-docs/StaticClasses/SceneHandler)
 
 
 ### Score Calculation Formula
@@ -305,6 +322,13 @@ Similarly to the [MainMenu](#scene-mainmenu) Scene, the *LevelSelectHandler* scr
         - **# (Buttons)** - Are all Interactable button parents
             - **Number#** - Contains *Horizontal Layout Group* component to organize multi-digit Numbers one by one; Also has custom padding
     - **Previous Page Btn(Clone)**, **Next Page Btn(Clone)** - An instantiated prefab that represents a cloned button that changes ***Interactable*** property when the *currentPage* is either the *Last Page* or *First Page*
+
+### **Scene: Tutorial**
+
+[![Scene Game](images/scene-tutorial.png)](images/scene-tutorial.png)
+
+#### Summary
+The Tutorial Scene is a simple scene that contains a Video Player and a Skip Button. The Video Player is used to play the tutorial video. The Skip Button is used to skip the tutorial video and go to the respective Game. The *TutorialPlayer.cs* script attached to the VidPlayer GameObject is used to play the tutorial video and handle the skip button click event.
 
 ### **Scene: Game**
 
