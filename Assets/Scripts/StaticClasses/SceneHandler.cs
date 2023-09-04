@@ -7,9 +7,9 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public static class SceneHandler
 {
-
     public static int LevelSelectLevelCount = Resources.LoadAll("LevelSelectLevels", typeof(TextAsset)).Length;
     public static int FreeWorldLevelCount = Resources.LoadAll("FreeWorldLevels", typeof(TextAsset)).Length;
+    static bool[] tutorialsPlayed = new bool[3];
 
     public static void LoadMainMenuScene()
     {
@@ -36,7 +36,14 @@ public static class SceneHandler
         LevelData.BoardSize = 10;
         LevelData.TimeLimit = LevelData.Difficulty == Difficulty.Normal ? 40 : 
             (LevelData.Difficulty == Difficulty.Hard ? 30 : 60);
-        SceneManager.LoadScene("Game", LoadSceneMode.Single);
+
+        if (tutorialsPlayed[1])
+            SceneManager.LoadScene("Game", LoadSceneMode.Single);
+        else
+        {
+            tutorialsPlayed[1] = true;
+            SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
+        }
     }
 
     public static void LoadLevel(int levelNumber)
@@ -64,6 +71,20 @@ public static class SceneHandler
         LevelData.TimeLimit = LevelData.Difficulty == Difficulty.Normal ? difficulties[1] :
             (LevelData.Difficulty == Difficulty.Hard ? difficulties[2] : difficulties[0]);
 
-        SceneManager.LoadScene("Game", LoadSceneMode.Single);
+        if ((LevelData.IsFreeWorldMode && tutorialsPlayed[2]) || (!LevelData.IsFreeWorldMode && tutorialsPlayed[0]))
+            SceneManager.LoadScene("Game", LoadSceneMode.Single);
+        else
+        {
+            if (LevelData.IsFreeWorldMode)
+            {
+                tutorialsPlayed[2] = true;
+                SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
+            }
+            else
+            {
+                tutorialsPlayed[0] = true;
+                SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
+            }
+        }
     }
 }
