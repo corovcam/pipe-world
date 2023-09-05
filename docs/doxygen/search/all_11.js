@@ -10,5 +10,7 @@ var searchData=
   ['toggleimgonsprite_7',['toggleImgOnSprite',['../class_pause_control.html#abea469f746c3b5a893f88e29cd8532a1',1,'PauseControl']]],
   ['tostring_8',['ToString',['../struct_position.html#af0f65597dc7b4719a94ff8e6ae5d0385',1,'Position']]],
   ['totalscore_9',['totalScore',['../class_g_u_i_handler.html#a0ab4097f83a0404529f1ef13ccc572f4',1,'GUIHandler']]],
-  ['type_10',['Type',['../struct_pipe.html#a0d9e39c4a20166629f4533de2eb20f0c',1,'Pipe']]]
+  ['tutorialplayer_10',['TutorialPlayer',['../class_tutorial_player.html',1,'']]],
+  ['tutorialplayer_2ecs_11',['TutorialPlayer.cs',['../_tutorial_player_8cs.html',1,'']]],
+  ['type_12',['Type',['../struct_pipe.html#a0d9e39c4a20166629f4533de2eb20f0c',1,'Pipe']]]
 ];

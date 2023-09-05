@@ -295,7 +295,7 @@ The time complexity of this maze generation algorithm is O(width * height), beca
 [![Scene MainMenu](images/scene-mainmenu.png)](images/scene-mainmenu.png)
 
 #### Summary
-Scene contains a Title and 3 Buttons representing *Level Select*, *Arcade* and *Free World* modes. Structurally, the Scene is very simple and similar to [LevelSelect](#scene-levelselect) Scene. The *MenuHandler* script attached to the Main Camera is used to generate and handle the whole Scene (check out the [Script Docs](scripts-docs/MenuHandler) for more information).
+Scene contains a Title, 3 Buttons representing *Level Select*, *Arcade* and *Free World* modes and a *Difficulty* Dropdown input. Structurally, the Scene is very simple and similar to [LevelSelect](#scene-levelselect) Scene. The *MenuHandler* script attached to the Main Camera is used to generate and handle the whole Scene (check out the [Script Docs](scripts-docs/MenuHandler) for more information).
 
 ### **Scene: LevelSelect**
 
@@ -386,7 +386,7 @@ When cloned, start the Editor using the Unity Hub (or manually) and wait till th
 
 The game is mainly configured for the WebGl (browser) platform (though it also works on Android and Windows). The intended resolution aspect ratio is 16:9 (developed using the 1920x1080 resolution as a reference endpoint) and played in the landscape mode. Though the game can be run on mobile device browsers, the settings need to be configured properly for the game to run smoothly.
 
-The WebGl build can be found here: <https://play.unity.com/mg/other/pipe-world> 
+The WebGl build can be found here: <https://corovcam.itch.io/pipe-world> 
 
 
 ## Credits and 3rd Party Assets

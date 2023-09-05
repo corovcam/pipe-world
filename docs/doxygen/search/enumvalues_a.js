@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['water_0',['Water',['../_level_data_8cs.html#a270d5fb7e294005112392171200b3d40a27634ff8002b12e75d98e07ccd005d18',1,'LevelData.cs']]]
+  ['visited_0',['VISITED',['../_puzzle_generator_8cs.html#aa0eef54e6c152fc34bfe432208c47971aa6ec08e871b6a4151dc143082d826cd2',1,'PuzzleGenerator.cs']]]
 ];

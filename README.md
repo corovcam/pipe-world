@@ -3,6 +3,7 @@
 - Scripting language: C# 
 - Game Engine: Unity 2021.3.5f1
 - Platforms: WebGl
+- Build (play in browser): https://corovcam.itch.io/pipe-world
 - Documentation: https://corovcam.github.io/pipe-world/
 
 ## Specification
@@ -15,7 +16,7 @@ A player has access to a static matrix-like game board that contains randomly ro
 
 ### Main Menu
 ![Main Menu](/docs/images/main-menu.png "Main Menu")
-Choose between **Level Select**, **Arcade** or **Free World** Modes.
+Choose between **Level Select**, **Arcade** or **Free World** Modes. Choose your desired **Difficulty**.
 
 ### Level Select Menu
 ![Level Select Menu](/docs/images/level-select-classic.png "Level Select Menu")
