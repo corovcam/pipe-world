@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Pipe World Docs | Pipe World game documentation. Game Pipe World is a variant of the popular type of puzzle games similar to Pipe Mania or Water Pipes, where the common goal is to transport liquid from one end to the other using a system of interconnected Pipes.</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Pipe World Docs" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Pipe World game documentation. Game Pipe World is a variant of the popular type of puzzle games similar to Pipe Mania or Water Pipes, where the common goal is to transport liquid from one end to the other using a system of interconnected Pipes." />
+<meta property="og:description" content="Pipe World game documentation. Game Pipe World is a variant of the popular type of puzzle games similar to Pipe Mania or Water Pipes, where the common goal is to transport liquid from one end to the other using a system of interconnected Pipes." />
+<meta property="og:site_name" content="Pipe World Docs" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Pipe World Docs" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","description":"Pipe World game documentation. Game Pipe World is a variant of the popular type of puzzle games similar to Pipe Mania or Water Pipes, where the common goal is to transport liquid from one end to the other using a system of interconnected Pipes.","headline":"Pipe World Docs","name":"Pipe World Docs","url":"/pipe-world/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/pipe-world/assets/main.css"><link type="application/atom+xml" rel="alternate" href="/pipe-world/feed.xml" title="Pipe World Docs" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/pipe-world/">Pipe World Docs</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/pipe-world/doxygen/">Doxygen</a><a class="page-link" href="/pipe-world/scripts.html">Script Docs</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="home"><h1 id="documentation">Documentation</h1>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<ul>
+  <li><a href="#documentation">Documentation</a>
+    <ul>
+      <li><a href="#table-of-contents">Table of Contents</a></li>
+      <li><a href="#overview">Overview</a>
+        <ul>
+          <li><a href="#game-mechanics">Game Mechanics</a></li>
+          <li><a href="#board-setup">Board Setup</a></li>
+          <li><a href="#pipes">Pipes</a></li>
+          <li><a href="#flowing-mechanic">Flowing Mechanic</a>
+            <ul>
+              <li><a href="#fluid-mechanics">Fluid Mechanics</a></li>
+            </ul>
+          </li>
+          <li><a href="#score-calculation">Score Calculation</a></li>
+          <li><a href="#level-progression">Level Progression</a></li>
+          <li><a href="#game-flow">Game Flow</a></li>
+        </ul>
+      </li>
+      <li><a href="#game-modes">Game Modes</a>
+        <ul>
+          <li><a href="#level-select-mode">Level Select Mode</a></li>
+          <li><a href="#arcade-mode">Arcade Mode</a></li>
+          <li><a href="#free-world-mode">Free World Mode</a></li>
+        </ul>
+      </li>
+      <li><a href="#unity-project-structure">Unity Project Structure</a>
+        <ul>
+          <li><a href="#folders">Folders</a></li>
+          <li><a href="#assets">Assets</a></li>
+        </ul>
+      </li>
+      <li><a href="#technical-details">Technical details</a>
+        <ul>
+          <li><a href="#script-class-diagram">Script (Class) Diagram</a></li>
+          <li><a href="#score-calculation-formula">Score Calculation Formula</a></li>
+          <li><a href="#random-level-generation-arcade-mode">Random Level Generation (Arcade Mode)</a></li>
+        </ul>
+      </li>
+      <li><a href="#scenes">Scenes</a>
+        <ul>
+          <li><a href="#scene-mainmenu">MainMenu</a></li>
+          <li><a href="#scene-levelselect">LevelSelect</a></li>
+          <li><a href="#scene-tutorial">Tutorial</a></li>
+          <li><a href="#scene-game">Game</a></li>
+        </ul>
+      </li>
+      <li><a href="#build-install-and-run">Build, install and run</a></li>
+      <li><a href="#credits-and-3rd-party-assets">Credits and 3rd Party Assets</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="overview">Overview</h2>
+<p>Pipe World is a puzzle game developed in Unity 2021.3.5f1 using C# scripting language. The game is designed for the WebGl platform and is inspired by popular puzzle games such as Pipe Mania and Water Pipes. The player’s goal is to transport liquid from one end of the game board to the other using interconnected pipes.</p>
+
+<h3 id="game-mechanics">Game Mechanics</h3>
+<p>The game consists of a static matrix-like game board that contains randomly rotated pipes of different types, including straight, right-bent/left-bent, three-way, and cross. The player can rotate/move a pipe by clicking/dragging it. The player must create a connection with nearby pipes to transport the liquid (water, lava) from one edge of the board (typically located at the top left corner of the grid) to the other edge (typically at the bottom right corner). The player has a set time limit during which they can rotate/drag pipes. The earlier the player finishes, the more total score they receive. After every other level, the game board gets bigger, or the time limit is changed to reflect the increasing difficulty of the level.</p>
+
+<h3 id="board-setup">Board Setup</h3>
+<p>Upon starting the game, the player is presented with a game board that consists of a matrix-like grid with certain pipes rotated randomly. The player must connect the pipes in order to create a continuous path from the start pipe to the end pipe.</p>
+
+<h3 id="pipes">Pipes</h3>
+<p>There are four types of pipes: straight, right-bent/left-bent, three-way, and cross pipes. These pipes are randomly placed on the game board and the player must rotate (or drag and rotate) them by clicking on (or dragging) them until they are connected to the adjacent pipes.</p>
+
+<h3 id="flowing-mechanic">Flowing Mechanic</h3>
+<p>The objective of the game is to create a continuous path from the start pipe to the end pipe, allowing water/lava to flow through the connected pipes. The liquid flows through the pipes automatically once the Flow button is pressed. The player has a limited amount of time to connect the pipes before the water/lava begins to flow. If the player fails to connect the pipes before the time limit expires, the game ends.</p>
+
+<h4 id="fluid-mechanics">Fluid Mechanics</h4>
+<p>Water and lava are the two types of liquids that can flow through the pipes. Water flows through the pipes at a constant rate (1 second), while lava flows through the pipes at a slower rate (2 * speed of water). 
+Assuming there’s an <strong>infinite pressure</strong> source, each liquid is pushed trough their respective pipes in any direction horizontally, vertically or both (this also assumes <strong>infinite amount</strong> of liquid coming from the <em>Starts</em>). When any <em>liquid</em> tries to flow/exit out of a pipe in a direction not connected to another pipe (which include <em>board</em> boundaries), the pipe is sealed off (in that direction) and <em>liquid</em> doesn’t get out of it (this is not <em>visually</em> represented in the game). 
+The game also assumes that <em>Water</em> and <em>Lava</em> liquids can’t mix, so if the liquids meet in the same pipe during the flow, the game ends.</p>
+
+<h3 id="score-calculation">Score Calculation</h3>
+<p>The game score is calculated based on the time it takes the player to connect the pipes and complete the level. The faster the player completes (builds) the level, the higher the score. Check out the <a href="#score-calculation-formula">Technical Details</a> section for more details.</p>
+
+<h3 id="level-progression">Level Progression</h3>
+<p>After completing a level, the player is presented with the option to go back and choose the next levels. As the player progresses through the levels, the game board becomes larger and more complex, and the time limit becomes shorter, making it more challenging to complete the levels.</p>
+
+<h3 id="game-flow">Game Flow</h3>
+
+<ol>
+  <li>
+    <p><strong>Main Menu</strong></p>
+
+    <p>When the game is launched, the player is presented with the Main Menu. The Main Menu contains two buttons: <em>Level Select</em>, <em>Arcade</em> and <em>Free World</em>. Clicking on the respective buttons takes the player to the <em>Level Select Menu</em> or directly to the <em>Game Scene</em> in <em>Arcade Mode</em>.</p>
+  </li>
+  <li>
+    <p><strong>Level Select Menu</strong></p>
+
+    <p>The Level Select Menu contains a paginated list of available levels that the player can choose to play. Each level displays the level number. Clicking on a level takes the player to the Game Scene with the selected level loaded.</p>
+  </li>
+  <li>
+    <p><strong>Tutorial Scene</strong></p>
+
+    <p>The Tutorial Scene is a simple scene that contains a Video Player and a Skip Button.</p>
+  </li>
+  <li>
+    <p><strong>Game Scene</strong></p>
+
+    <p>The Game Scene is where the player can play the game. The game board is displayed in the center of the screen, and the GUI components are displayed on the sides of the screen. The player can rotate the pipes by clicking on them, and start the liquid <em>Flow</em> by clicking the <em>Flow button</em> or pressing <em>F</em> key. The player can pause the game by clicking on the <em>Pause button</em> and after <em>Flow</em> press <em>Skip button</em> to accelerate flow.</p>
+  </li>
+  <li>
+    <p><strong>Pause Menu</strong></p>
+
+    <p>When the game is paused, the Pause Menu is displayed. The Pause Menu contains buttons: <em>Help</em>, <em>Restart</em>, <em>Quit</em> and <em>Resume</em>. Clicking on <em>Resume</em> returns the player to the Game Scene. Clicking on <em>Quit</em> takes the player back to the Main Menu. <em>Restart</em> restarts the current level. <em>Help</em> displays the Help Menu (Keyboard Shortcuts).</p>
+  </li>
+  <li>
+    <p><strong>End Game Menu</strong></p>
+
+    <p>When the player completes a level or runs out of time, the End Game Menu is displayed. The End Game Menu displays the player’s final score. The End Game Menu contains two buttons: <em>Restart</em> and <em>Quit</em>. Clicking on <em>Restart</em> restarts the level. Clicking on <em>Quit</em> takes the player back to the <em>Main Menu</em>.</p>
+  </li>
+</ol>
+
+<h2 id="game-modes">Game Modes</h2>
+<p>There are 3 game modes in Pipe World: <strong>Level Select Mode</strong>, <strong>Arcade Mode</strong>, and <strong>Free World Mode</strong>.</p>
+
+<h3 id="level-select-mode">Level Select Mode</h3>
+
+<p><a href="images/level-select-flow.png"><img src="images/level-select-flow.png" alt="Level Select Mode Flow" /></a></p>
+
+<p>The Level Select Mode is the main game mode of Pipe World. The player can select a level from the Level Select Menu and play it. The player can also skip a level if they are unable to complete it or replay a level to improve their score. There is only one simple mechanic in this mode: the player can rotate the pipes <em>clock-wise</em> by clicking on them.</p>
+
+<h3 id="arcade-mode">Arcade Mode</h3>
+
+<p><a href="images/arcade-mode-flow.png"><img src="images/arcade-mode-flow.png" alt="Arcade Mode Flow" /></a></p>
+
+<p>In the <strong><em>Arcade</em></strong> game mode, the player, like in the <em>Level Select</em> mode, has a generated static game grid. The difference is the random generation of pipe types (variants) and the random placement of the <em>Start</em> and <em>End</em>. The time limit is fixed at 30 seconds (modifiable in the code).</p>
+
+<p>The level generation algorithm uses simple backtracking to generate a solvable maze. The algorithm is described in detail in the <a href="#random-level-generation-arcade-mode">Technical Details</a> section.</p>
+
+<h3 id="free-world-mode">Free World Mode</h3>
+
+<p><a href="images/free-world-recording.gif"><img src="images/free-world-recording.gif" alt="Free World Recording" /></a></p>
+
+<p>The <strong><em>Free World</em></strong> mode is a variant of the <strong><em>Level Select</em></strong> mode, where the player is given several pipe options (forming the correct path from source to destination) + their green and gray variants. The player has to move and rotate these pipes (using drag-and-drop) on the game grid to create a connection with some adjacent pipes. The player can move already placed pipes to other empty locations. If the player drops the Pipe onto an occupied location (or outside Grid), the Pipe will return to its original position.</p>
+
+<p>There are 2 types of liquids (with their given source and destination pipes) on the game grid: water and lava. Green pipes can only transport water, while gray pipes can only transport lava. The pipe sources are marked with graphically visible filled liquids of respective types. The goal is to transport the given types of fluids to the correct destination pipes within the time limit. In the first few levels, there is only water on the game grid, and afterwards, the lava is added.</p>
+
+<p>By clicking on <em>Flow</em>, or when the time limit expires, the flow starts from all <em>sources</em> and the countdown pauses (as in previous variants). Lava flow animation updates at half the speed of water (water passes from one pipe to another in 1 second). The 2 liquid types can’t mix, so if the liquids meet during the flow, the game ends. The game is won when all the liquids reach their respective <em>destinations</em>.</p>
+
+<h2 id="unity-project-structure">Unity Project Structure</h2>
+
+<h3 id="folders">Folders</h3>
+<ul>
+  <li><strong>Assets</strong> - scripts, pictures, sprites, audio, animations and user-made files</li>
+  <li><strong>Packages</strong> - contains information about required packages to install and build the Unity project</li>
+  <li><strong>ProjectSettings</strong> - contains Project settings and custom Unity Editor preferences</li>
+</ul>
+
+<h3 id="assets">Assets</h3>
+<ul>
+  <li><strong>Animations</strong> (Controllers have just a default implementation)
+    <ul>
+      <li>PointerAnimation - red-invisible Pointer animation that points at the current active tile</li>
+      <li>SkipAnimation - Skip button animation to make it flicker</li>
+      <li>Start Flow Animation - Flow button animation to make it flicker</li>
+    </ul>
+  </li>
+  <li><strong>Prefabs</strong> (Instantiated and configured in scripts)
+    <ul>
+      <li>BackTile Prefab - Background tile used in Grid for the individual Pipes</li>
+      <li>Pointer Prefab - Instantiated on the grid as pointing/marking tool</li>
+      <li><strong>AudioSources</strong> - Audio Source Prefabs with Audio Clips used for button clicking, hovering, pipe rotation and End Game win sound respectively</li>
+      <li><strong>Buttons</strong> - Level Select button Prefabs used in pagination for Next Page and Previous Page buttons</li>
+      <li><strong>Pipes</strong> - Default Pipe Prefabs with default green/red sprites with pre-set <em>tileType</em> and <em>IODirs</em> for respective Pipe types (except for EMPTY Pipe)</li>
+    </ul>
+  </li>
+  <li><strong>Puzzle stage &amp; settings GUI Pack</strong><sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup> - A Unity Asset Store GUI Pack used for labels, buttons, Pause and End Game menus</li>
+  <li><strong>Resources</strong> (Uses custom Unity API for access)
+    <ul>
+      <li><em>Level Select Levels</em> - Custom level data accessible from Level Select menu
+        <ul>
+          <li><em>LevelX</em> - new level can be added easily following this pattern:
+            <ul>
+              <li>First row: Grid row/column length</li>
+              <li>Second row: <em>TimeLimit</em> for each Difficulty
+                <ul>
+                  <li>3 integers separated by semicolon ‘;’</li>
+                  <li>First integer: Easy Difficulty Time Limit</li>
+                  <li>Second integer: Medium Difficulty Time Limit</li>
+                  <li>Third integer: Hard Difficulty Time Limit</li>
+                </ul>
+              </li>
+              <li>GameBoard:
+                <ul>
+                  <li>Each cell in the matrix is divided by semicolon ‘;’</li>
+                  <li>The first symbol can be either: S = StartPipe, E = EndPipe, 0 = Any other Pipe</li>
+                  <li>Symbols are separated by ‘:’</li>
+                  <li>The second symbol/number can be either: 0 = No pipe, 1 = Straight pipe, 2 = Round, 3 = ThreeWay, 4 = Cross</li>
+                  <li>Each row has to be finished with another semicolon ‘;’</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><em>Free World Levels</em> - Custom level data accessible from Free World (Level Select) menu
+        <ul>
+          <li><em>LevelX</em> - new level can be added easily following this pattern:
+            <ul>
+              <li>First row: Grid row/column length</li>
+              <li>Second row: <em>TimeLimit</em> for each Difficulty
+                <ul>
+                  <li>3 integers separated by semicolon ‘;’</li>
+                  <li>First integer: Easy Difficulty Time Limit</li>
+                  <li>Second integer: Medium Difficulty Time Limit</li>
+                  <li>Third integer: Hard Difficulty Time Limit</li>
+                </ul>
+              </li>
+              <li>GameBoard:
+                <ul>
+                  <li>Each cell in the matrix is divided by semicolon ‘;’</li>
+                  <li>The first symbol can be either: S = StartPipe, E = EndPipe, 0 = No Pipe</li>
+                  <li>Symbols are separated by ‘:’</li>
+                  <li>The second symbol can be either: W = Water, L = Lava, 0 = No Pipe</li>
+                  <li>The third symbol/number can be either: 1 = Straight pipe, 2 = Round, 3 = ThreeWay, 4 = Cross, 0 = No pipe (Empty)</li>
+                  <li>Each row has to be finished with another semicolon ‘;’</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><strong>Sounds</strong> - Audio Clips<sup id="fnref:4" role="doc-noteref"><a href="#fn:4" class="footnote" rel="footnote">2</a></sup> used in <em>AudioSources</em> Prefabs</li>
+      <li><strong>UI</strong> - Additional Sprite and Font data used in-game</li>
+    </ul>
+  </li>
+  <li><strong>Scenes</strong>
+    <ul>
+      <li><em>Game</em> - Main Game scene where all the mechanics and physics occur, either chosen <em>LevelX</em> from Level Select menu or Arcade mode</li>
+      <li><em>LevelSelect</em> - All levels included in Resources are automatically added to the Level Select menu in a paginated view</li>
+      <li><em>MainMenu</em> - First scene in Build with 3 buttons</li>
+    </ul>
+  </li>
+  <li><strong>Scripts</strong> (Only MonoBehaviour scripts attached to GameObjects) - more documentation can be found in the code <em>comments</em> and <a href="scripts"><em>Scripts</em> page</a>
+    <ul>
+      <li><em>Drag And Drop</em>
+        <ul>
+          <li><em>GridPipe.cs</em> - Attached to Pipe Prefab and used to drag and drop Pipes in Free World mode</li>
+        </ul>
+      </li>
+      <li><em>Static Classes</em>
+        <ul>
+          <li><em>Extensions.cs</em> - Used only to extend RectTransform methods by adding an amount of screen units to left/right/top/bottom offset</li>
+          <li><em>LevelData.cs</em> - Static class used to store all information about the current Game and Level</li>
+          <li><em>PuzzleGenerator.cs</em> - Static class used to generate a maze puzzle consisting of cells that are surrounded by walls in a 2D Array made by CellWalls struct</li>
+          <li><em>SceneHandler.cs</em> - Used to handle the load of new Scenes in the game and to configure the static default values</li>
+        </ul>
+      </li>
+      <li><em>GameManager.cs</em> - Manages core liquid flowing mechanic after Flow start is triggered</li>
+      <li><em>GUIHandler.cs</em> - Handles <em>Game</em> scene GUI Components, Pause Menu, End Game Menu, Total Score calculaction and Timer and its mechanism</li>
+      <li><em>LevelHandler.cs</em> - Handles Level building, Tile/Pipe management, Restart, Tiles shuffle, rotation and audio</li>
+      <li><em>LevelSelectHandler.cs</em> - Handles Level Select menu GUI components, their construction and management including pagination buttons and page counting</li>
+      <li><em>TutorialPlayer.cs</em> - Handles Tutorial video player and skip button</li>
+      <li><em>MenuHandler.cs</em> - Handles Main Menu GUI components construction and management</li>
+      <li><em>PauseControl.cs</em> - Handles Pause mechanic in the game as well as Pause menu and buttons</li>
+      <li><em>PipeHandler.cs</em> - Handles individual information about a Pipe (location, rotation) and its surrounding Pipes</li>
+      <li><em>Player.cs</em> - Player Input interaction with the game. Game Controls.</li>
+    </ul>
+  </li>
+  <li><strong>Settings</strong> - Universal Render Pipeline default settings (not used extensively in the project)</li>
+  <li><strong>Sprites</strong>
+    <ul>
+      <li>Square.png - Used for Marker animation</li>
+      <li><strong>BackTiles</strong> - BackTiles<sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">3</a></sup> used in Grid, that are chosen at random when the game starts</li>
+      <li><strong>PipeTiles</strong>
+        <ul>
+          <li>Green Pipes and Grey Pipes, that are chosen at random when the game starts</li>
+          <li>Blue-Green Pipes and Red-Grey Pipes that represent the <em>StartPipes</em> and <em>EndPipes</em></li>
+          <li>Their filled -lava and -water versions</li>
+          <li><strong>BlenderFiles</strong> - Blender files used to create the PipeTiles</li>
+          <li>Red Pipes<sup id="fnref:3" role="doc-noteref"><a href="#fn:3" class="footnote" rel="footnote">4</a></sup> are the original pipe sprites</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>StreamingAssets</strong> - Video files used in Tutorial scene</li>
+  <li><strong>Objects</strong> - Contains VideoTexture object used in Tutorial scene to set up the video player (resolution)</li>
+  <li><strong>TextMesh Pro</strong> - A Unity plugin used in all TextMeshPro components</li>
+  <li><strong>UI Toolkit</strong> - Not used in the project, just the default UI settings</li>
+</ul>
+
+<h2 id="technical-details">Technical details</h2>
+<p>All scripts attached to GameObjects inherit from the base MonoBehaviour class in Unity. MonoBehaviour is a class that allows the user to attach scripts to GameObjects in the Unity Editor. The MonoBehaviour class contains several methods that are called at specific moments in the game loop. These methods are called in the following order:</p>
+<ol>
+  <li>Awake</li>
+  <li>Start</li>
+  <li>Update</li>
+</ol>
+
+<h3 id="script-class-diagram">Script (Class) Diagram</h3>
+
+<p><a href="images/class-diagram.png"><img src="images/class-diagram.png" alt="Class Diagram" /></a></p>
+
+<p>Check out individual <strong>Script Docs</strong> for more information:</p>
+
+<ol>
+  <li><a href="scripts-docs/GameManager">GameManager.cs</a></li>
+  <li><a href="scripts-docs/GUIHandler">GUIHandler.cs</a></li>
+  <li><a href="scripts-docs/LevelHandler">LevelHandler.cs</a></li>
+  <li><a href="scripts-docs/PauseControl">PauseControl.cs</a></li>
+  <li><a href="scripts-docs/PipeHandler">PipeHandler.cs</a></li>
+  <li><a href="scripts-docs/Player">Player.cs</a></li>
+  <li><a href="scripts-docs/PauseControl">PauseControl.cs</a></li>
+  <li><a href="scripts-docs/MenuHandler">MenuHandler.cs</a></li>
+  <li><a href="scripts-docs/LevelSelectHandler">LevelSelectHandler.cs</a></li>
+  <li><a href="scripts-docs/TutorialPlayer">TutorialPlayer.cs</a></li>
+  <li><a href="scripts-docs/DragAndDrop/GridPipe">DragAndDrop/GridPipe.cs</a></li>
+  <li><a href="scripts-docs/StaticClasses/Extensions">StaticClasses/Extensions.cs</a></li>
+  <li><a href="scripts-docs/StaticClasses/LevelData">StaticClasses/LevelData.cs</a></li>
+  <li><a href="scripts-docs/StaticClasses/PuzzleGenerator">StaticClasses/PuzzleGenerator.cs</a></li>
+  <li><a href="scripts-docs/StaticClasses/SceneHandler">StaticClasses/SceneHandler.cs</a></li>
+</ol>
+
+<h3 id="score-calculation-formula">Score Calculation Formula</h3>
+
+<p>The score is calculated using the following code snippet:</p>
+
+<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Minimum Score: 0</span>
+<span class="c1">// Maximum Score (Arcade): 10000</span>
+<span class="kt">double</span> <span class="n">weight</span> <span class="p">=</span> <span class="n">LevelData</span><span class="p">.</span><span class="n">IsArcadeMode</span> <span class="p">?</span> <span class="m">1.0</span> <span class="p">:</span> <span class="n">LevelSelectHandler</span><span class="p">.</span><span class="n">MaxTimeLimit</span> <span class="p">/</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">LevelData</span><span class="p">.</span><span class="n">TimeLimit</span><span class="p">;</span>
+<span class="kt">double</span> <span class="n">notNormalizedScore</span> <span class="p">=</span> <span class="n">currentTime</span> <span class="p">/</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">LevelData</span><span class="p">.</span><span class="n">TimeLimit</span> <span class="p">/</span> <span class="n">weight</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">score</span> <span class="p">=</span> <span class="n">Mathf</span><span class="p">.</span><span class="nf">RoundToInt</span><span class="p">((</span><span class="kt">float</span><span class="p">)(</span><span class="n">notNormalizedScore</span> <span class="p">*</span> <span class="n">MAXIMUM_SCORE</span><span class="p">));</span>
+<span class="k">return</span> <span class="n">score</span><span class="p">.</span><span class="nf">ToString</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>The <strong>MAXIMUM_SCORE</strong> is a constant value of 10000 (can be modified in <em>GUIHandler.cs</em>). The <strong>weight</strong> is a value that is used to normalize the score based on the time limit. The <strong>notNormalizedScore</strong> is the score that is not normalized. The <strong>score</strong> is the final score. The final <em>score</em> can actually be higher than <em>MAXIMUM_SCORE</em> in non-Arcade modes, but it is normalized to <em>MAXIMUM_SCORE</em>, so the score is always relative to the given <em>Game Mode</em> levels.</p>
+
+<h3 id="random-level-generation-arcade-mode">Random Level Generation (Arcade Mode)</h3>
+
+<ol>
+  <li>Initialize the maze</li>
+  <li>Start at the first cell (0, 0)</li>
+  <li>Visit cells using depth-first search (DFS) and backtracking</li>
+</ol>
+
+<h4 id="pseudocode">Pseudocode</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">GenerateMaze</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">):</span>
+    <span class="n">maze</span> <span class="o">=</span> <span class="nc">InitializeMaze</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
+    <span class="n">maze</span> <span class="o">=</span> <span class="nc">Backtrack</span><span class="p">(</span><span class="n">maze</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">maze</span>
+
+<span class="k">def</span> <span class="nf">InitializeMaze</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">):</span>
+    <span class="n">Create</span> <span class="n">a</span> <span class="mi">2</span><span class="n">D</span> <span class="n">array</span> <span class="sh">'</span><span class="s">maze</span><span class="sh">'</span> <span class="k">with</span> <span class="nf">dimensions </span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
+    <span class="n">Set</span> <span class="nb">all</span> <span class="n">cells</span> <span class="ow">in</span> <span class="sh">'</span><span class="s">maze</span><span class="sh">'</span> <span class="n">to</span> <span class="n">have</span> <span class="nb">all</span> <span class="nf">walls </span><span class="p">(</span><span class="n">RIGHT</span><span class="p">,</span> <span class="n">LEFT</span><span class="p">,</span> <span class="n">UP</span><span class="p">,</span> <span class="n">DOWN</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">maze</span>
+
+<span class="k">def</span> <span class="nf">Backtrack</span><span class="p">(</span><span class="n">maze</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">):</span>
+    <span class="n">position</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">Mark</span> <span class="sh">'</span><span class="s">position</span><span class="sh">'</span> <span class="k">as</span> <span class="n">visited</span> <span class="ow">in</span> <span class="sh">'</span><span class="s">maze</span><span class="sh">'</span>
+    <span class="n">While</span> <span class="n">there</span> <span class="n">are</span> <span class="n">unvisited</span> <span class="n">cells</span><span class="p">:</span>
+        <span class="n">adjacentCells</span> <span class="o">=</span> <span class="nc">GetUnvisitedAdjacentCells</span><span class="p">(</span><span class="n">maze</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">adjacentCells</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">empty</span><span class="p">:</span>
+            <span class="n">Randomly</span> <span class="n">choose</span> <span class="n">a</span> <span class="n">cell</span> <span class="k">from</span> <span class="sh">'</span><span class="s">adjacentCells</span><span class="sh">'</span> <span class="o">=</span> <span class="n">chosen</span> <span class="n">cell</span>
+            <span class="n">Remove</span> <span class="n">common</span> <span class="n">wall</span> <span class="n">between</span> <span class="sh">'</span><span class="s">position</span><span class="sh">'</span> <span class="ow">and</span> <span class="n">chosen</span> <span class="n">cell</span> <span class="ow">in</span> <span class="sh">'</span><span class="s">maze</span><span class="sh">'</span>
+            <span class="n">Remove</span> <span class="n">opposite</span> <span class="n">wall</span> <span class="n">to</span> <span class="n">the</span> <span class="n">common</span> <span class="n">wall</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">chosen</span> <span class="n">cell</span> <span class="ow">in</span> <span class="sh">'</span><span class="s">maze</span><span class="sh">'</span>
+            <span class="n">Mark</span> <span class="n">the</span> <span class="n">chosen</span> <span class="n">cell</span> <span class="k">as</span> <span class="n">visited</span> <span class="ow">in</span> <span class="sh">'</span><span class="s">maze</span><span class="sh">'</span>
+    <span class="k">return</span> <span class="n">maze</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">GenerateMaze</code> function initializes the maze, sets the starting cells, and then calls the <code class="language-plaintext highlighter-rouge">Backtrack</code> function to visit cells using DFS and backtracking. The maze is updated in-place, and the final generated maze is returned.</p>
+
+<p>The time complexity of this maze generation algorithm is O(width * height), because it visits each cell exactly once during the depth-first search (DFS) and backtracking process. In the worst-case scenario, every cell in the maze needs to be visited to create the maze (which is also the only case).</p>
+
+<h2 id="scenes">Scenes</h2>
+
+<h3 id="scene-mainmenu"><strong>Scene: MainMenu</strong></h3>
+
+<p><a href="images/scene-mainmenu.png"><img src="images/scene-mainmenu.png" alt="Scene MainMenu" /></a></p>
+
+<h4 id="summary">Summary</h4>
+<p>Scene contains a Title, 3 Buttons representing <em>Level Select</em>, <em>Arcade</em> and <em>Free World</em> modes and a <em>Difficulty</em> Dropdown input. Structurally, the Scene is very simple and similar to <a href="#scene-levelselect">LevelSelect</a> Scene. The <em>MenuHandler</em> script attached to the Main Camera is used to generate and handle the whole Scene (check out the <a href="scripts-docs/MenuHandler">Script Docs</a> for more information).</p>
+
+<h3 id="scene-levelselect"><strong>Scene: LevelSelect</strong></h3>
+
+<p><a href="images/scene-levelselect.png"><img src="images/scene-levelselect.png" alt="Scene LevelSelect" /></a></p>
+
+<h4 id="summary-1">Summary</h4>
+<p>Scene contains a Title and a Grid of Levels in a paginated view. Each Level is a button that can be clicked to start the game. The Grid is automatically generated from the <em>Resources</em> folder. The Grid is paginated and can be navigated using the <em>Previous Page</em> and <em>Next Page</em> buttons. The number of Levels (for respective Game Modes) in the Grid is manually configured in the <em>LevelSelectHandler</em> script. The number of Levels in the Grid is also used to calculate the number of pages in the Grid. The Grid is generated using the <em>LevelSelectHandler.cs</em> script attached to the Main Camera. The <em>LevelSelectHandler.cs</em> script is also used to manage the pagination buttons and the page counter.
+Similarly to the <a href="#scene-mainmenu">MainMenu</a> Scene, the <em>LevelSelectHandler</em> script attached to the Main Camera is used to generate and handle the whole Scene (check out the <a href="scripts-docs/LevelSelectHandler">Script Docs</a> for more information).</p>
+
+<h4 id="scene-objects--details">Scene Objects &amp; Details</h4>
+<ul>
+  <li><strong>Main Camera</strong> - A <em>LevelSelectHandler.cs</em> is attached to the Camera.
+    <ul>
+      <li>Inspector view and <em>LevelSelectHandler.cs</em> settings:
+        <ul>
+          <li><em>Previous Page Btn</em>: Reference to the <em>Previous Page Btn</em> Prefab in <em>&lt;/Assets/Prefabs/Buttons&gt;</em></li>
+          <li><em>Next Page Btn</em>: Reference to the <em>Next Page Btn</em> Prefab in <em>&lt;/Assets/Prefabs/Buttons&gt;</em></li>
+          <li><em>Level Btn Background</em> - Reference to the <em>candy bar</em> Sprite in <em>&lt;/Assets/Puzzle stage &amp; settings GUI Pack/Image_green&gt;</em></li>
+          <li><em>Numbers</em> - Reference to the respective number Sprite in <em>&lt;/Assets/Puzzle stage &amp; settings GUI Pack/Image_green/text&gt;</em></li>
+          <li><em>Levels Count</em>: When the number of Levels in Resources changes, this number should be changed to reflect the current number of Levels.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Audio Click Source</strong> - Audio Source used in scripts when a button is clicked</li>
+  <li><strong>Audio Enter Source</strong> - Audio Source used in scripts when a mouse hovers over a button</li>
+  <li><strong>Level Select Canvas</strong> - The Canvas is rendered upon the Main Camera (referenced in Inspector)
+    <ul>
+      <li><em>Canvas Scaler</em> - Used for Responsive design that scales the width and height (<strong><em>Screen Match Mode</em></strong>) equally (<strong><em>Match</em></strong> = 0.5) using the 1920x1080 resolution as a reference point</li>
+      <li><strong>Page #</strong> - Represents a collection of at most 8 <em>Level Numbers</em> all organized using the <em>Grid Layout Group</em>
+        <ul>
+          <li><em>Grid Layout Group</em> - Childs are aligned along the middle center line using fixed <em>Cell Size</em> and <em>Spacing</em> values</li>
+          <li><strong># (Buttons)</strong> - Are all Interactable button parents
+            <ul>
+              <li><strong>Number#</strong> - Contains <em>Horizontal Layout Group</em> component to organize multi-digit Numbers one by one; Also has custom padding</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><strong>Previous Page Btn(Clone)</strong>, <strong>Next Page Btn(Clone)</strong> - An instantiated prefab that represents a cloned button that changes <strong><em>Interactable</em></strong> property when the <em>currentPage</em> is either the <em>Last Page</em> or <em>First Page</em></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="scene-tutorial"><strong>Scene: Tutorial</strong></h3>
+
+<p><a href="images/scene-tutorial.png"><img src="images/scene-tutorial.png" alt="Scene Game" /></a></p>
+
+<h4 id="summary-2">Summary</h4>
+<p>The Tutorial Scene is a simple scene that contains a Video Player and a Skip Button. The Video Player is used to play the tutorial video. The Skip Button is used to skip the tutorial video and go to the respective Game. The <em>TutorialPlayer.cs</em> script attached to the VidPlayer GameObject is used to play the tutorial video and handle the skip button click event.</p>
+
+<h3 id="scene-game"><strong>Scene: Game</strong></h3>
+
+<p><a href="images/scene-game.png"><img src="images/scene-game.png" alt="Scene Game" /></a></p>
+
+<h4 id="summary-3">Summary</h4>
+<p>Game scene is the main scene in the build. It contains the Grid, the Pointer, the Pause Button and the Pause Menu. The Grid is generated using the <em>LevelHandler.cs</em> script attached to the Grid GameObject. The Pointer is a GameObject that is used to point to the currently selected Pipe. The Pointer is moved using the <em>Player.cs</em> script attached to the Main Camera. The Pause Button is a GameObject that is used to pause the game. The Pause Button is managed using the <em>PauseControl.cs</em> script attached to the Grid GameObject. The Pause Menu is a GameObject that is used to show the Pause Menu. The Pause Menu is managed using the <em>PauseControl.cs</em> script attached to the Grid GameObject.</p>
+
+<h4 id="scene-objects--details-1">Scene Objects &amp; Details</h4>
+<ul>
+  <li><strong>Grid</strong> - A <em>LevelHandler.cs</em> script is attached to Grid GameObject.
+    <ul>
+      <li>Inspector view and <em>LevelHandler.cs</em> settings:
+        <ul>
+          <li><em>Pipe Prefabs</em> - Referenced from the <em>&lt;/Assets/Prefabs/Pipes&gt;</em> directory; The last one is always EMPTY</li>
+          <li><em>Pipe Sprites</em>, <em>Filled Pipe Sprites</em>, <em>Red Pipe Sprites</em>, <em>Filled Red Pipe Sprites</em> - all respectively referenced using the spritesheets in <em>&lt;Assets/Sprites/PipeTiles&gt;</em></li>
+          <li><em>Tile Pointer</em> - Referenced <strong><em>Pointer</em></strong> Scene GameObject</li>
+          <li><em>Back Tile Prefab</em> - Referenced from the <em>&lt;/Assets/Prefabs&gt;</em> directory</li>
+          <li><em>Back Tile Sprites</em> - Chosen at random at the beginning of the game</li>
+          <li><em>Active Pipe</em>, <em>Active Pipe Handler</em> (private fields) - reference to the currently selected Active Pipe and its PipeHandler script instance</li>
+          <li><em>Board Size</em>, <em>Level Num</em>, <em>Arcade Mode</em> (private fields) - for Debug purposes shown in the Inspector</li>
+          <li><em>Pause Control</em> - Referenced from the <strong><em>Manager</em></strong> scene GameObject</li>
+        </ul>
+      </li>
+      <li><strong>Pointer</strong> - GameObject</li>
+      <li><strong>(X, Y)</strong> - Tile GameObjects rendered as <em>BackTile</em> Sprites at [X, Y] coordinates in the Grid
+        <ul>
+          <li><strong>Pipe(Clone)</strong> - Instantiated <em>Pipe Prefab</em> (with default values mentioned in the <strong><em>Prefabs/Pipes</em></strong> section) with a <em>PipeHandler.cs</em> script instance attached to it (and <em>GridPipe.cs</em> in <em>Free World Mode</em>)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>GUI</strong> - Scales with resolution, same as <strong><em>Level Select Canvas</em></strong>
+    <ul>
+      <li>Contains <strong><em>Pause Button</em></strong>, <strong><em>Skip Button</em></strong>, <strong><em>Timer Panel</em></strong> and <strong><em>Start Flow Button</em></strong> GameObjects all anchored to their respective corners</li>
+    </ul>
+  </li>
+  <li><strong>Pause Menu</strong> - Scales with resolution, same as <strong><em>Level Select Canvas</em></strong>; Can be enabled in-game using <em>ESC</em> key or the <strong><em>Pause Button</em></strong>
+    <ul>
+      <li><strong>Menu Background</strong> - The white-green <em>box</em> panel Sprite
+        <ul>
+          <li><strong>Panel</strong> - Used for <em>Vertical Layout Group</em> child layout positioning
+            <ul>
+              <li><strong>Sound Control</strong> - <em>Horizontal Layout Group</em> for <strong><em>Sound</em></strong> Image and <strong><em>Toggle</em></strong> Interactable
+                <ul>
+                  <li><strong>Toggle</strong> - Default property value <strong><em>IsOn</em></strong> is true
+                    <ul>
+                      <li>Toggle mechanism is handled inside <em>PauseControl.cs</em> script instance of the <strong><em>Manager</em></strong> GameObject</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li><strong>Help Button</strong> - Displays the <strong><em>Help Dialog</em></strong> (enables the GameObject), rendered over the <strong><em>Pause Menu</em></strong></li>
+              <li><strong>Restart Button</strong>, <strong>Quit Button</strong>, <strong>Resume Button</strong> - all referenced in <strong><em>Manager</em></strong> GameObject and managed using <em>PauseControl.cs</em> and <em>GUIHandler.cs</em> scripts</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><strong>Help Dialog</strong> - Contains <strong><em>Cancel Help Dialog Button</em></strong> to set the <strong><em>Help Dialog</em></strong> as Not Enabled</li>
+    </ul>
+  </li>
+  <li><strong>End Game Menu</strong> - Scales with resolution, same as <strong><em>Level Select Canvas</em></strong> and <strong><em>Pause Menu</em></strong>; Enabled when the <strong><em>Countdown</em></strong> runs to 0, or when the <strong><em>Flow Button</em></strong> is pressed and the flow runs to the <em>End Pipe</em> (Won game) or the Flow is stuck and can’t reach the <em>End Pipe</em> (Lost game)
+    <ul>
+      <li>Similar hierarchy as <strong><em>Pause Menu</em></strong></li>
+      <li><strong>Menu Background</strong> - Anchored to the center to scale with bigger/smaller screens in the middle
+        <ul>
+          <li><strong>Panel</strong> - <em>Vertical Layout Group</em>
+            <ul>
+              <li><strong>Score Number</strong> - Calculated and handled using the <em>GUIHandler.cs</em> script in the <strong>*Manager</strong> GameObject</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Manager</strong> - An auxiliary (invisible) GameObject holding and managing Script instances
+    <ul>
+      <li><strong>Game Manager</strong> - <em>GameManager.cs</em></li>
+      <li><strong>Player</strong> - <em>Player.cs</em></li>
+      <li><strong>Pause Control</strong> - <em>PauseControl.cs</em></li>
+      <li><strong>GUI Handler</strong> - <em>GUIHandler.cs</em>
+        <ul>
+          <li><em>Is Debug</em> (private field) - For debugging purposes, look inside code</li>
+          <li><em>Default Time Limit</em> (private field) - For debugging purposes, mainly to increse/decrease Arcade Mode Time Limit</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Audio Click Source</strong>, <strong>Audio Enter Source</strong>, <strong>Audio Rotate Source</strong>, <strong>Audio Winning Source</strong> - Same as in <strong><em>LevelSelect</em></strong> scene, referenced with their respective <em>Audio Clips</em>
+    <ul>
+      <li><strong><em>Audio Winning Source</em></strong> plays only when the player <em>Won</em> game, not when the player <em>Lost</em> game</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="build-install-and-run">Build, install and run</h2>
+
+<p>Game is built using the Unity Editor, version 2021.3.5f1, so the assemblies and scripts are mostly compatible with the 2021.3 major versions. If run built using a version lower than this one, compatibility issues may arise considering that the game uses newer Universal Render Pipeline, Input system and Coroutines.</p>
+
+<p>When cloned, start the Editor using the Unity Hub (or manually) and wait till the Editor finishes downloading and importing packages.</p>
+
+<p>The game is mainly configured for the WebGl (browser) platform (though it also works on Android and Windows). The intended resolution aspect ratio is 16:9 (developed using the 1920x1080 resolution as a reference endpoint) and played in the landscape mode. Though the game can be run on mobile device browsers, the settings need to be configured properly for the game to run smoothly.</p>
+
+<p>The WebGl build can be found here: <a href="https://corovcam.itch.io/pipe-world">https://corovcam.itch.io/pipe-world</a></p>
+
+<h2 id="credits-and-3rd-party-assets">Credits and 3rd Party Assets</h2>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p><a href="https://assetstore.unity.com/packages/2d/gui/puzzle-stage-settings-gui-pack-147389">https://assetstore.unity.com/packages/2d/gui/puzzle-stage-settings-gui-pack-147389</a> “Puzzle stage &amp; settings GUI Pack” <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:4" role="doc-endnote">
+      <p><a href="https://opengameart.org/content/51-ui-sound-effects-buttons-switches-and-clicks">https://opengameart.org/content/51-ui-sound-effects-buttons-switches-and-clicks</a> “51 UI sound effects (buttons, switches and clicks), made by Kenney.nl” <a href="#fnref:4" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:2" role="doc-endnote">
+      <p><a href="https://opengameart.org/content/puzzle-pack-2-795-assets">https://opengameart.org/content/puzzle-pack-2-795-assets</a> “Puzzle Pack 2, made by Kenney.nl” <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:3" role="doc-endnote">
+      <p><a href="https://opengameart.org/content/2d-pipe-parts">https://opengameart.org/content/2d-pipe-parts</a> “2D Pipe parts, made by TwistedDonkey in Blender, further costumized by me” <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+</div>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/pipe-world/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Pipe World Docs</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Pipe World Docs</li><li><a class="u-email" href="mailto:martino.coro@gmail.com">martino.coro@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/corovcam"><svg class="svg-icon"><use xlink:href="/pipe-world/assets/minima-social-icons.svg#github"></use></svg> <span class="username">corovcam</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Pipe World game documentation. Game Pipe World is a variant of the popular type of puzzle games similar to Pipe Mania or Water Pipes,  where the common goal is to transport liquid from one end to the other using a system of interconnected Pipes.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

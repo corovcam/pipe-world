@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Pipe World Docs | Pipe World game documentation. Game Pipe World is a variant of the popular type of puzzle games similar to Pipe Mania or Water Pipes, where the common goal is to transport liquid from one end to the other using a system of interconnected Pipes.</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Pipe World Docs" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Pipe World game documentation. Game Pipe World is a variant of the popular type of puzzle games similar to Pipe Mania or Water Pipes, where the common goal is to transport liquid from one end to the other using a system of interconnected Pipes." />
+<meta property="og:description" content="Pipe World game documentation. Game Pipe World is a variant of the popular type of puzzle games similar to Pipe Mania or Water Pipes, where the common goal is to transport liquid from one end to the other using a system of interconnected Pipes." />
+<meta property="og:site_name" content="Pipe World Docs" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Pipe World Docs" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Pipe World game documentation. Game Pipe World is a variant of the popular type of puzzle games similar to Pipe Mania or Water Pipes, where the common goal is to transport liquid from one end to the other using a system of interconnected Pipes.","headline":"Pipe World Docs","url":"/pipe-world/scripts-docs/StaticClasses/PuzzleGenerator.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/pipe-world/assets/main.css"><link type="application/atom+xml" rel="alternate" href="/pipe-world/feed.xml" title="Pipe World Docs" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/pipe-world/">Pipe World Docs</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/pipe-world/doxygen/">Doxygen</a><a class="page-link" href="/pipe-world/scripts.html">Script Docs</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <h2 id="puzzlegeneratorcs"><a href="https://github.com/corovcam/pipe-world/blob/main/Assets/Scripts/StaticClasses/PuzzleGenerator.cs">PuzzleGenerator.cs</a></h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">PuzzleGenerator</code> static class in this code is responsible for generating a maze-like structure using a backtracking algorithm with depth-first search (DFS). The maze is represented as a 2D grid of <code class="language-plaintext highlighter-rouge">CellWalls</code> elements, where each cell has walls on the left, right, up, and down. The main method for generating the maze is <code class="language-plaintext highlighter-rouge">GenerateMaze(int width, int height)</code>.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">CellWalls</code> enum is used to represent the presence of walls using bitwise flags, while the <code class="language-plaintext highlighter-rouge">AdjacentCell</code> struct is used to store information about neighboring cells with a common wall.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">Backtrack</code> method is a private helper method that implements the backtracking algorithm. It starts from the top-left corner of the grid and marks the initial cell as visited. It then uses a stack to store the current cell and moves to an adjacent unvisited cell by removing the common wall, marking the new cell as visited, and pushing it onto the stack. This process continues until all cells have been visited.</p>
+
+<p>In order to find unvisited adjacent cells, the <code class="language-plaintext highlighter-rouge">GetUnvisitedAdjacentCells</code> method checks the neighboring cells in each direction (left, right, up, down) and adds them to a list if they haven’t been visited yet.</p>
+
+<p>An example of how to generate a maze with this class is:</p>
+
+<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">width</span> <span class="p">=</span> <span class="m">10</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">height</span> <span class="p">=</span> <span class="m">10</span><span class="p">;</span>
+<span class="n">CellWalls</span><span class="p">[,]</span> <span class="n">maze</span> <span class="p">=</span> <span class="n">PuzzleGenerator</span><span class="p">.</span><span class="nf">GenerateMaze</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>This code will generate a maze of size 10x10, where each cell’s walls are represented by bitwise flags of the <code class="language-plaintext highlighter-rouge">CellWalls</code> enum.</p>
+
+<h3 id="questions--answers">Questions &amp; Answers</h3>
+
+<ol>
+  <li>
+    <p><strong>What is the purpose of the <code class="language-plaintext highlighter-rouge">CellWalls</code> enum and why is the <code class="language-plaintext highlighter-rouge">[Flags]</code> attribute used?</strong></p>
+
+    <p>The <code class="language-plaintext highlighter-rouge">CellWalls</code> enum is used to represent the possible wall configurations for each cell in the maze. The <code class="language-plaintext highlighter-rouge">[Flags]</code> attribute is used to allow bitwise operations on the enum values, facilitating the combination and manipulation of wall configurations.</p>
+  </li>
+  <li>
+    <p><strong>How does the <code class="language-plaintext highlighter-rouge">Backtrack</code> method work to generate the maze?</strong></p>
+
+    <p>The <code class="language-plaintext highlighter-rouge">Backtrack</code> method implements a depth-first search (DFS) algorithm to visit all cells in a grid maze, removing walls between adjacent cells in the process. It uses a stack to maintain the path, ensuring that every cell is visited and the maze is generated with a valid solution.</p>
+  </li>
+  <li>
+    <p><strong>How do the <code class="language-plaintext highlighter-rouge">GetUnvisitedAdjacentCells</code> and <code class="language-plaintext highlighter-rouge">AdjacentCell</code> struct work together in the maze generation process?</strong></p>
+
+    <p>The <code class="language-plaintext highlighter-rouge">GetUnvisitedAdjacentCells</code> method returns a list of unvisited adjacent cells from the current position. The <code class="language-plaintext highlighter-rouge">AdjacentCell</code> struct stores information about each adjacent cell, such as its location and the common wall between the two cells. This information is used in the maze generation process to break down walls and mark cells as visited.</p>
+  </li>
+</ol>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/pipe-world/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Pipe World Docs</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Pipe World Docs</li><li><a class="u-email" href="mailto:martino.coro@gmail.com">martino.coro@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/corovcam"><svg class="svg-icon"><use xlink:href="/pipe-world/assets/minima-social-icons.svg#github"></use></svg> <span class="username">corovcam</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Pipe World game documentation. Game Pipe World is a variant of the popular type of puzzle games similar to Pipe Mania or Water Pipes,  where the common goal is to transport liquid from one end to the other using a system of interconnected Pipes.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

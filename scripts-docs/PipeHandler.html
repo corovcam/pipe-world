@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Pipe World Docs | Pipe World game documentation. Game Pipe World is a variant of the popular type of puzzle games similar to Pipe Mania or Water Pipes, where the common goal is to transport liquid from one end to the other using a system of interconnected Pipes.</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Pipe World Docs" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Pipe World game documentation. Game Pipe World is a variant of the popular type of puzzle games similar to Pipe Mania or Water Pipes, where the common goal is to transport liquid from one end to the other using a system of interconnected Pipes." />
+<meta property="og:description" content="Pipe World game documentation. Game Pipe World is a variant of the popular type of puzzle games similar to Pipe Mania or Water Pipes, where the common goal is to transport liquid from one end to the other using a system of interconnected Pipes." />
+<meta property="og:site_name" content="Pipe World Docs" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Pipe World Docs" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Pipe World game documentation. Game Pipe World is a variant of the popular type of puzzle games similar to Pipe Mania or Water Pipes, where the common goal is to transport liquid from one end to the other using a system of interconnected Pipes.","headline":"Pipe World Docs","url":"/pipe-world/scripts-docs/PipeHandler.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/pipe-world/assets/main.css"><link type="application/atom+xml" rel="alternate" href="/pipe-world/feed.xml" title="Pipe World Docs" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/pipe-world/">Pipe World Docs</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/pipe-world/doxygen/">Doxygen</a><a class="page-link" href="/pipe-world/scripts.html">Script Docs</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <h2 id="pipehandlercs"><a href="https://github.com/corovcam/pipe-world/blob/main/Assets/Scripts/PipeHandler.cs">PipeHandler.cs</a></h2>
+
+<p>This code defines a <code class="language-plaintext highlighter-rouge">PipeHandler</code> class that manages the behavior and properties of individual pipe pieces in the Unity game. The class is responsible for rotating pipe pieces, updating their connections with neighboring pipes, and handling user interaction.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">PipeHandler</code> class utilizes a <code class="language-plaintext highlighter-rouge">Dir</code> enum to represent the four possible directions (UP, RIGHT, DOWN, LEFT) and a <code class="language-plaintext highlighter-rouge">bool[]</code> named <code class="language-plaintext highlighter-rouge">IODirs</code> to store the availability of input/output directions for a pipe. For example, if <code class="language-plaintext highlighter-rouge">IODirs</code> is <code class="language-plaintext highlighter-rouge">[true, false, true, false]</code>, the pipe has available connections for UP and DOWN.</p>
+
+<p>In the <code class="language-plaintext highlighter-rouge">Start()</code> method, the script initializes <code class="language-plaintext highlighter-rouge">levelHandler</code> and updates the neighboring <code class="language-plaintext highlighter-rouge">PipeHandler</code> references. The <code class="language-plaintext highlighter-rouge">Update()</code> method animates the rotation of the pipe if it’s rotated by the player.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">UpdateNeighbouringPipeHandlers()</code> method updates the references to neighboring pipes based on the <code class="language-plaintext highlighter-rouge">Position</code> of the current pipe. The <code class="language-plaintext highlighter-rouge">OnMouseDown()</code> method is called when the pipe is clicked, rotating the pipe and setting it as the active tile. The <code class="language-plaintext highlighter-rouge">RotatePiece()</code> method rotates the pipe 90 degrees clockwise and updates its input/output directions and neighboring pipe connections.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">RotateIODirections()</code> method updates the <code class="language-plaintext highlighter-rouge">IODirs</code> array by rotating the direction flags one step clockwise. The <code class="language-plaintext highlighter-rouge">ProcessNearbyPipeChanges()</code> method processes changes in the neighboring pipes after a rotation, updating the available sides for the current pipe and its neighbors. Lastly, the <code class="language-plaintext highlighter-rouge">UpdateAvailableSides()</code> method updates the <code class="language-plaintext highlighter-rouge">Free</code> flags (upFree, downFree, rightFree, leftFree) for each direction, indicating if the water can flow through that direction based on the connections with neighboring pipes.</p>
+
+<ol>
+  <li>
+    <p><strong>What does the <code class="language-plaintext highlighter-rouge">Pipe</code> class represent and how is the <code class="language-plaintext highlighter-rouge">pipeType</code> used?</strong></p>
+
+    <p>It’s a class that represents different types of pipe tiles in the game. The <code class="language-plaintext highlighter-rouge">pipeType</code> variable in <code class="language-plaintext highlighter-rouge">PipeHandler</code> is used to store an instance of the <code class="language-plaintext highlighter-rouge">Pipe</code> class and is used to determine the appearance and behavior of the pipe object.</p>
+  </li>
+  <li>
+    <p><strong>How does the <code class="language-plaintext highlighter-rouge">speed</code> variable affect the rotation animation of the pipe?</strong></p>
+
+    <p>The <code class="language-plaintext highlighter-rouge">speed</code> variable determines how quickly the pipe rotates during the rotation animation. A higher value for <code class="language-plaintext highlighter-rouge">speed</code> will result in a faster rotation, while a lower value will result in a slower rotation.</p>
+  </li>
+  <li>
+    <p><strong>How are the <code class="language-plaintext highlighter-rouge">upFree</code>, <code class="language-plaintext highlighter-rouge">downFree</code>, <code class="language-plaintext highlighter-rouge">rightFree</code>, and <code class="language-plaintext highlighter-rouge">leftFree</code> variables used in the game?</strong></p>
+
+    <p>These boolean variables indicate whether the corresponding neighboring tiles (up, down, right, and left) are free for the flow to continue. They are updated in the <code class="language-plaintext highlighter-rouge">UpdateAvailableSides</code> method by checking the availability of the neighboring pipes in the specified direction, and are used to determine the flow of water/lava through the pipes.</p>
+  </li>
+</ol>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/pipe-world/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Pipe World Docs</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Pipe World Docs</li><li><a class="u-email" href="mailto:martino.coro@gmail.com">martino.coro@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/corovcam"><svg class="svg-icon"><use xlink:href="/pipe-world/assets/minima-social-icons.svg#github"></use></svg> <span class="username">corovcam</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Pipe World game documentation. Game Pipe World is a variant of the popular type of puzzle games similar to Pipe Mania or Water Pipes,  where the common goal is to transport liquid from one end to the other using a system of interconnected Pipes.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

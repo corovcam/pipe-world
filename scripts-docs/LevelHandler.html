@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Pipe World Docs | Pipe World game documentation. Game Pipe World is a variant of the popular type of puzzle games similar to Pipe Mania or Water Pipes, where the common goal is to transport liquid from one end to the other using a system of interconnected Pipes.</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Pipe World Docs" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Pipe World game documentation. Game Pipe World is a variant of the popular type of puzzle games similar to Pipe Mania or Water Pipes, where the common goal is to transport liquid from one end to the other using a system of interconnected Pipes." />
+<meta property="og:description" content="Pipe World game documentation. Game Pipe World is a variant of the popular type of puzzle games similar to Pipe Mania or Water Pipes, where the common goal is to transport liquid from one end to the other using a system of interconnected Pipes." />
+<meta property="og:site_name" content="Pipe World Docs" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Pipe World Docs" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Pipe World game documentation. Game Pipe World is a variant of the popular type of puzzle games similar to Pipe Mania or Water Pipes, where the common goal is to transport liquid from one end to the other using a system of interconnected Pipes.","headline":"Pipe World Docs","url":"/pipe-world/scripts-docs/LevelHandler.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/pipe-world/assets/main.css"><link type="application/atom+xml" rel="alternate" href="/pipe-world/feed.xml" title="Pipe World Docs" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/pipe-world/">Pipe World Docs</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/pipe-world/doxygen/">Doxygen</a><a class="page-link" href="/pipe-world/scripts.html">Script Docs</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <h3 id="levelhandlercs"><a href="https://github.com/corovcam/pipe-world/blob/main/Assets/Scripts/LevelHandler.cs">LevelHandler.cs</a></h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">LevelHandler</code> script is responsible for managing various aspects of the level in the game. It handles level building, tile and pipe management, restart functionality, tile shuffling, rotation, and audio.</p>
+
+<p>The script contains several public variables for storing prefabs, sprites, and game objects related to pipes and tiles. These variables are set in the Unity Inspector and provide flexibility for customization.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">Start</code> method is called at the beginning of the game. It sets default values for the level if they weren’t set in the main menu, initializes the tile grid, generates a new grid and level, sets the active tile, stores game pieces, sets start and end pipe sprites, and shuffles the pipes.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">GenerateNewGrid</code> method creates a new grid of back tiles with a chosen sprite and sets their position and parent.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">GenerateLevel</code> method generates the level based on random or input data provided. It creates pipes based on the level data, instantiates pipe prefabs, and positions them on top of the corresponding tiles.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">SetActiveTile</code> method configures the current active tile and updates the tile pointer accordingly.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">StoreGamePieces</code> method stores a 2D array of <code class="language-plaintext highlighter-rouge">PipeHandler</code> script instances after the grid and pipes are generated. It allows easy access to pipe scripts for manipulation.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">Shuffle</code> coroutine is used to shuffle the game pieces after the grid is generated. It rotates each game piece randomly to simulate a rotating effect.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">SetStartEndPipeSprites</code> method changes the start and end pipe sprites to their corresponding variants based on the liquid type and whether they are filled or not.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">ResetLevel</code> method resets all pipe sprites to their default variants, sets the active tile to the start pipe, and shuffles the game pieces.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">RotateActiveTile</code> method rotates the current active tile.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">MoveActiveTileUp</code>, <code class="language-plaintext highlighter-rouge">MoveActiveTileDown</code>, <code class="language-plaintext highlighter-rouge">MoveActiveTileRight</code>, and <code class="language-plaintext highlighter-rouge">MoveActiveTileLeft</code> methods move the active tile to different positions on the game board within the boundaries.</p>
+
+<p>Overall, this script provides the functionality to build levels, manage tiles and pipes, handle game logic such as rotation and movement, and control audio cues in the game.</p>
+
+<ol>
+  <li>
+    <p><strong>What is the purpose of the <code class="language-plaintext highlighter-rouge">LevelData</code> class and how is it used in this script?</strong></p>
+
+    <p>The <code class="language-plaintext highlighter-rouge">LevelData</code> class is used to store and manage data related to the game level, such as board size, level number, pipe types, and their positions. It is accessed to set and retrieve level data throughout the script.</p>
+  </li>
+  <li>
+    <p><strong>How does the <code class="language-plaintext highlighter-rouge">GenerateNewGrid</code> function position the back tiles and what is the purpose of the <code class="language-plaintext highlighter-rouge">temp</code> variable?</strong></p>
+
+    <p>The <code class="language-plaintext highlighter-rouge">GenerateNewGrid</code> function generates a grid of back tiles by instantiating the <code class="language-plaintext highlighter-rouge">backTilePrefab</code> and configuring each tile’s sprite, position, name, and parent. The <code class="language-plaintext highlighter-rouge">temp</code> variable is used to store the instantiated back tile game object before assigning it to the corresponding position in the <code class="language-plaintext highlighter-rouge">tileObjects</code> 2D array.</p>
+  </li>
+  <li>
+    <p><strong>What is the purpose of the <code class="language-plaintext highlighter-rouge">SetActiveTile</code> function and how is it used in the script?</strong></p>
+
+    <p>The <code class="language-plaintext highlighter-rouge">SetActiveTile</code> function sets the current active tile by assigning the provided tile game object to the <code class="language-plaintext highlighter-rouge">activePipe</code> variable. It also positions and activates the <code class="language-plaintext highlighter-rouge">tilePointer</code> object above the active tile. This function is called to update the active tile during gameplay and allows the player to interact with the currently selected tile.</p>
+  </li>
+</ol>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/pipe-world/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Pipe World Docs</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Pipe World Docs</li><li><a class="u-email" href="mailto:martino.coro@gmail.com">martino.coro@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/corovcam"><svg class="svg-icon"><use xlink:href="/pipe-world/assets/minima-social-icons.svg#github"></use></svg> <span class="username">corovcam</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Pipe World game documentation. Game Pipe World is a variant of the popular type of puzzle games similar to Pipe Mania or Water Pipes,  where the common goal is to transport liquid from one end to the other using a system of interconnected Pipes.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

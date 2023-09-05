@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Pipe World Docs | Pipe World game documentation. Game Pipe World is a variant of the popular type of puzzle games similar to Pipe Mania or Water Pipes, where the common goal is to transport liquid from one end to the other using a system of interconnected Pipes.</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Pipe World Docs" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Pipe World game documentation. Game Pipe World is a variant of the popular type of puzzle games similar to Pipe Mania or Water Pipes, where the common goal is to transport liquid from one end to the other using a system of interconnected Pipes." />
+<meta property="og:description" content="Pipe World game documentation. Game Pipe World is a variant of the popular type of puzzle games similar to Pipe Mania or Water Pipes, where the common goal is to transport liquid from one end to the other using a system of interconnected Pipes." />
+<meta property="og:site_name" content="Pipe World Docs" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Pipe World Docs" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Pipe World game documentation. Game Pipe World is a variant of the popular type of puzzle games similar to Pipe Mania or Water Pipes, where the common goal is to transport liquid from one end to the other using a system of interconnected Pipes.","headline":"Pipe World Docs","url":"/pipe-world/scripts-docs/StaticClasses/LevelData.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/pipe-world/assets/main.css"><link type="application/atom+xml" rel="alternate" href="/pipe-world/feed.xml" title="Pipe World Docs" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/pipe-world/">Pipe World Docs</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/pipe-world/doxygen/">Doxygen</a><a class="page-link" href="/pipe-world/scripts.html">Script Docs</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <h2 id="leveldata"><a href="https://github.com/corovcam/pipe-world/blob/main/Assets/Scripts/StaticClasses/LevelData.cs">LevelData</a></h2>
+
+<p>This file contains a static class called <code class="language-plaintext highlighter-rouge">LevelData</code> which is used to store information about the current game and level in the <code class="language-plaintext highlighter-rouge">pipe-world</code> project. It also contains several structs and enums which are used to represent the various objects in the game.</p>
+
+<h3 id="enums">Enums</h3>
+
+<p>The first enum defined is <code class="language-plaintext highlighter-rouge">Liquid</code>, which is used to represent the different types of liquids that can flow through the pipes in the game. Currently, only water and lava are defined as possible liquids.</p>
+
+<p>The second enum defined is <code class="language-plaintext highlighter-rouge">PipeType</code>, which is used to represent the different types of pipes in the game. The possible types are straight, round, three-way, cross, and empty. The last type, <code class="language-plaintext highlighter-rouge">EMPTY</code>, is always the last type in the enum.</p>
+
+<h3 id="structs">Structs</h3>
+
+<p>The first struct defined is <code class="language-plaintext highlighter-rouge">Pipe</code>, which represents a pipe in the game. It has two properties: <code class="language-plaintext highlighter-rouge">Liquid</code>, which is the type of liquid that can flow through the pipe, and <code class="language-plaintext highlighter-rouge">Type</code>, which is the type of pipe.</p>
+
+<p>The second struct defined is <code class="language-plaintext highlighter-rouge">Position</code>, which represents the x and y coordinates of a pipe on the game board. It has two integer properties: <code class="language-plaintext highlighter-rouge">X</code> and <code class="language-plaintext highlighter-rouge">Y</code>. This struct also overrides the basic equality operators to allow for comparison of positions.</p>
+
+<h3 id="static-class">Static Class</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">LevelData</code> class itself is a static class used to store all information about the current game and level. It has severalproperties and methods that are used throughout the project.</p>
+
+<p>The first set of properties are booleans used to represent the current mode of the game. <code class="language-plaintext highlighter-rouge">IsArcadeMode</code> and <code class="language-plaintext highlighter-rouge">IsFreeWorldMode</code> are both set to <code class="language-plaintext highlighter-rouge">false</code> by default.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">LevelNumber</code> property represents the level number of the current game, while <code class="language-plaintext highlighter-rouge">BoardSize</code> represents the size of the puzzle game board. <code class="language-plaintext highlighter-rouge">TimeLimit</code> is the time limit for the current level.</p>
+
+<p><code class="language-plaintext highlighter-rouge">Starts</code> and <code class="language-plaintext highlighter-rouge">Ends</code> are both dictionaries that store the starting and ending positions for a specific liquid type. <code class="language-plaintext highlighter-rouge">GamePieces</code> is a two-dimensional array of <code class="language-plaintext highlighter-rouge">PipeHandlers</code> representing the game pieces.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">lvlData</code> property is a temporary data structure used for level loading.</p>
+
+<p><code class="language-plaintext highlighter-rouge">defaultStart</code> and <code class="language-plaintext highlighter-rouge">defaultEnd</code> are the default starting and ending positions for the liquid type.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">GetRandomPuzzle</code> method generates a random puzzle using a random maze generator and a dictionary map to convert it to the pipes puzzle. It takes in the width and height of the puzzle and returns a 2D array of pipes representing the pipe puzzle.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">GetRandomStartPos</code> and <code class="language-plaintext highlighter-rouge">GetRandomEndPos</code> methods choose a random starting and ending position for the liquid type, respectively.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">ReadInputLevelData</code> method reads level data from a text file in a specific format and returns a 2D list of pipes for the puzzle.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">FillWallsToPipesMap</code>FillWallsToPipesMap<code class="language-plaintext highlighter-rouge"> is a private method defined in the </code>PipeGameManager<code class="language-plaintext highlighter-rouge"> class in the </code>pipe-world/Assets/Scripts/Managers<code class="language-plaintext highlighter-rouge"> directory of the </code>pipe-world<code class="language-plaintext highlighter-rouge"> project. This method is used to create a dictionary that maps the x and y coordinates of the game board to the corresponding </code>PipeHandler` object.</p>
+
+<p>The method takes in a 2D array of <code class="language-plaintext highlighter-rouge">PipeHandler</code> objects representing the game board. It then loops through each <code class="language-plaintext highlighter-rouge">PipeHandler</code> object and checks if it is null or not. If it is not null, the method adds the object’s position as a key to the dictionary with the <code class="language-plaintext highlighter-rouge">PipeHandler</code> object as the corresponding value.</p>
+
+<p>The resulting dictionary can be used to quickly look up the <code class="language-plaintext highlighter-rouge">PipeHandler</code> object corresponding to a given position on the game board. This can be useful for various game mechanics such as checking if a pipe can be rotated or if a liquid can flow through a certain path.</p>
+
+<h3 id="questions--answers">Questions &amp; Answers</h3>
+
+<ol>
+  <li>
+    <p><strong>What is the purpose of the <code class="language-plaintext highlighter-rouge">Position</code> struct?</strong></p>
+
+    <p>The <code class="language-plaintext highlighter-rouge">Position</code> struct is used to store X and Y coordinates of pipes on the board and overrides basic equality operators.</p>
+  </li>
+  <li>
+    <p><strong>What is the purpose of the <code class="language-plaintext highlighter-rouge">LevelData</code> static class?</strong></p>
+
+    <p>The <code class="language-plaintext highlighter-rouge">LevelData</code> static class is used to store all information about the current game and level, including the mode of the game, level number, board size, time limit, starting and ending positions, and the game pieces.</p>
+  </li>
+  <li>
+    <p><strong>What is the purpose of the <code class="language-plaintext highlighter-rouge">GetRandomPuzzle</code> method in the <code class="language-plaintext highlighter-rouge">LevelData</code> static class?</strong></p>
+
+    <p>The <code class="language-plaintext highlighter-rouge">GetRandomPuzzle</code> method generates a random pipe puzzle using a random maze generator and a dictionary map to convert it to the pipes puzzle, and returns a 2D array of <code class="language-plaintext highlighter-rouge">Pipe</code>s. It also sets the default starting and ending positions for the liquid type and adds them to the corresponding dictionaries.</p>
+  </li>
+</ol>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/pipe-world/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Pipe World Docs</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Pipe World Docs</li><li><a class="u-email" href="mailto:martino.coro@gmail.com">martino.coro@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/corovcam"><svg class="svg-icon"><use xlink:href="/pipe-world/assets/minima-social-icons.svg#github"></use></svg> <span class="username">corovcam</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Pipe World game documentation. Game Pipe World is a variant of the popular type of puzzle games similar to Pipe Mania or Water Pipes,  where the common goal is to transport liquid from one end to the other using a system of interconnected Pipes.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
