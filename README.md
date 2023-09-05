@@ -27,6 +27,20 @@ Choose a **Level**.
 Rotate/Drag Pipes either using **mouse left-click** or by using **Arrow Keys (or WASD)** and **R** for rotation. When you are done rotating, start the Flow using **F** Key or click the **Flow** button. You can skip the *Flow* animation by pressing the **Skip** button. Watch out for the **Timer** to not reach zero, otherwise you lost. If needed, pause the game using the **Settings** button in the upper-right corner.
 
 ### End Game Menu
-![End Game Menu](/docs/images/end-game-menu.png "End Game Menu")  
+![End Game Menu](/docs/images/end-game-menu.png "End Game Menu")
+
+### Tutorials
+
+#### Level Select (Normal mode)
+
+https://github.com/corovcam/pipe-world/assets/37265508/f2e8a891-0ce0-4e92-808b-f1c937fb6209
+
+#### Arcade
+
+https://github.com/corovcam/pipe-world/assets/37265508/7a05e4d7-e7db-4f0c-82e6-1de09ca22774
+
+#### Free World
+
+https://github.com/corovcam/pipe-world/assets/37265508/41c7cb6c-c44c-44ad-820b-075bf415e1c3
 
 ***Enjoy the game!***
